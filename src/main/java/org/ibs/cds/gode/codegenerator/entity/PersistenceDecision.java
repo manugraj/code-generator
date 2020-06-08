@@ -3,6 +3,7 @@ package org.ibs.cds.gode.codegenerator.entity;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.ibs.cds.gode.codegenerator.spec.*;
+import org.ibs.cds.gode.entity.type.OperationLevel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;

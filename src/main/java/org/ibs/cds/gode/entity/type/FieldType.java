@@ -1,4 +1,4 @@
-package org.ibs.cds.gode.codegenerator.model.entity.field;
+package org.ibs.cds.gode.entity.type;
 
 public enum FieldType {
     TEXT,

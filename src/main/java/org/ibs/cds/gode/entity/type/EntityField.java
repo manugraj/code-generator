@@ -1,17 +1,19 @@
-package org.ibs.cds.gode.codegenerator.model.entity;
+package org.ibs.cds.gode.entity.type;
 
 import lombok.Data;
-import org.ibs.cds.gode.codegenerator.model.entity.field.Field;
-import org.ibs.cds.gode.codegenerator.model.entity.field.FieldProperty;
-import org.ibs.cds.gode.codegenerator.spec.Specification;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Entity
 public class EntityField extends Field {
+
+    @ElementCollection
     private Set<FieldProperty> properties;
     private Specification relationship;
+    @OneToOne(cascade = CascadeType.ALL)
     private ObjectType objectType;
 
     public EntityField() {

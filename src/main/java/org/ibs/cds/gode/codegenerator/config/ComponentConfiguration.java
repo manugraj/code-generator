@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Configuration {
-    public String type;
+public class ComponentConfiguration {
+    public CodeGenerationComponent.ComponentName type;
     public String vmLocation;
-    public Boolean binding;
 }

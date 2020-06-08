@@ -1,16 +1,18 @@
-package org.ibs.cds.gode.codegenerator.model.entity;
+package org.ibs.cds.gode.entity.type;
 
 import lombok.Data;
-import org.ibs.cds.gode.codegenerator.model.entity.field.Field;
-import org.ibs.cds.gode.codegenerator.spec.IdentifiedObject;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Entity
 public class ObjectType extends IdentifiedObject {
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Field> fields;
-
     public ObjectType() {
         this.fields = new HashSet<>();
     }

@@ -4,8 +4,8 @@ import lombok.Data;
 import org.ibs.cds.gode.codegenerator.artefact.Buildable;
 import org.ibs.cds.gode.codegenerator.config.CodeGenerationComponent;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.codegenerator.model.entity.Entity;
-import org.ibs.cds.gode.codegenerator.spec.Specification;
+import org.ibs.cds.gode.entity.type.EntitySpec;
+import org.ibs.cds.gode.entity.type.Specification;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 public class CodeEntity extends Specification implements Buildable, CodeGenerationComponent {
 
     private List<CodeEntityField> fields;
-    private Entity model;
+    private EntitySpec model;
     private CodeEntityStorePolicy storePolicy;
     private BuildModel buildModel;
 
-    public CodeEntity(Entity entity, BuildModel buildModel) {
+    public CodeEntity(EntitySpec entity, BuildModel buildModel) {
         fields = entity.getFields().stream().map(field -> new CodeEntityField(field, buildModel)).collect(Collectors.toList());
         storePolicy = new CodeEntityStorePolicy(entity.getState(), this.buildModel);
         this.setName(entity.getName());

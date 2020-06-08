@@ -3,10 +3,10 @@ package org.ibs.cds.gode.codegenerator.entity;
 import lombok.Data;
 import org.ibs.cds.gode.codegenerator.artefact.Buildable;
 import org.ibs.cds.gode.codegenerator.config.CodeGenerationComponent;
-import org.ibs.cds.gode.codegenerator.model.app.App;
-import org.ibs.cds.gode.codegenerator.model.app.AppFunction;
+import org.ibs.cds.gode.entity.type.App;
+import org.ibs.cds.gode.entity.type.AppFunction;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.codegenerator.spec.Specification;
+import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.codegenerator.spec.UsageSpec;
 
 

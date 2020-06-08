@@ -1,11 +1,14 @@
-package org.ibs.cds.gode.codegenerator.model.entity.field;
+package org.ibs.cds.gode.entity.type;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.ibs.cds.gode.codegenerator.spec.IdentifiedObject;
+
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 
 @Data
 @NoArgsConstructor
+@Entity
 public class Field extends IdentifiedObject {
     private FieldType type;
 }

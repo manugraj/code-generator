@@ -7,8 +7,8 @@ import org.ibs.cds.gode.codegenerator.spec.ProgLanguage;
 import java.util.Set;
 
 @Data
-public class JavaMavenBuildConfiguration implements BuildConfiguration {
-    private Set<Configuration> configuration;
+public class JavaMavenBuildComponentConfiguration implements BuildComponentConfiguration {
+    private Set<ComponentConfiguration> configuration;
 
     @Override
     public ProgLanguage getLanguage() {

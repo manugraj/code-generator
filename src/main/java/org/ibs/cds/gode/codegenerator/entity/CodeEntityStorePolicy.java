@@ -2,8 +2,8 @@ package org.ibs.cds.gode.codegenerator.entity;
 
 import lombok.Data;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.codegenerator.model.entity.EntityState;
-import org.ibs.cds.gode.codegenerator.spec.*;
+import org.ibs.cds.gode.entity.type.EntityState;
+import org.ibs.cds.gode.entity.type.EntityStateStore;
 import org.ibs.cds.gode.util.Assert;
 
 @Data
@@ -20,9 +20,9 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntityState,Stor
 
     public StorePolicy process(EntityState model, BuildModel buildModel){
         Assert.notNull(model);
-        if(model.getStateStorePref() != null){
-           StateStore pref = model.getStateStorePref();
-           return new StorePolicy(pref.getDatabase(), pref.isCached(), pref.isAsyncStoreSync());
+        if(model.getEntityStateStore() != null){
+           EntityStateStore pref = model.getEntityStateStore();
+           return new StorePolicy(pref.getStoreName(), pref.isCached(), pref.isAsyncStoreSync());
         }
         return new PersistenceDecision(model.getOpsLevel()).getStorePolicy();
     }

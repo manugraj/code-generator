@@ -1,5 +1,5 @@
 configuration:
-  - type: 'app'
-    vmLocation: 'template\java\mvn\app.vm'
-  - type: 'entity'
-    vmLocation: 'template\java\mvn\entity.vm'
+  - type: 'APP'
+    vmLocation: 'template\java\maven\app.vm'
+  - type: 'ENTITY'
+    vmLocation: 'template\java\maven\entity.vm'
