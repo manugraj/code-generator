@@ -16,6 +16,12 @@
         <lib.cc.version>4.4</lib.cc.version>
         <dl4j.version>0.9.1</dl4j.version>
         <servlet-api.version>4.0.1</servlet-api.version>
+        <gode.version>1.0-SNAPSHOT</gode.version>
+        <maven.invoker>3.0.1</maven.invoker>
+        <jackson.version>2.10.4</jackson.version>
+        <lombok.version>1.18.12</lombok.version>
+        <velocity.version>1.7</velocity.version>
+        <velocity.tools.version>2.0</velocity.tools.version>
     </properties>
 
     <build>
@@ -63,19 +69,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.7</version>
+            <version>${velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-tools</artifactId>
-            <version>2.0</version>
+            <version>${velocity.tools.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.servlet</groupId>
@@ -86,42 +87,42 @@
         <dependency>
             <groupId>org.ibs.cds.gode</groupId>
             <artifactId>gode-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${gode.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ibs.cds.gode</groupId>
             <artifactId>gode-store</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${gode.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ibs.cds.gode</groupId>
             <artifactId>gode-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${gode.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.4</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.10.4</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.10.4</version>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.shared</groupId>
             <artifactId>maven-invoker</artifactId>
-            <version>3.0.1</version>
+            <version>${maven.invoker}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

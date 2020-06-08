@@ -15,7 +15,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Slf4j
@@ -24,12 +26,14 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
 
     private final EngineConfiguration engineConfiguration;
     private final VelocityContext context;
+    private final Set<String> buildable;
 
     public VelocityGeneratorEngine(EngineConfiguration engineConfiguration) {
         this.engineConfiguration = engineConfiguration;
         this.context = new VelocityContext();
         context.put("StringUtils", StringUtils.class);
         context.put("GodeConstant", GodeConstant.class);
+        this.buildable = new HashSet();
     }
 
     @Override
@@ -71,7 +75,11 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
             PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
             Resource resource = resolver.getResource(this.engineConfiguration.getBuildConfiguration().getComponentTemplatePath().concat(File.separator).concat(configuration.getTemplate()));
             Reader templateReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-            build(templateReader, configuration.getPath().concat(File.separator).concat(configuration.getName()));
+            String fileOut = configuration.getPath().concat(File.separator).concat(configuration.getName());
+            build(templateReader, fileOut);
+            if(configuration.isBuildable()){
+                buildable.add(fileOut);
+            }
             log.info("Generated  Element:{}", configuration.getName());
         }
         log.info("Generated Component:{} version:{} Type: {}", component.getName(), component.getVersion(), component.getComponentName());

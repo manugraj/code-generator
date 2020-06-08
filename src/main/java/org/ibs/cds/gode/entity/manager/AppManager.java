@@ -1,16 +1,16 @@
 package org.ibs.cds.gode.entity.manager;
 
 import org.ibs.cds.gode.entity.repo.AppRepo;
+import org.ibs.cds.gode.entity.repo.AppRepository;
 import org.ibs.cds.gode.entity.type.App;
-import org.ibs.cds.gode.entity.manager.SStateEntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppManager extends SStateEntityManager<App,App, Long, AppRepo> {
+public class AppManager extends StoredStateEntityManager<App,App, Long, AppRepository> {
 
     @Autowired
-    public AppManager(AppRepo repo) {
+    public AppManager(AppRepository repo) {
         super(repo);
     }
 

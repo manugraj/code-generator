@@ -1,6 +1,5 @@
 package org.ibs.cds.gode.codegenerator.config;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.ibs.cds.gode.codegenerator.bind.ArtifactPackaging;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
@@ -18,14 +17,24 @@ public interface BuildComponentConfiguration {
     ProgLanguage getLanguage();
     ArtifactPackaging getPackingSystem();
 
-    static Pair<Class<? extends BuildComponentConfiguration>,String> getConfiguration(BuildModel model){
+    static Class<? extends BuildComponentConfiguration> getConfiguration(BuildModel model){
         ProgLanguage language = model.getProgLanguage();
         ArtifactPackaging packaging = model.getArtifactPackaging();
         StringJoiner path = new StringJoiner(File.separator);
         if(language == ProgLanguage.JAVA && packaging == ArtifactPackaging.MAVEN){
-            return Pair.of(JavaMavenBuildComponentConfiguration.class,path.add(CONFIG_PATH).add(language.toString()).add(packaging.toString()).add(CONFIG_FILE).toString());
+            return JavaMavenBuildComponentConfiguration.class;
         }
         throw CodeGenerationFailure.LANGUAGE_NOT_FOUND.provide(language.toString().concat("/").concat(packaging.toString()));
+    }
+
+    static String getComponentConfigFile(BuildModel model){
+        StringJoiner path = new StringJoiner(File.separator);
+        return path.add(CONFIG_PATH).add(model.getProgLanguage().toString()).add(model.getArtifactPackaging().toString()).add(CONFIG_FILE).toString();
+    }
+
+    static String getComponentTemplatePath(BuildModel model){
+        StringJoiner path = new StringJoiner(File.separator);
+        return path.add(TEMPLATE_PATH).add(model.getProgLanguage().toString()).add(model.getArtifactPackaging().toString()).toString();
     }
 
     default String getComponentConfigFile(){

@@ -26,8 +26,7 @@ public class EngineConfiguration {
 
     private BuildComponentConfiguration getBuildComponentConfiguration(BuildModel model) {
         try {
-            Pair<Class<? extends BuildComponentConfiguration>, String> pathAndClass = BuildComponentConfiguration.getConfiguration(model);
-            return YamlReadWriteUtil.readResource(pathAndClass.getRight(), pathAndClass.getKey());
+            return YamlReadWriteUtil.readResource(BuildComponentConfiguration.getComponentConfigFile(model), BuildComponentConfiguration.getConfiguration(model));
         } catch (Exception e) {
             throw CodeGenerationFailure.SYSTEM_ERROR.provide(e);
         }

@@ -4,7 +4,8 @@ public interface CodeGenerationComponent {
 
     enum ComponentName{
         APP,
-        ENTITY;
+        ENTITY,
+        ADMIN;
     }
 
     ComponentName getComponentName();
