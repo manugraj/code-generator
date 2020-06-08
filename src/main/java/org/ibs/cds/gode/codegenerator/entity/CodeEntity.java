@@ -19,12 +19,12 @@ public class CodeEntity extends Specification implements Buildable, CodeGenerati
     private BuildModel buildModel;
 
     public CodeEntity(EntitySpec entity, BuildModel buildModel) {
+        this.buildModel = buildModel;
         fields = entity.getFields().stream().map(field -> new CodeEntityField(field, buildModel)).collect(Collectors.toList());
-        storePolicy = new CodeEntityStorePolicy(entity.getState(), this.buildModel);
+        storePolicy = new CodeEntityStorePolicy(entity, this.buildModel);
         this.setName(entity.getName());
         this.setDescription(entity.getDescription());
         this.setVersion(entity.getVersion());
-        this.buildModel = buildModel;
     }
 
     @Override

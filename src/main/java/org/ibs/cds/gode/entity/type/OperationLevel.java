@@ -1,6 +1,7 @@
 package org.ibs.cds.gode.entity.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.ibs.cds.gode.codegenerator.spec.Level;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class OperationLevel implements Serializable {
     private Level read;
     private Level write;

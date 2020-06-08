@@ -12,4 +12,9 @@ public class StorePolicy {
     private StoreName storeName;
     private boolean cached;
     private boolean asyncStoreSync;
+    private boolean volatileEntity;
+
+    public static StorePolicy noPolicy(){
+        return new StorePolicy(null, false, false, true);
+    }
 }

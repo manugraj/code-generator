@@ -10,9 +10,10 @@ import org.ibs.cds.gode.entity.type.Specification;
 public class CodeAdminApp extends Specification implements Buildable, CodeGenerationComponent {
 
     public CodeAdminApp(CodeApp app, BuildModel buildModel) {
-        this.setName(app.getName().concat("Monitor"));
-        this.setVersion(app.getVersion());
-        this.setDescription("Monitor application for ".concat(app.getName()));
+        super();
+        setName(app.getName().concat("Monitor"));
+        setVersion(app.getVersion());
+        setDescription("Monitor application for ".concat(app.getName()));
         this.buildModel = buildModel;
     }
 

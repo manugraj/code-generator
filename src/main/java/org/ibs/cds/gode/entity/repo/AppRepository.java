@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppRepository extends JPAEntityRepository<App, Long> {
-
-    private AppRepo repo;
+public class AppRepository extends JPAEntityRepository<App, Long, AppRepo> {
 
     @Autowired
     public AppRepository(AppRepo appRepo) {
         super(appRepo);
-        this.repo = appRepo;
     }
 
     public App findByNameAndVersion(String name, Long version) {

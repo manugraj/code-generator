@@ -23,11 +23,14 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
     private BuildModel buildModel;
 
     public CodeApp(App model, BuildModel buildModel) {
+        this.buildModel = buildModel;
         this.model = model;
         this.entities = model.getEntities().stream().map(entity -> new CodeEntity(entity, buildModel)).collect(Collectors.toSet());
         this.appFunctions = new HashSet<>(model.getFunctions());
         this.usage = model.getUsage();
-        this.buildModel = buildModel;
+        this.setName(model.getName());
+        this.setDescription(model.getDescription());
+        this.setVersion(model.getVersion());
     }
 
     @Override

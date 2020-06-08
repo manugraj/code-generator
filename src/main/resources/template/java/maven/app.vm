@@ -1,5 +1,5 @@
 configuration:
 - name: pom.xml
-  path: $parent/$appbasepath
+  path: $appPath
   template: app_pom.vm
   buildable: false

@@ -29,7 +29,7 @@ public class PersistenceDecision {
         if(CollectionUtils.isEmpty(perfectSuggestion)){
             return bestFitStorePolicy(data.get(false), operationLevel);
         }
-        return new StorePolicy(perfectSuggestion.get(0), false, false);
+        return new StorePolicy(perfectSuggestion.get(0), false, false, false);
     }
 
     private StorePolicy bestFitStorePolicy(List<StoreName> storeNames, OperationLevel operationLevel) {
@@ -42,17 +42,17 @@ public class PersistenceDecision {
         StoreName neo4j = StoreName.NEO4J;
         if(relativeRead.getValue() >= neo4j.getRealtiveRead().getValue()){
             if(readLevel.getValue() > neo4j.getReadLevel().getValue() || writeLevel.getValue() > neo4j.getWriteLevel().getValue()){
-                return new StorePolicy(neo4j, true , cacheToStoreAsyncWrite);
+                return new StorePolicy(neo4j, true , cacheToStoreAsyncWrite, false);
             }
-            return new StorePolicy(neo4j, false , false);
+            return new StorePolicy(neo4j, false , false, false);
         }
 
         List<StoreName> finalCandidates = cacheLessStoreCongurence(storeNames, readLevel, writeLevel, relativeRead, transactional);
 
         if(CollectionUtils.isNotEmpty(finalCandidates)){
-            return new StorePolicy(finalCandidates.get(0), false, false);
+            return new StorePolicy(finalCandidates.get(0), false, false, false);
         }
-        return new StorePolicy(StoreName.POSTGRE_SQL, true, cacheToStoreAsyncWrite);
+        return new StorePolicy(StoreName.POSTGRE_SQL, true, cacheToStoreAsyncWrite, false);
 
     }
 

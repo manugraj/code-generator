@@ -1,6 +1,5 @@
 package org.ibs.cds.gode.entity.manager;
 
-import org.ibs.cds.gode.entity.repo.AppRepo;
 import org.ibs.cds.gode.entity.repo.AppRepository;
 import org.ibs.cds.gode.entity.type.App;
 import org.springframework.beans.factory.annotation.Autowired;
