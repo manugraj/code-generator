@@ -24,3 +24,6 @@ buildNumber.properties
 logs/
 image/
 ignite/
+raw/
+process/
+apps/
