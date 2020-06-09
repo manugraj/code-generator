@@ -4,7 +4,6 @@ import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.entity.store.StoreType;
 import org.ibs.cds.gode.entity.type.EntitySpec;
 import org.ibs.cds.gode.entity.type.EntityState;
 import org.ibs.cds.gode.entity.type.EntityStateStore;
@@ -35,7 +34,7 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, Stor
         Set<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();
         if (CollectionUtils.isEmpty(entityStorePref)) getStorePolicy(spec.getState());
         return entityStorePref.stream()
-                .filter(s -> s.getName().equals(spec.getName()) && s.getVersion().equals(spec.getVersion()))
+                .filter(s -> s.getEntity().getName().equals(spec.getName()) && s.getEntity().getVersion().equals(spec.getVersion()))
                 .findAny()
                 .map(s -> getStorePolicy(s.getState()))
                 .orElse(getStorePolicy(spec.getState()));

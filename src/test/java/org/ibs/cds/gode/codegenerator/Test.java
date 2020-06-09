@@ -19,7 +19,7 @@ public class Test {
         field.setName("name");
         field.setType(FieldType.TEXT);
 
-        EntityField idField = new EntityField();
+        IdField idField = new IdField();
         idField.setName("eid");
         idField.setType(FieldType.TEXT);
 
@@ -46,8 +46,8 @@ public class Test {
         app.setName("App1");
         app.setDescription("App1 description");
         app.setVersion(1L);
-        app.setEntities(Set.of(entitySpec));
-        app.setFunctions(Set.of(function));
+        app.setEntities(List.of(entitySpec));
+        app.setFunctions(List.of(function));
 
         BuildModel model = new BuildModel();
         model.setProgLanguage(ProgLanguage.JAVA);

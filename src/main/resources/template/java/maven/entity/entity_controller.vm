@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.ibs.cds.gode.util.APIArgument;
 
 @Endpoint
 @Api(tags = {"${entityGivenName}"})
@@ -52,19 +53,19 @@ public class ${entityGivenName}StateController extends EntityStoreStateChangeEnd
 
     @GetMapping(path = FIND)
     @ApiOperation("Find by id operation")
-    public Response<${entityGivenName}> find(Request<$idFieldType> id) {
+    public Response<${entityGivenName}> find($idFieldType id) {
         return super.find(id, FIND);
     }
 
     @GetMapping(path = FIND_ALL_PREDICATE)
     @ApiOperation("Dynamic Find operation")
-    public Response<PagedData<${entityGivenName}>> findAll(@QuerydslPredicate(root = ${entityGivenName}.class) Predicate predicate, @ModelAttribute PageContext pageRequest) {
-        return predicate ==  null ? this.findAll(pageRequest) :super.findAllByPredicate(predicate, pageRequest,FIND_ALL_PREDICATE);
+    public Response<PagedData<${entityGivenName}>> findAll(@QuerydslPredicate(root = ${entityGivenName}.class) Predicate predicate, @ModelAttribute APIArgument arg) {
+        return predicate ==  null ? this.findAll(arg) :super.findAllByPredicate(predicate, arg,FIND_ALL_PREDICATE);
     }
 
     @GetMapping(path = FIND_ALL)
     @ApiOperation("Find operation")
-    public Response<PagedData<${entityGivenName}>> findAll(@ModelAttribute PageContext pageRequest) {
-        return super.findAll(pageRequest,FIND_ALL);
+    public Response<PagedData<${entityGivenName}>> findAll(@ModelAttribute APIArgument arg) {
+        return super.findAll(arg,FIND_ALL);
     }
 }

@@ -29,13 +29,15 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
     private final EngineConfiguration engineConfiguration;
     private final VelocityContext context;
     private final Set<String> buildable;
+    private final String repo;
 
-    public VelocityGeneratorEngine(EngineConfiguration engineConfiguration) {
+    public VelocityGeneratorEngine(EngineConfiguration engineConfiguration, String repo) {
         this.engineConfiguration = engineConfiguration;
         this.context = new VelocityContext();
         context.put("StringUtils", StringUtils.class);
         context.put("GodeConstant", GodeConstant.class);
         this.buildable = new HashSet();
+        this.repo = repo;
     }
 
     @Override
@@ -83,7 +85,7 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
         List<GenerateComponent> configurations = generateComponent.getConfiguration();
         for (GenerateComponent generationSpec: configurations) {
             Reader templateReader = getReader(this.engineConfiguration.getBuildConfiguration().getComponentTemplatePath(component), generationSpec.getTemplate());
-            String fileOut = this.engineConfiguration.getCodeGenPath().concat(File.separator).concat(File.separator).concat(component.getVersion().toString()).concat(File.separator).concat(generationSpec.getPath()).concat(File.separator).concat(generationSpec.getName());
+            String fileOut = this.engineConfiguration.getCodeGenPath().concat(File.separator).concat(File.separator).concat(getRepo()).concat(File.separator).concat(generationSpec.getPath()).concat(File.separator).concat(generationSpec.getName());
             build("Generate ".concat(component.getComponentName().toString().toLowerCase()),templateReader, fileOut);
             if(generationSpec.isBuildable()){
                 buildable.add(fileOut);

@@ -1,26 +1,25 @@
 package org.ibs.cds.gode.entity.type;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import org.ibs.cds.gode.entity.generic.DataMap;
-import org.ibs.cds.gode.entity.store.StoreEntity;
-import org.ibs.cds.gode.entity.store.StoreType;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Entity
-public class AppFunction extends StoreEntity<Long> implements Serializable {
-    private @Id @GeneratedValue Long fid;
+public class AppFunction extends ManagedEntity implements Serializable {
     private String methodName;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "FunctionInput")
     private List<EntitySpec> input;
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "FunctionOutput")
     private List<EntitySpec> output;
 
     public AppFunction() {
@@ -28,8 +27,4 @@ public class AppFunction extends StoreEntity<Long> implements Serializable {
         this.output = new ArrayList<>();
     }
 
-    @Override @JsonIgnore
-    public StoreType getStoreType() {
-        return StoreType.JPA;
-    }
 }

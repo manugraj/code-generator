@@ -1,0 +1,38 @@
+configuration:
+  - name: pom.xml
+    path: app1-container/entity1
+    template: entity_pom.vm
+    buildable: false
+  - name: Entity1.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/type
+    template: entity_type.vm
+    buildable: false
+  - name: Entity1Manager.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/manager
+    template: entity_manager.vm
+    buildable: false
+  - name: Entity1ProcessController.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/controller
+    template: entity_view_controller.vm
+    buildable: false
+  - name: Entity1Repo.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/repo
+    template: entity_repo.vm
+    buildable: false
+  - name: Entity1Repository.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/repo
+    template: entity_repository.vm
+    buildable: false
+  - name: Entity1GraphManager.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/gql
+    template: entity_graph_manager.vm
+    buildable: false
+  - name: Entity1Request.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/gql
+    template: entity_graph_request.vm
+    buildable: false
+  - name: Entity1StateController.java
+    path: app1-container/entity1/src/main/java/org/ibs/cds/gode/entity/controller
+    template: entity_controller.vm
+    buildable: false
+

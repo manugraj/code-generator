@@ -9,6 +9,6 @@ import javax.persistence.MappedSuperclass;
 @Data
 @NoArgsConstructor
 @Entity
-public class Field extends IdentifiedObject {
+public class Field extends ManagedIdentifiedObject {
     private FieldType type;
 }

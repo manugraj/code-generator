@@ -14,6 +14,8 @@ public interface CodeGeneratorEngine<T extends Specification & CodeGenerationCom
 
     BinaryStatus run(T components);
 
+    String getRepo();
+
     default String getProcessPath(T component) {
         File processPath = getConfiguration().getProcessPath();
         StringJoiner path = new StringJoiner(File.separator);
@@ -21,7 +23,7 @@ public interface CodeGeneratorEngine<T extends Specification & CodeGenerationCom
             processPath.mkdirs();
         }
         return path.add(processPath.getAbsolutePath())
-                .add(component.getVersion().toString())
+                .add(getRepo())
                 .add(component.getComponentName().toString().toLowerCase())
                 .add(component.getName().toLowerCase().concat(".yml"))
                 .toString();

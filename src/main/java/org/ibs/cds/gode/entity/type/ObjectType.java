@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
-public class ObjectType extends IdentifiedObject {
+public class ObjectType extends ManagedIdentifiedObject {
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Field> fields;
     public ObjectType() {

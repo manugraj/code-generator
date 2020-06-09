@@ -13,10 +13,10 @@ import java.util.Set;
 @Entity
 public class EntitySpec extends Specification {
     @OneToOne(cascade = CascadeType.ALL)
-    private EntityField idField;
+    private IdField idField;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<EntityField> fields;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = CascadeType.ALL)
     private EntityState state;
 
     public EntitySpec() {

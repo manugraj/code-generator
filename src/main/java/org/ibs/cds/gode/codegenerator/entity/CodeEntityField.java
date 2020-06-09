@@ -13,8 +13,6 @@ import org.ibs.cds.gode.util.Assert;
 import org.ibs.cds.gode.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
-
 @Data
 public class CodeEntityField implements ResolvedFromModel<EntityField, LangObject>{
 

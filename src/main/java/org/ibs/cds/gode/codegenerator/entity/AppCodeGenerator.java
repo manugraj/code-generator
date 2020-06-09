@@ -27,9 +27,10 @@ public class AppCodeGenerator {
         CodeAdminApp codeAdminApp = new CodeAdminApp(app, buildModel);
 
         EngineConfiguration configuration = new EngineConfiguration(buildModel);
-        VelocityGeneratorEngine codeEntityVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration);
-        VelocityGeneratorEngine<CodeApp> codeAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration);
-        VelocityGeneratorEngine<CodeAdminApp> codeAdminAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration);
+        String repo = app.getVersion().toString();
+        VelocityGeneratorEngine codeEntityVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+        VelocityGeneratorEngine<CodeApp> codeAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+        VelocityGeneratorEngine<CodeAdminApp> codeAdminAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
 
         Stream.of(PathPackage.values()).forEach(pathPackage -> {
             codeEntityVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);

@@ -20,7 +20,6 @@ public interface BuildComponentConfiguration {
     static Class<? extends BuildComponentConfiguration> getConfiguration(BuildModel model){
         ProgLanguage language = model.getProgLanguage();
         ArtifactPackaging packaging = model.getArtifactPackaging();
-        StringJoiner path = new StringJoiner(File.separator);
         if(language == ProgLanguage.JAVA && packaging == ArtifactPackaging.MAVEN){
             return JavaMavenBuildComponentConfiguration.class;
         }

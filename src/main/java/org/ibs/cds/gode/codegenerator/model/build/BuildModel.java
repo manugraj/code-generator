@@ -3,6 +3,7 @@ package org.ibs.cds.gode.codegenerator.model.build;
 import lombok.Data;
 import org.ibs.cds.gode.codegenerator.bind.ArtifactPackaging;
 import org.ibs.cds.gode.codegenerator.spec.ProgLanguage;
+import org.ibs.cds.gode.entity.type.EntityState;
 import org.ibs.cds.gode.entity.type.EntityStorePolicy;
 import org.ibs.cds.gode.entity.type.Specification;
 
