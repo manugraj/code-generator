@@ -36,5 +36,6 @@
         <graphql.version>5.0.2</graphql.version>
         <graphql.tools.version>5.2.4</graphql.tools.version>
         <dl4j.version>0.9.1</dl4j.version>
+        <admin.version>2.2.2</admin.version>
     </properties>
 </project>

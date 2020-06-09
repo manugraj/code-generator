@@ -18,6 +18,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${admin.version}</version>
+        </dependency>
+        <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
             <artifactId>gode-common</artifactId>
             <version>${gode.version}</version>

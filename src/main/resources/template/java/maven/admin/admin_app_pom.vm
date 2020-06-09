@@ -21,7 +21,7 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>2.2.1</version>
+            <version>${admin.version}</version>
         </dependency>
         <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
