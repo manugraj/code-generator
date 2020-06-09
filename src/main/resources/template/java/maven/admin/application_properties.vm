@@ -1,0 +1,9 @@
+#set($adminAppName=${ADMIN.getName().toLowerCase()})
+#set($adminAppGivenName=${ADMIN.getName()})
+#set($projectName=${ADMIN.appName.toLowerCase().concat("-container")})
+#set($appGivenName=${ADMIN.appName})
+spring.boot.admin.ui.title=$adminAppName
+spring.boot.admin.ui.brand=<img src="assets/img/icon-spring-boot-admin.svg"><span>$adminAppGivenName</span>
+spring.boot.admin.context-path=$adminAppName
+
+server.port=9999

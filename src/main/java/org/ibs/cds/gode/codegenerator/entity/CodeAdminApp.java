@@ -11,13 +11,15 @@ public class CodeAdminApp extends Specification implements Buildable, CodeGenera
 
     public CodeAdminApp(CodeApp app, BuildModel buildModel) {
         super();
-        setName(app.getName().concat("Monitor"));
+        setName(app.getName().concat("-Monitor"));
         setVersion(app.getVersion());
         setDescription("Monitor application for ".concat(app.getName()));
         this.buildModel = buildModel;
+        this.appName = app.getName();
     }
 
     private final BuildModel buildModel;
+    private final String appName;
 
     @Override
     public ComponentName getComponentName() {

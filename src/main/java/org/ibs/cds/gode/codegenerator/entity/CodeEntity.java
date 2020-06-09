@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Data
 public class CodeEntity extends Specification implements Buildable, CodeGenerationComponent {
 
+    private CodeEntityField idField;
     private List<CodeEntityField> fields;
     private EntitySpec model;
     private CodeEntityStorePolicy storePolicy;
@@ -21,6 +22,7 @@ public class CodeEntity extends Specification implements Buildable, CodeGenerati
     public CodeEntity(EntitySpec entity, BuildModel buildModel) {
         this.buildModel = buildModel;
         fields = entity.getFields().stream().map(field -> new CodeEntityField(field, buildModel)).collect(Collectors.toList());
+        idField = new CodeEntityField(entity.getIdField(), buildModel);
         storePolicy = new CodeEntityStorePolicy(entity, this.buildModel);
         this.setName(entity.getName());
         this.setDescription(entity.getDescription());

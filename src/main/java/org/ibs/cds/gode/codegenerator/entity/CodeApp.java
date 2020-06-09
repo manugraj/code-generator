@@ -21,6 +21,7 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
     private UsageSpec usage;
     private App model;
     private BuildModel buildModel;
+    private Set<CodeEntity> dependencies;
 
     public CodeApp(App model, BuildModel buildModel) {
         this.buildModel = buildModel;
@@ -28,6 +29,7 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
         this.entities = model.getEntities().stream().map(entity -> new CodeEntity(entity, buildModel)).collect(Collectors.toSet());
         this.appFunctions = new HashSet<>(model.getFunctions());
         this.usage = model.getUsage();
+        this.dependencies = model.getDependencies().stream().map(entity -> new CodeEntity(entity, buildModel)).collect(Collectors.toSet());
         this.setName(model.getName());
         this.setDescription(model.getDescription());
         this.setVersion(model.getVersion());

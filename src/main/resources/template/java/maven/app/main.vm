@@ -1,0 +1,20 @@
+#set($appName=${APP.getName().toLowerCase()})
+#set($appGivenName=${APP.getName()})
+#set($projectName=${APP.getName().toLowerCase().concat("-container")})
+
+package ${DEFAULT__APP_DIRECTORY.value};
+
+import org.ibs.cds.gode.system.GodeApp;
+import org.ibs.cds.gode.system.GodeAppEnvt;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+
+@SpringBootApplication(scanBasePackages={"org.ibs.cds.gode", "org.ibs.cds.gode.entity", "org.ibs.cds.gode.entity.store"})
+@PropertySource(GodeAppEnvt.GODE_PROPERTIES)
+public class $appGivenName {
+
+    public static void main(String[] args) {
+        GodeApp.start(${appGivenName}.class, args);
+    }
+
+}

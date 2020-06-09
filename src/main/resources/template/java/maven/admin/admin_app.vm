@@ -1,1 +1,17 @@
-test
+#set($adminAppName=${ADMIN.getName().toLowerCase()})
+#set($adminAppGivenName=${ADMIN.getName()})
+#set($projectName=${ADMIN.appName.toLowerCase().concat("-container")})
+#set($appGivenName=${ADMIN.appName})
+configuration:
+  - name: pom.xml
+    path: ${PathPackage.path($projectName,$adminAppName)}
+    template: admin_app_pom.vm
+    buildable: false
+  - name: ${appGivenName}Monitor.java
+    path: ${DEFAULT__APP_DIRECTORY.pathOf($projectName,$adminAppName,"src","main","java")}
+    template: main.vm
+    buildable: false
+  - name: application.properties
+    path: ${PathPackage.path($projectName,$adminAppName,"src","main","resources")}
+    template: application_properties.vm
+    buildable: false

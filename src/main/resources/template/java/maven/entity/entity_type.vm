@@ -1,0 +1,52 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($entityJPA=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() == "JPA")
+#set($idFieldName = $ENTITY.getIdField().getObject().getName())
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+
+package $DEFAULT__ENTITY_TYPE_DIRECTORY.value;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+#if($entityStorePolicy.isAvailable())
+import org.ibs.cds.gode.entity.store.StoreEntity;
+import org.ibs.cds.gode.entity.store.StoreType;
+#else
+import org.ibs.cds.gode.entity.view.EntityView;
+#end
+
+#if($entityJPA)
+import javax.persistence.Entity;
+import javax.persistence.Id;
+#end
+
+#if($entityJPA)
+@Entity
+#end
+
+@Data
+#if($entityStorePolicy.isAvailable())
+    public class $entityGivenName extends StoreEntity<$idFieldType>
+#else
+    public class $entityGivenName extends EntityView<$idFieldType>
+#end
+{
+
+    private @Id $idFieldType $idFieldName;
+    #foreach($field in $ENTITY.fields)
+        #set($fieldName = $field.getObject().getName())
+        #set($fieldType = $field.getObject().getFQN())
+    private $fieldType $fieldName;
+    #end
+
+
+#if($entityStorePolicy.isAvailable())
+    @Override
+    @JsonIgnore
+    public StoreType getStoreType() {
+        return StoreType.$entityStorePolicy.getPolicy().getStoreName().getStoreType();
+    }
+#end
+}

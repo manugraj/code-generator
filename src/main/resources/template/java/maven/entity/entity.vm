@@ -9,36 +9,36 @@ configuration:
     template: entity_pom.vm
     buildable: false
   - name: ${entityGivenName}.java
-    path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_type.vm
     buildable: false
   - name: ${entityGivenName}Manager.java
-    path: ${DEFAULT__ENTITY_MANAGER_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_MANAGER_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_manager.vm
     buildable: false
   - name: ${entityGivenName}ProcessController.java
-    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_view_controller.vm
     buildable: false
 #if($entityStorePolicy.isAvailable())
   - name: ${entityGivenName}Repo.java
-    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_repo.vm
     buildable: false
   - name: ${entityGivenName}Repository.java
-    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_repository.vm
     buildable: false
   - name: ${entityGivenName}GraphManager.java
-    path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_graph_manager.vm
     buildable: false
   - name: ${entityGivenName}Request.java
-    path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName)}
+    path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_graph_request.vm
     buildable: false
-  - name: ${entityGivenName}Controller.java
-    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName)}
+  - name: ${entityGivenName}StateController.java
+    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,"src","main","java")}
     template: entity_controller.vm
     buildable: false
 #end

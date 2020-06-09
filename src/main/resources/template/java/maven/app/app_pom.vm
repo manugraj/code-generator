@@ -1,0 +1,61 @@
+#set($appName=${APP.getName().toLowerCase()})
+#set($appVersion=${APP.getVersion()})
+#set($projectName=${APP.getName().toLowerCase().concat("-container")})
+#set($projectVersion=${APP.getVersion()})
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>$projectName</artifactId>
+        <groupId>$DEFAULT_GROUP_ID.value</groupId>
+        <version>$projectVersion</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>$appName</artifactId>
+    <version>$appVersion</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>gode-common</artifactId>
+            <version>${gode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>gode-store</artifactId>
+            <version>${gode.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>gode-api</artifactId>
+            <version>${gode.version}</version>
+        </dependency>
+
+        #foreach($entity in $APP.entities)
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>${entity.getName().toLowerCase()}</artifactId>
+            <version>${entity.getVersion()}</version>
+        </dependency>
+        #end
+
+        #foreach($dependency in $APP.dependencies)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>${dependency.getName().toLowerCase()}</artifactId>
+                <version>${dependency.getVersion()}</version>
+            </dependency>
+        #end
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

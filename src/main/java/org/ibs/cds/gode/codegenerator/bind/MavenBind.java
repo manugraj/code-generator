@@ -42,6 +42,6 @@ public class MavenBind implements ArtefactBinding {
     }
 
     public boolean run(String configFile, String... args) {
-        return runWithOpts(configFile, null,args);
+        return runWithOpts(configFile, null,"clean","install");
     }
 }

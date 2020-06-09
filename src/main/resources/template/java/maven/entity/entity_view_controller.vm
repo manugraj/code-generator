@@ -1,0 +1,49 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($entityPackage=${DEFAULT__ENTITY_TYPE_DIRECTORY.value})
+
+package ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.value};
+
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entityGivenName}Manager;
+import ${entityPackage}.${entityGivenName};
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.ibs.cds.gode.entity.validation.ValidationStatus;
+import org.ibs.cds.gode.pagination.PageContext;
+import org.ibs.cds.gode.pagination.PagedData;
+import org.ibs.cds.gode.web.Request;
+import org.ibs.cds.gode.web.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.ibs.cds.gode.entity.generic.DataMap;
+
+@Endpoint
+@Api(tags = {"${entityGivenName}"})
+public class ${entityGivenName}ProcessController extends EntityProcessEndpoint<${entityGivenName},${entityGivenName}Manager,$idFieldType> {
+
+    private final static String PROCESS = "/${entityName}/process";
+    private final static String VALIDATE = "/${entityName}/validate";
+
+    @Autowired
+    public ${entityGivenName}ProcessController(${entityGivenName}Manager manager) {
+        super(manager);
+    }
+
+    @PostMapping(path = PROCESS)
+    @ApiOperation("Save operation")
+    public Response<DataMap> save(@RequestBody Request<${entityGivenName}> request) {
+        return super.process(request,PROCESS );
+    }
+
+    @PostMapping(path = VALIDATE)
+    @ApiOperation("Validation operation")
+    public Response<ValidationStatus> validate(@RequestBody Request<${entityGivenName}> request) {
+        return super.validate(request, VALIDATE);
+    }
+}

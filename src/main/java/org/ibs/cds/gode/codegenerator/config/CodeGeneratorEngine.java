@@ -1,6 +1,7 @@
 package org.ibs.cds.gode.codegenerator.config;
 
 import org.ibs.cds.gode.entity.type.Specification;
+import org.ibs.cds.gode.status.BinaryStatus;
 
 import java.io.File;
 import java.util.StringJoiner;
@@ -11,7 +12,7 @@ public interface CodeGeneratorEngine<T extends Specification & CodeGenerationCom
 
     boolean addToContext(String name, Object input);
 
-    boolean run(T components);
+    BinaryStatus run(T components);
 
     default String getProcessPath(T component) {
         File processPath = getConfiguration().getProcessPath();

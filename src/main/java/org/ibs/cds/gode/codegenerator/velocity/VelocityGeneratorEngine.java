@@ -9,6 +9,7 @@ import org.ibs.cds.gode.codegenerator.config.*;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.codegenerator.spec.YamlReadWriteUtil;
+import org.ibs.cds.gode.status.BinaryStatus;
 import org.ibs.cds.gode.system.GodeConstant;
 import org.ibs.cds.gode.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +51,7 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
     private GenerateComponentConfiguration process(T component) throws IOException {
         log.info("Processing Component:{} version:{} Type: {}", component.getName(), component.getVersion(), component.getComponentName());
         ComponentConfiguration componentConfiguration = this.engineConfiguration.getComponentConfiguration().get(component.getComponentName());
-        Reader template = getReader(this.engineConfiguration.getTemplatePath(), componentConfiguration.getVmLocation());
+        Reader template = getReader(this.engineConfiguration.getTemplatePath(component), componentConfiguration.getVmLocation());
         String processPath = getProcessPath(component);
         build("Process ".concat(component.getComponentName().toString().toLowerCase()),template, processPath);
         log.info("Processed Component:{} version:{} Type: {}", component.getName(), component.getVersion(), component.getComponentName());
@@ -80,23 +81,24 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
     private boolean generate(T component, GenerateComponentConfiguration generateComponent) throws IOException {
         log.info("Generating Component:{} version:{} Type: {}", component.getName(), component.getVersion(), component.getComponentName());
         List<GenerateComponent> configurations = generateComponent.getConfiguration();
-        for (GenerateComponent configuration: configurations) {
-            Reader templateReader = getReader(this.engineConfiguration.getBuildConfiguration().getComponentTemplatePath(), configuration.getTemplate());
-            String fileOut = this.engineConfiguration.getCodeGenPath().concat(File.separator).concat(configuration.getPath()).concat(File.separator).concat(configuration.getName());
+        for (GenerateComponent generationSpec: configurations) {
+            Reader templateReader = getReader(this.engineConfiguration.getBuildConfiguration().getComponentTemplatePath(component), generationSpec.getTemplate());
+            String fileOut = this.engineConfiguration.getCodeGenPath().concat(File.separator).concat(File.separator).concat(component.getVersion().toString()).concat(File.separator).concat(generationSpec.getPath()).concat(File.separator).concat(generationSpec.getName());
             build("Generate ".concat(component.getComponentName().toString().toLowerCase()),templateReader, fileOut);
-            if(configuration.isBuildable()){
+            if(generationSpec.isBuildable()){
                 buildable.add(fileOut);
             }
-            log.info("Generated  Element:{}", configuration.getName());
+            log.info("Generated  Element:{}", generationSpec.getName());
         }
         log.info("Generated Component:{} version:{} Type: {}", component.getName(), component.getVersion(), component.getComponentName());
         return true;
     }
 
     @Override
-    public boolean run(T component) {
+    public BinaryStatus run(T component) {
         try {
-            return this.generate(component, process(component));
+            this.context.put(component.getComponentName().toString(), component);
+            return BinaryStatus.valueOf(this.generate(component, process(component)));
         } catch (IOException e) {
             throw CodeGenerationFailure.SYSTEM_ERROR.provide(e);
         }

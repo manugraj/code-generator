@@ -1,0 +1,55 @@
+type Query{
+#foreach($entity in $APP.entities)
+find${entity.name}(id :ID) :${entity.name}
+#end
+#foreach($dependency in $APP.dependencies)
+find${dependency.name}(id :ID) :${dependency.name}
+#end
+}
+
+type Mutation{
+#foreach($entity in $APP.entities)
+save${entity.name}(entity: ${entity.name}Request): ${entity.name}
+delete${entity.name}(id: ID) : Boolean
+deactivate${entity.name}(id: ID) : Boolean
+validate${entity.name}(entity: ${entity.name}Request) : Boolean
+#end
+#foreach($dependency in $APP.dependencies)
+save${dependency.name}(entity: ${dependency.name}Request): ${dependency.name}
+delete${dependency.name}(id: ID) : Boolean
+deactivate${dependency.name}(id: ID) : Boolean
+validate${dependency.name}(entity: ${dependency.name}Request) : Boolean
+#end
+}
+
+#foreach($entity in $APP.entities)
+type ${entity.name}{
+    ${entity.idField.object.name.toLowerCase()} : ID
+    #foreach ($field in ${entity.fields})
+    $field.object.name :$field.graphQLType
+    #end
+}
+
+input ${entity.name}Request {
+    ${entity.idField.object.name.toLowerCase()} : ID
+    #foreach ($field in ${entity.fields})
+        $field.object.name :$field.graphQLType
+    #end
+}
+#end
+
+#foreach($dependency in $APP.dependencies)
+type ${dependency.name}{
+    ${dependency.idField.object.name.toLowerCase()} : ID
+    #foreach ($dfield in ${dependency.fields})
+        $dfield.object.name :$dfield.graphQLType
+    #end
+}
+
+input ${dependency.name}Request {
+    ${dependency.idField.object.name.toLowerCase()} : ID
+    #foreach ($dfield in ${dependency.fields})
+        $dfield.object.name :$dfield.graphQLType
+    #end
+}
+#end

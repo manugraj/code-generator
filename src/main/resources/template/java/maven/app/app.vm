@@ -1,5 +1,28 @@
+#set($appName=${APP.getName().toLowerCase()})
+#set($appGivenName=${APP.getName()})
+#set($projectName=${APP.getName().toLowerCase().concat("-container")})
 configuration:
-- name: pom.xml
-  path: $appPath
-  template: app_pom.vm
-  buildable: false
+  - name: pom.xml
+    path: ${PathPackage.path($projectName)}
+    template: parent_pom.vm
+    buildable: true
+  - name: pom.xml
+    path: ${PathPackage.path($projectName,$appName)}
+    template: app_pom.vm
+    buildable: false
+  - name: ${appGivenName}.java
+    path: ${DEFAULT__APP_DIRECTORY.pathOf($projectName,$appName,"src","main","java")}
+    template: main.vm
+    buildable: false
+  - name: ${appGivenName}Function.java
+    path: ${DEFAULT__APP_FUNCTION_DIRECTORY.pathOf($projectName,$appName,"src","main","java")}
+    template: app_function.vm
+    buildable: false
+  - name: gode.properties
+    path: ${PathPackage.path($projectName,$appName,"src","main","resources")}
+    template: gode_properties.vm
+    buildable: false
+  - name: root.graphqls
+    path: ${PathPackage.path($projectName,$appName,"src","main","resources","graphql")}
+    template: graphql.vm
+    buildable: false

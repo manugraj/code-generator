@@ -5,6 +5,7 @@ import org.ibs.cds.gode.codegenerator.artefact.JavaObject;
 import org.ibs.cds.gode.codegenerator.artefact.LangObject;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
+import org.ibs.cds.gode.codegenerator.spec.GraphQLUtil;
 import org.ibs.cds.gode.entity.type.EntityField;
 import org.ibs.cds.gode.entity.type.FieldType;
 import org.ibs.cds.gode.system.GodeAppEnvt;
@@ -12,17 +13,21 @@ import org.ibs.cds.gode.util.Assert;
 import org.ibs.cds.gode.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 @Data
 public class CodeEntityField implements ResolvedFromModel<EntityField, LangObject>{
 
     private LangObject object;
     private final EntityField field;
     private BuildModel buildModel;
+    private String graphQLType;
 
     public CodeEntityField(EntityField field, BuildModel buildModel) {
         Assert.notNull(field);
         this.field = field;
         this.object = process(field, buildModel);
+        this.graphQLType = GraphQLUtil.getGrapQLType(field);
         this.buildModel = buildModel;
     }
 

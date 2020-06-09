@@ -1,0 +1,55 @@
+#set($appName=${APP.getName().toLowerCase()})
+#set($appGivenName=${APP.getName()})
+#set($projectName=${APP.getName().toLowerCase().concat("-container")})
+
+package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.ibs.cds.gode.app.AppEndpoint;
+import org.ibs.cds.gode.app.AppProcessEndpoint;
+import org.ibs.cds.gode.entity.generic.DataMap;
+import org.ibs.cds.gode.entity.operation.Processor;
+import org.ibs.cds.gode.web.Request;
+import org.ibs.cds.gode.web.Response;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+#foreach($entity in $APP.entities)
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entity.getName()}Manager;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entity.getName()};
+#end
+#foreach($dependency in $APP.dependencies)
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${dependency.getName()}Manager;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${dependency.getName()};
+#end
+
+@RestController
+@AppEndpoint
+@Api(tags = "${appGivenName} Functions")
+public class ${appGivenName}Function extends AppProcessEndpoint {
+
+    #foreach($entity in $APP.entities)
+    @Autowired
+    private ${entity.getName()}Manager ${entity.getName().toLowerCase()}Manager;
+    #end
+
+    #foreach($dependency in $APP.dependencies)
+    @Autowired
+    private ${dependency.getName()}Manager ${dependency.getName().toLowerCase()}Manager;
+    #end
+
+    #foreach($appFunction in $APP.appFunctions)
+       @PostMapping(path = "/$appName/${appFunction.methodName}")
+       @ApiOperation("Function - ${appFunction.methodName} operation")
+       public Response<DataMap> $appFunction.methodName (Request<DataMap> request){
+        DataMap response = new DataMap();
+        #foreach($inputEntity in $appFunction.input)
+        $inputEntity.name  $inputEntity.name.toLowerCase() = ($inputEntity.name)request.getData().get("${inputEntity.name.toLowerCase()}");
+        #end
+        return Processor.successResponse(response, request,"/$appName/${appFunction.methodName}");
+       }
+    #end
+
+}

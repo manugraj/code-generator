@@ -1,0 +1,40 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+
+package $DEFAULT__ENTITY_MANAGER_DIRECTORY.value;
+
+#if($entityStorePolicy.isAvailable())
+import org.ibs.cds.gode.entity.manager.StoredStateEntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
+#end
+import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}Repository;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
+import org.springframework.stereotype.Service;
+
+@Service
+#if($entityStorePolicy.isAvailable())
+public class ${entityGivenName}Manager extends StoredStateEntityManager<${entityGivenName}, ${entityGivenName}, $idFieldType, ${entityGivenName}Repository> {
+#else
+public class ${entityGivenName}Manager extends ViewEntityManager<${entityGivenName},  $idFieldType> {
+#end
+
+  #if($entityStorePolicy.isAvailable())
+  @Autowired
+  public ${entityGivenName}Manager(${entityGivenName}Repository repo) {
+    super(repo);
+  }
+
+  @Override
+  public ${entityGivenName} transformEntity(${entityGivenName} entity) {
+    return entity;
+  }
+
+  @Override
+  public ${entityGivenName} transformView(${entityGivenName} entity) {
+    return entity;
+  }
+  #end
+
+
+}

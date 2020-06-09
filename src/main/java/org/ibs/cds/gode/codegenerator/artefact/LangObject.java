@@ -11,5 +11,6 @@ public interface LangObject<T extends Artefact>{
     };
 
    T getArtefact();
+   String getName();
    ProgLanguage getLanguage();
 }

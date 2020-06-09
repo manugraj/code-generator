@@ -18,9 +18,12 @@ public class App extends Specification {
     private Set<EntitySpec> entities;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<AppFunction> functions;
+    @OneToMany
+    private Set<EntitySpec> dependencies;
 
     public App() {
        this.entities = new HashSet<>();
        this.functions = new HashSet<>();
+       this.dependencies = new HashSet<>();
     }
 }

@@ -4,9 +4,11 @@ import lombok.Data;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
 import org.ibs.cds.gode.codegenerator.spec.YamlReadWriteUtil;
+import org.ibs.cds.gode.entity.type.Specification;
 
 import java.io.File;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Data
@@ -35,15 +37,15 @@ public class EngineConfiguration {
         return BuildComponentConfiguration.getComponentConfigFile(model);
     }
 
-    public String getTemplatePath(){
-        return BuildComponentConfiguration.getComponentTemplatePath(model);
+    public String getTemplatePath(CodeGenerationComponent codeGenerationComponent){
+        return BuildComponentConfiguration.getComponentTemplatePath(model, codeGenerationComponent);
     }
 
     public String getCodeGenPath() {
-        return "raw";
+        return "apps";
     }
 
     public File getProcessPath() {
-        return new File("process");
+        return new File(".process");
     }
 }

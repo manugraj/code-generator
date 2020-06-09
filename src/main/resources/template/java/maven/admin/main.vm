@@ -1,0 +1,18 @@
+#set($appGivenName=${ADMIN.appName})
+
+package ${DEFAULT__APP_DIRECTORY.value};
+
+import org.ibs.cds.gode.system.GodeApp;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
+
+@SpringBootApplication
+@EnableAdminServer
+public class ${appGivenName}Monitor {
+
+    public static void main(String[] args) {
+        GodeApp.start(${appGivenName}Monitor.class, args);
+    }
+
+}

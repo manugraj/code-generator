@@ -32,9 +32,14 @@ public interface BuildComponentConfiguration {
         return path.add(CONFIG_PATH).add(model.getProgLanguage().toString()).add(model.getArtifactPackaging().toString()).add(CONFIG_FILE).toString();
     }
 
-    static String getComponentTemplatePath(BuildModel model){
+    static String getComponentTemplatePath(BuildModel model,CodeGenerationComponent component){
         StringJoiner path = new StringJoiner(File.separator);
-        return path.add(TEMPLATE_PATH).add(model.getProgLanguage().toString()).add(model.getArtifactPackaging().toString()).toString();
+        return path
+                .add(TEMPLATE_PATH)
+                .add(model.getProgLanguage().toString())
+                .add(model.getArtifactPackaging().toString())
+                .add(component.getComponentName().toString().toLowerCase())
+                .toString();
     }
 
     default String getComponentConfigFile(){
@@ -42,8 +47,13 @@ public interface BuildComponentConfiguration {
         return path.add(CONFIG_PATH).add(getLanguage().toString()).add(getPackingSystem().toString()).add(CONFIG_FILE).toString();
     }
 
-    default String getComponentTemplatePath(){
+    default String getComponentTemplatePath(CodeGenerationComponent component){
         StringJoiner path = new StringJoiner(File.separator);
-        return path.add(TEMPLATE_PATH).add(getLanguage().toString()).add(getPackingSystem().toString()).toString();
+        return path
+                .add(TEMPLATE_PATH)
+                .add(getLanguage().toString())
+                .add(getPackingSystem().toString())
+                .add(component.getComponentName().toString().toLowerCase())
+                .toString();
     }
 }

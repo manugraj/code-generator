@@ -1,5 +1,6 @@
 package org.ibs.cds.gode.entity.type;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class EntityStateStore extends StoreEntity<Long> {
     private boolean cached;
     private boolean asyncStoreSync;
 
-    @Override
+    @Override @JsonIgnore
     public StoreType getStoreType() {
         return StoreType.JPA;
     }
