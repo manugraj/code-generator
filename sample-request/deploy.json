@@ -1,0 +1,21 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "app": {
+      "name": "CustomerCare",
+      "version": 2
+    },
+    "localDeploymentRequired": {
+      "jpaDialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
+      "jpaDriver": "com.mysql.cj.jdbc.Driver",
+      "jpaUsername": "dev-user",
+      "jpaPassword": "dev-user",
+      "appPort" : "9999",
+      "adminPort": "8888",
+      "jpaUrl": "jdbc:mysql://localhost:3306/wynss_dev_r22"
+    },
+    "type": "LOCAL"
+  }
+}
