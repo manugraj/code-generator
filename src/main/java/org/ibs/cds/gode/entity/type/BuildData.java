@@ -23,6 +23,7 @@ public class BuildData extends ManagedEntity {
     private boolean latest;
     @OneToOne
     private App app;
+    private boolean secure;
 
     public static BuildData fromModel(BuildModel model, App app){
         BuildData data = new BuildData();
@@ -31,6 +32,7 @@ public class BuildData extends ManagedEntity {
         data.setArtifactPackaging(model.getArtifactPackaging());
         data.setApp(app);
         data.setEntityStorePref(model.getEntityStorePref());
+        data.setSecure(model.isSecure());
         return data;
     }
 

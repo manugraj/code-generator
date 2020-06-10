@@ -5,33 +5,27 @@ import io.swagger.annotations.ApiOperation;
 import org.ibs.cds.gode.codegenerator.entity.AppCodeGenerator;
 import org.ibs.cds.gode.codegenerator.entity.CodeApp;
 import org.ibs.cds.gode.codegenerator.entity.StorePolicy;
-import org.ibs.cds.gode.codegenerator.model.deploy.DeploymentRequirement;
-import org.ibs.cds.gode.codegenerator.model.deploy.LocalDeployment;
+import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
+import org.ibs.cds.gode.codegenerator.model.deploy.*;
 import org.ibs.cds.gode.codegenerator.spec.StoreName;
 import org.ibs.cds.gode.entity.generic.DataMap;
 import org.ibs.cds.gode.entity.manager.AppManager;
 import org.ibs.cds.gode.entity.manager.BuildDataManager;
-import org.ibs.cds.gode.entity.store.StoreType;
-import org.ibs.cds.gode.entity.type.App;
-import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.codegenerator.model.deploy.DeploymentModel;
-import org.ibs.cds.gode.entity.type.BuildData;
-import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.entity.operation.Executor;
 import org.ibs.cds.gode.entity.operation.Logic;
+import org.ibs.cds.gode.entity.store.StoreType;
+import org.ibs.cds.gode.entity.type.App;
+import org.ibs.cds.gode.entity.type.BuildData;
+import org.ibs.cds.gode.entity.type.FieldType;
+import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.exception.KnownException;
 import org.ibs.cds.gode.web.Request;
 import org.ibs.cds.gode.web.Response;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -74,25 +68,40 @@ public class CodeGenerator {
     @ApiOperation(value = "Operation to deploy App")
     public boolean deploy(@RequestBody Request<DeploymentModel> deploymentModelRequest){
         DeploymentModel model = deploymentModelRequest.getData();
-        LocalDeployment deployment = model.getLocalDeployment();
-
-        return true;
+        CodeApp app = getCodeApp(deploymentModelRequest.getData().getApp());
+        return Deployer.doDeployment(model, app);
     }
 
     @PostMapping(path="/deploy/requirement")
+    @ApiOperation(value = "Operation to deploy App")
+    public Map<String, FieldType> deployRequirements(@RequestBody Request<DeploymentModel> deploymentModelRequest){
+        DeploymentModel model = deploymentModelRequest.getData();
+        CodeApp app = getCodeApp(deploymentModelRequest.getData().getApp());
+        switch (model.getType()){
+            case LOCAL: return LocalDeploymentRequirement.values(app);
+        }
+        return Collections.emptyMap();
+    }
+
+    @PostMapping(path="/deploy/store")
     @ApiOperation(value = "Operation to get requirements for deploying App")
     public DataMap deploymentRequirements(@RequestBody Request<Specification> appData){
         DataMap map = new DataMap();
         Specification model = appData.getData();
-        App foundApp = appManager.find(model.getName(), model.getVersion());
-        if(foundApp == null) throw KnownException.OBJECT_NOT_FOUND.provide("No app available for given name and version");
-        BuildData lastBuild = buildDataManager.findLatestBuild(foundApp.getName(), foundApp.getVersion());
-        if(lastBuild == null) throw KnownException.OBJECT_NOT_FOUND.provide("No build information available for given name and version");
-        CodeApp codeApp = new CodeApp(foundApp , lastBuild.toBuildModel());
+        CodeApp codeApp = getCodeApp(model);
         Map<StoreType, Set<StorePolicy>> req = DeploymentRequirement.getStoreRequirements(codeApp);
         List<StoreName> storeNames = req.entrySet().stream().flatMap(k -> k.getValue().stream().map(d -> d.getStoreName())).collect(Collectors.toUnmodifiableList());
         map.put("stores", new ArrayList(storeNames));
         map.put("cacheRequired",DeploymentRequirement.isCacheNeeded(req));
         return map;
+    }
+
+    @NotNull
+    public CodeApp getCodeApp(Specification model) {
+        App foundApp = appManager.find(model.getName(), model.getVersion());
+        if(foundApp == null) throw KnownException.OBJECT_NOT_FOUND.provide("No app available for given name and version");
+        BuildData lastBuild = buildDataManager.findLatestBuild(foundApp.getName(), foundApp.getVersion());
+        if(lastBuild == null) throw KnownException.OBJECT_NOT_FOUND.provide("No build information available for given name and version");
+        return new CodeApp(foundApp , lastBuild.toBuildModel());
     }
 }

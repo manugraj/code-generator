@@ -1,6 +1,6 @@
 #set($appName=${APP.getName().toLowerCase()})
 #set($appGivenName=${APP.getName()})
-#set($projectName=${APP.getName().toLowerCase().concat("-container")})
+#set($projectName=${CodeAppUtil.containerAppName($APP).toLowerCase()})
 
 package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
 

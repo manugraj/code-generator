@@ -3,12 +3,14 @@ package org.ibs.cds.gode.codegenerator.bind;
 import org.apache.maven.shared.invoker.*;
 import org.ibs.cds.gode.codegenerator.bind.ArtefactBinding;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationException;
+import org.ibs.cds.gode.codegenerator.model.deploy.CodeDeployer;
 import org.ibs.cds.gode.exception.Error;
+import org.ibs.cds.gode.status.BinaryStatus;
 
 import java.io.File;
 import java.util.Arrays;
 
-public class MavenBind implements ArtefactBinding {
+public class MavenBind implements ArtefactBinding, CodeDeployer {
 
     static{
         System.setProperty("maven.home",findMvn());
@@ -43,5 +45,10 @@ public class MavenBind implements ArtefactBinding {
 
     public boolean run(String configFile, String... args) {
         return runWithOpts(configFile, null,"clean","install");
+    }
+
+    @Override
+    public BinaryStatus deploy(String deployConfig) {
+        return BinaryStatus.valueOf(runWithOpts(deployConfig, null ,"spring-boot:run"));
     }
 }

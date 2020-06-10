@@ -1,0 +1,46 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "app": {
+      "artifactId": 2,
+      "name": "CustomerCare",
+      "version": 2
+    },
+    "artifactPackaging": "MAVEN",
+    "entityStorePref": [
+      {
+        "entity": {
+          "artifactId": 1,
+          "name": "Customer",
+          "version": 1
+        },
+        "state": {
+          "entityStateStore": {
+            "asyncStoreSync": false,
+            "cached": false,
+            "storeName": "MYSQL"
+          },
+          "volatileEntity": false
+        }
+      },
+      {
+        "entity": {
+          "artifactId": 2,
+          "name": "Account",
+          "version": 1
+        },
+        "state": {
+          "entityStateStore": {
+            "asyncStoreSync": false,
+            "cached": false,
+            "storeName": "MYSQL"
+          },
+          "volatileEntity": false
+        }
+      }
+    ],
+    "progLanguage": "JAVA"
+  }
+}

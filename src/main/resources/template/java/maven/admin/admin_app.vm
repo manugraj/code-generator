@@ -8,10 +8,10 @@ configuration:
     template: admin_app_pom.vm
     buildable: false
   - name: ${appGivenName}Monitor.java
-    path: ${DEFAULT__APP_DIRECTORY.pathOf($projectName,$adminAppName,"src","main","java")}
+    path: ${DEFAULT__APP_DIRECTORY.pathOf($projectName,$adminAppName,$CodeAppUtil.javaPath())}
     template: main.vm
     buildable: false
-  - name: application.properties
-    path: ${PathPackage.path($projectName,$adminAppName,"src","main","resources")}
+  - name: $ADMIN.componentName.controlFile
+    path: ${PathPackage.path($projectName,$adminAppName, $CodeAppUtil.javaResourcePath())}
     template: application_properties.vm
     buildable: false

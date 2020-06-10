@@ -1,0 +1,39 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "artifactId": 2,
+    "description": "string",
+    "entities": [
+      {
+          "artifactId" : 1
+      },
+       {
+          "artifactId" : 2
+      }
+    ],
+    "functions": [
+      {
+        "input": [
+            {
+                "artifactId": 1
+            }
+        ],
+        "methodName": "processSpecialCustomer",
+        "output": [
+            {
+                "artifactId": 1
+            }
+        ]
+      }
+    ],
+    "name": "CustomerCare",
+    "usage": {
+      "availability": "HIGH",
+      "distributes": true,
+      "scalability": "HIGH"
+    },
+    "version": 2
+  }
+}

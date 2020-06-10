@@ -1,11 +1,22 @@
 package org.ibs.cds.gode.codegenerator.config;
 
+import lombok.Getter;
+import org.ibs.cds.gode.util.StringUtils;
+
 public interface CodeGenerationComponent {
 
     enum ComponentName{
-        APP,
+        APP("gode.properties"),
         ENTITY,
-        ADMIN;
+        ADMIN("application.properties");
+
+        private @Getter final String controlFile;
+        ComponentName( String controlFile) {
+            this.controlFile = controlFile;
+        }
+        ComponentName() {
+            this.controlFile = StringUtils.EMPTY;
+        }
     }
 
     ComponentName getComponentName();

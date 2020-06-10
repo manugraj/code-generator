@@ -9,7 +9,7 @@ gode.datastore.jpa.dialect=
 gode.datastore.jpa.datasource.url=
 gode.datastore.jpa.datasource.username=
 gode.datastore.jpa.datasource.password=
-gode.datastore.jpa.datasource.auto-schema-management=
+gode.datastore.jpa.datasource.auto-schema-management=update
 #else
 gode.datastore.jpa.enabled=false
 #end
@@ -38,6 +38,7 @@ gode.cache.ignite.enabled=false
 #end
 
 server.port=
+
 management.endpoint.metrics.enabled=true
 management.endpoints.web.exposure.include=*
 management.endpoint.prometheus.enabled=true
@@ -48,4 +49,4 @@ gode.security.token.refresh.expiry=
 gode.security.token.salt=
 
 spring.application.name=${appName}-v.$appVersion
-spring.boot.admin.client.url=
+spring.boot.admin.client.url=${admin.url}

@@ -6,6 +6,8 @@ import org.ibs.cds.gode.codegenerator.config.CodeGenerationComponent;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
 import org.ibs.cds.gode.entity.type.Specification;
 
+import java.io.File;
+
 @Data
 public class CodeAdminApp extends Specification implements Buildable, CodeGenerationComponent {
 

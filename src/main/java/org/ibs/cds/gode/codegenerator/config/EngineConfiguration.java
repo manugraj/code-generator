@@ -39,11 +39,11 @@ public class EngineConfiguration {
         return BuildComponentConfiguration.getComponentTemplatePath(model, codeGenerationComponent);
     }
 
-    public String getCodeGenPath() {
+    public static String getCodeGenPath() {
         return "apps";
     }
 
-    public File getProcessPath() {
+    public static File getProcessPath() {
         return new File(".process");
     }
 }

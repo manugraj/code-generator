@@ -1,6 +1,6 @@
 #set($appName=${APP.getName().toLowerCase()})
 #set($appVersion=${APP.getVersion()})
-#set($projectName=${APP.getName().toLowerCase().concat("-container")})
+#set($projectName=${CodeAppUtil.containerAppName($APP).toLowerCase()})
 #set($projectVersion=${APP.getVersion()})
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"

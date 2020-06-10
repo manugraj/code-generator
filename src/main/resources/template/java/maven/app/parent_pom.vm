@@ -1,5 +1,7 @@
 #set($appName=${APP.getName().toLowerCase()})
 #set($projectVersion=${APP.getVersion()})
+#set($projectName=${CodeAppUtil.containerAppName($APP).toLowerCase()})
+#set($monitorName=${CodeAppUtil.adminAppName($APP).toLowerCase()})
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7,12 +9,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>$DEFAULT_GROUP_ID.value</groupId>
-    <artifactId>${appName}-container</artifactId>
+    <artifactId>$projectName</artifactId>
     <packaging>pom</packaging>
     <version>$projectVersion</version>
     <modules>
         <module>$appName</module>
-        <module>${appName}-monitor</module>
+        <module>$monitorName</module>
         #foreach($entity in $APP.entities)
         <module>${entity.getName().toLowerCase()}</module>
         #end

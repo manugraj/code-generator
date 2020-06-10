@@ -39,8 +39,11 @@ public class AppCodeGenerator {
         });
 
         codeEntityVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
+        codeEntityVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
         codeAppVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
+        codeAppVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
         codeAdminAppVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
+        codeAdminAppVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
 
         codeEntityVelocityGeneratorEngine.addToContext("app", app);
 

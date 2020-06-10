@@ -22,6 +22,7 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
     private App model;
     private BuildModel buildModel;
     private Set<CodeEntity> dependencies;
+    private boolean secure;
 
     public CodeApp(App model, BuildModel buildModel) {
         this.buildModel = buildModel;
@@ -33,6 +34,7 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
         this.setName(model.getName());
         this.setDescription(model.getDescription());
         this.setVersion(model.getVersion());
+        this.secure = buildModel.isSecure();
     }
 
     @Override

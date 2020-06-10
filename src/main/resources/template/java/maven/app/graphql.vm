@@ -24,14 +24,14 @@ validate${dependency.name}(entity: ${dependency.name}Request) : Boolean
 
 #foreach($entity in $APP.entities)
 type ${entity.name}{
-    ${entity.idField.object.name.toLowerCase()} : ID
+    ${entity.idField.object.name} : ID
     #foreach ($field in ${entity.fields})
     $field.object.name :$field.graphQLType
     #end
 }
 
 input ${entity.name}Request {
-    ${entity.idField.object.name.toLowerCase()} : ID
+    ${entity.idField.object.name} : ID
     #foreach ($field in ${entity.fields})
         $field.object.name :$field.graphQLType
     #end
@@ -40,14 +40,14 @@ input ${entity.name}Request {
 
 #foreach($dependency in $APP.dependencies)
 type ${dependency.name}{
-    ${dependency.idField.object.name.toLowerCase()} : ID
+    ${dependency.idField.object.name} : ID
     #foreach ($dfield in ${dependency.fields})
         $dfield.object.name :$dfield.graphQLType
     #end
 }
 
 input ${dependency.name}Request {
-    ${dependency.idField.object.name.toLowerCase()} : ID
+    ${dependency.idField.object.name} : ID
     #foreach ($dfield in ${dependency.fields})
         $dfield.object.name :$dfield.graphQLType
     #end

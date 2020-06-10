@@ -1,0 +1,42 @@
+
+        "artifactId": 1,
+        "description": "Customer Entity",
+        "fields": [
+          {
+            "description": "Customer Name",
+            "name": "name",
+            "properties": [
+              "INDEX"
+            ],
+            "type": "TEXT"
+          },
+          {
+            "description": "Customer Age",
+            "name": "age",
+            "properties": [
+              "INDEX"
+            ],
+            "type": "NUMBER"
+          }
+        ],
+        "idField": {
+         
+          "description": "Customer id",
+          "name": "customerId",
+          "properties": [
+            "INDEX"
+          ],
+          "type": "NUMBER"
+        },
+        "name": "Customer",
+        "state": {
+          "entityStateStore": {
+            "asyncStoreSync": false,
+            "cached": false,
+            "storeName": "MYSQL"
+          },
+          "stateSync": false,
+          "volatileEntity": false
+        },
+        "version": 1
+      

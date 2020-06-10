@@ -16,6 +16,7 @@ public class BuildModel {
     private ArtifactPackaging artifactPackaging;
     private Set<EntityStorePolicy> entityStorePref;
     private Specification app;
+    private boolean secure;
 
     public BuildModel() {
         this.entityStorePref = new HashSet<>();

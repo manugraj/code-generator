@@ -1,7 +1,7 @@
 #set($appName=${app.getName().toLowerCase()})
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityVersion=${ENTITY.getVersion()})
-#set($projectName=${app.getName().toLowerCase().concat("-container")})
+#set($projectName=${CodeAppUtil.containerAppName($app).toLowerCase()})
 #set($projectVersion=${app.getVersion()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($entityMysql=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName() == "MYSQL")

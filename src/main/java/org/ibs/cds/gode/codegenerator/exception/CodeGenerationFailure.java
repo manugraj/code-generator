@@ -36,6 +36,16 @@ public enum CodeGenerationFailure {
         public CodeGenerationException provide(Serializable details) {
             return new CodeGenerationException(new Error(getCode(), message, details), message);
         }
+    },
+    DEPLOYMENT_FAILURE(-3,"Deployment error"){
+        private String message = getMessage();
+        public DeploymentException provide(Throwable e, Serializable details) {
+            return new DeploymentException(new Error(getCode(), message, details), message, e);
+        }
+
+        public DeploymentException provide(Serializable details) {
+            return new DeploymentException(new Error(getCode(), message, details), message);
+        }
     };
 
     private final int code;

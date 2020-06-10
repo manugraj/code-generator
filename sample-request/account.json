@@ -1,0 +1,41 @@
+
+        "artifactId": 2,
+        "description": "Account Entity",
+        "fields": [
+          {
+            "description": "Account Name",
+            "name": "name",
+            "properties": [
+              "INDEX"
+            ],
+            "type": "TEXT"
+          },
+          {
+            "description": "Account Age",
+            "name": "age",
+            "properties": [
+              "INDEX"
+            ],
+            "type": "NUMBER"
+          }
+        ],
+        "idField": {
+          "description": "Account id",
+          "name": "accountId",
+          "properties": [
+            "INDEX"
+          ],
+          "type": "NUMBER"
+        },
+        "name": "Account",
+        "state": {
+          "entityStateStore": {
+            "asyncStoreSync": false,
+            "cached": false,
+            "storeName": "MYSQL"
+          },
+          "stateSync": false,
+          "volatileEntity": false
+        },
+        "version": 2
+      
