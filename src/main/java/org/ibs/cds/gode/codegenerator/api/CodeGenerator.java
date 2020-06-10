@@ -73,7 +73,7 @@ public class CodeGenerator {
     }
 
     @PostMapping(path="/deploy/requirement")
-    @ApiOperation(value = "Operation to deploy App")
+    @ApiOperation(value = "Operation to deployment properties for deploying App")
     public Map<String, FieldType> deployRequirements(@RequestBody Request<DeploymentModel> deploymentModelRequest){
         DeploymentModel model = deploymentModelRequest.getData();
         CodeApp app = getCodeApp(deploymentModelRequest.getData().getApp());
@@ -84,7 +84,7 @@ public class CodeGenerator {
     }
 
     @PostMapping(path="/deploy/store")
-    @ApiOperation(value = "Operation to get requirements for deploying App")
+    @ApiOperation(value = "Operation to get store requirements for deploying App")
     public DataMap deploymentRequirements(@RequestBody Request<Specification> appData){
         DataMap map = new DataMap();
         Specification model = appData.getData();
