@@ -1,42 +1,49 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
 
-        "artifactId": 1,
-        "description": "Customer Entity",
-        "fields": [
-          {
-            "description": "Customer Name",
-            "name": "name",
-            "properties": [
-              "INDEX"
-            ],
-            "type": "TEXT"
-          },
-          {
-            "description": "Customer Age",
-            "name": "age",
-            "properties": [
-              "INDEX"
-            ],
-            "type": "NUMBER"
-          }
+    "artifactId": 1,
+    "description": "Customer Entity",
+    "fields": [
+      {
+        "description": "Customer Name",
+        "name": "name",
+        "properties": [
+          "INDEX"
         ],
-        "idField": {
-         
-          "description": "Customer id",
-          "name": "customerId",
-          "properties": [
-            "INDEX"
-          ],
-          "type": "NUMBER"
-        },
-        "name": "Customer",
-        "state": {
-          "entityStateStore": {
-            "asyncStoreSync": false,
-            "cached": false,
-            "storeName": "MYSQL"
-          },
-          "stateSync": false,
-          "volatileEntity": false
-        },
-        "version": 1
-      
+        "type": "TEXT"
+      },
+      {
+        "description": "Customer Age",
+        "name": "age",
+        "properties": [
+          "INDEX"
+        ],
+        "type": "NUMBER"
+      }
+    ],
+    "idField": {
+
+      "description": "Customer id",
+      "name": "customerId",
+      "properties": [
+        "INDEX"
+      ],
+      "type": "NUMBER"
+    },
+    "name": "Customer",
+    "state": {
+      "entityStateStore": {
+        "asyncStoreSync": false,
+        "cached": false,
+        "storeName": "MYSQL"
+      },
+      "stateSync": false,
+      "volatileEntity": false
+    },
+    "version": 1
+
+  }
+}
