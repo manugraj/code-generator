@@ -40,11 +40,18 @@ public enum LocalDeploymentRequirement {
     JPA_PASSWORD(requireJPA(), "jpaPassword", FieldType.TEXT,
             of(CodeGenerationComponent.ComponentName.APP, "gode.datastore.jpa.datasource.password")),
 
+    MONGODB_URI(requireMongoDB(), "mongoUri", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.datastore.mongodb.uri")),
+
+    MONGODB_DATABASE(requireMongoDB(), "mongoDatabaseName", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.datastore.mongodb.database.name")),
+
     ACCESS_TOKEN_EXPIRY(CodeApp::isSecure, "accessTokenExpiryTime", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "gode.security.token.access.expiry")),
 
     REFRESH_TOKEN_EXPIRY(CodeApp::isSecure, "refreshTokenExpiryTime", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "gode.security.token.refresh.expiry")),
+
 
     APP_PORT(c -> true, "appPort", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "server.port")),
@@ -75,6 +82,11 @@ public enum LocalDeploymentRequirement {
     @NotNull
     private static Predicate<CodeApp> requireJPA() {
         return c -> DeploymentRequirement.getStoreRequirements(c).containsKey(StoreType.JPA);
+    }
+
+    @NotNull
+    private static Predicate<CodeApp> requireMongoDB() {
+        return c -> DeploymentRequirement.getStoreRequirements(c).containsKey(StoreType.MONGODB);
     }
 
     @JsonIgnore

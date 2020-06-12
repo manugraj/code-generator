@@ -1,52 +1,53 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
-#set($entityJPA=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() == "JPA")
+#set($storedEntity = ${entityStorePolicy.isAvailable()})
 #set($idFieldName = $ENTITY.getIdField().getObject().getName())
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#if($storedEntity)
+    #set($storeType = ${entityStorePolicy.policy.storeName.storeType})
+    #set($storeEssentials = ${StoreUtils.essential($storeType)})
+#end
 
 package $DEFAULT__ENTITY_TYPE_DIRECTORY.value;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-#if($entityStorePolicy.isAvailable())
-import org.ibs.cds.gode.entity.store.StoreEntity;
-import org.ibs.cds.gode.entity.store.StoreType;
+#if($storedEntity)
+import ${storeEssentials.entityAnnotation.fqn()};
+import $storeEssentials.entityType.fqn();
+import $storeEssentials.idAnnotation.fqn();
 #else
 import org.ibs.cds.gode.entity.view.EntityView;
 #end
 
-#if($entityJPA)
-import javax.persistence.Entity;
-import javax.persistence.Id;
-#end
 
-#if($entityJPA)
-@Entity
-#end
 
+#if($storedEntity)
+@$storeEssentials.entityAnnotation.name
+#end
+#if(${storeEssentials.isMongo()})
+@org.mongodb.morphia.annotations.Entity
+#end
 @Data
-#if($entityStorePolicy.isAvailable())
-    public class $entityGivenName extends StoreEntity<$idFieldType>
+#if($storedEntity)
+    public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType>
 #else
     public class $entityGivenName extends EntityView<$idFieldType>
 #end
 {
 
-    private @Id $idFieldType $idFieldName;
+    private @$storeEssentials.idAnnotation.name $idFieldType $idFieldName;
     #foreach($field in $ENTITY.fields)
         #set($fieldName = $field.getObject().getName())
         #set($fieldType = $field.getObject().getFQN())
     private $fieldType $fieldName;
     #end
 
-
-#if($entityStorePolicy.isAvailable())
-    @Override
-    @JsonIgnore
-    public StoreType getStoreType() {
-        return StoreType.$entityStorePolicy.getPolicy().getStoreName().getStoreType();
+    public $idFieldType getId(){
+        return $idFieldName;
     }
-#end
+
+    public void setId($idFieldType $idFieldName){
+        this.$idFieldName = $idFieldName;
+    }
 }

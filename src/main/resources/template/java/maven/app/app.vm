@@ -29,3 +29,7 @@ configuration:
     path: ${PathPackage.path($projectName,$appName, $graphqlPath)}
     template: graphql.vm
     buildable: false
+  - name: logback.xml
+    path: ${PathPackage.path($projectName,$appName, $resourcePath)}
+    template: logback.vm
+    buildable: false
