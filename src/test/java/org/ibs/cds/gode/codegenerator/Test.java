@@ -38,7 +38,7 @@ public class Test {
         EntitySpec entitySpec = new EntitySpec();
         entitySpec.setName("Entity1");
         entitySpec.setDescription("Entity 1 descr");
-        entitySpec.setVersion(1L);
+        entitySpec.setVersion(2L);
         entitySpec.setFields(Set.of(field));
         entitySpec.setIdField(idField);
         entitySpec.setState(state);
@@ -59,7 +59,7 @@ public class Test {
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
-        app.setVersion(1L);
+        app.setVersion(2L);
         app.setEntities(List.of(entitySpec,entitySpec2));
         app.setFunctions(List.of(function));
 
