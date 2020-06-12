@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface AppRepo extends JPAEntityRepo<App, Long> {
 
     App findByNameAndVersion(String name, Long version);
-
 }

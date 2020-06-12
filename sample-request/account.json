@@ -3,8 +3,6 @@
     "handle": "string"
   },
   "data": {
-
-
     "artifactId": 2,
     "description": "Account Entity",
     "fields": [
