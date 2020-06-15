@@ -56,6 +56,9 @@ public enum LocalDeploymentRequirement {
     APP_PORT(c -> true, "appPort", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "server.port")),
 
+    MEDIA_SERVER_LOC(c -> true, "mediaServer", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.media.store.location")),
+
     ;
 
     private final Predicate<CodeApp> entryCriteria;
