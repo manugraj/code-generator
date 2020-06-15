@@ -35,7 +35,7 @@
           "entityStateStore": {
             "asyncStoreSync": false,
             "cached": false,
-            "storeName": "MYSQL"
+            "storeName": "MONGODB"
           },
           "volatileEntity": false
         }

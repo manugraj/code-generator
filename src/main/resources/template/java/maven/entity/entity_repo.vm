@@ -1,16 +1,14 @@
 #set($entityGivenName=${ENTITY.getName()})
-#set($entityStorePolicy=${ENTITY.getStorePolicy()})
-#set($entityJPA=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() == "JPA")
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($storeEssentials = $StoreUtils.essential(${entityStorePolicy.policy.storeName.storeType}))
 
 package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
 
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$entityGivenName;
 import org.springframework.stereotype.Repository;
+import $storeEssentials.repo.fqn();
 
 @Repository
-#if($entityJPA)
-public interface ${entityGivenName}Repo extends org.ibs.cds.gode.entity.store.repo.JPAEntityRepo<${entityGivenName},$idFieldType> {}
-#end
+public interface ${entityGivenName}Repo extends $storeEssentials.repo.name<${entityGivenName},$idFieldType> {}
 
 

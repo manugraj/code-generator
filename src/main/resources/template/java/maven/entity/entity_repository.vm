@@ -1,21 +1,25 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
-#set($entityJPA=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() == "JPA")
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($storedEntity = ${entityStorePolicy.isAvailable()})
+#set($idFieldName = $ENTITY.getIdField().getObject().getName())
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($storeEssentials = $StoreUtils.essential(${entityStorePolicy.policy.storeName.storeType}))
+
 
 package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
 
-#if($entityJPA)
-import org.ibs.cds.gode.entity.store.repo.JPAEntityRepository;
-#end
+
+import $storeEssentials.repository.fqn();
+
+
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$entityGivenName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-#if($entityJPA)
-public class ${entityGivenName}Repository extends JPAEntityRepository<$entityGivenName,$idFieldType, ${entityGivenName}Repo> {
-#end
+public class ${entityGivenName}Repository extends ${storeEssentials.repository.name}<$entityGivenName,$idFieldType, ${entityGivenName}Repo> {
     @Autowired
     public ${entityGivenName}Repository(${entityGivenName}Repo repo) {
         super(repo);

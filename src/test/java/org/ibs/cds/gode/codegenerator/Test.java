@@ -29,13 +29,27 @@ public class Test {
         test.setStoreName(StoreName.MYSQL);
         state.setEntityStateStore(test);
 
+        EntityState state2 = new EntityState();
+        state2.setOpsLevel(new OperationLevel(Level.HIGH, Level.MEDIUM, Level.LOW, false, false));
+        EntityStateStore test2 = new EntityStateStore();
+        test2.setStoreName(StoreName.MONGODB);
+        state2.setEntityStateStore(test2);
+
         EntitySpec entitySpec = new EntitySpec();
         entitySpec.setName("Entity1");
         entitySpec.setDescription("Entity 1 descr");
-        entitySpec.setVersion(1L);
+        entitySpec.setVersion(2L);
         entitySpec.setFields(Set.of(field));
         entitySpec.setIdField(idField);
         entitySpec.setState(state);
+
+        EntitySpec entitySpec2 = new EntitySpec();
+        entitySpec2.setName("Entity2");
+        entitySpec2.setDescription("Entity 2 descr");
+        entitySpec2.setVersion(3L);
+        entitySpec2.setFields(Set.of(field));
+        entitySpec2.setIdField(idField);
+        entitySpec2.setState(state2);
 
         AppFunction function = new AppFunction();
         function.setMethodName("method1");
@@ -45,8 +59,8 @@ public class Test {
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
-        app.setVersion(1L);
-        app.setEntities(List.of(entitySpec));
+        app.setVersion(2L);
+        app.setEntities(List.of(entitySpec,entitySpec2));
         app.setFunctions(List.of(function));
 
         BuildModel model = new BuildModel();

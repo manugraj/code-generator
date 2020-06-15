@@ -25,5 +25,6 @@ logs/
 image/
 ignite/
 raw/
-process/
+.process/
+releases/
 apps/

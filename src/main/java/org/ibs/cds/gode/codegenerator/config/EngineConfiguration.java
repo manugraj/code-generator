@@ -40,7 +40,7 @@ public class EngineConfiguration {
     }
 
     public static String getCodeGenPath() {
-        return "apps";
+        return "releases";
     }
 
     public static File getProcessPath() {

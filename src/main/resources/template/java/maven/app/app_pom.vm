@@ -37,6 +37,12 @@
             <artifactId>gode-api</artifactId>
             <version>${gode.version}</version>
         </dependency>
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>gode-media</artifactId>
+            <version>${gode.version}</version>
+        </dependency>
+
 
         #foreach($entity in $APP.entities)
         <dependency>

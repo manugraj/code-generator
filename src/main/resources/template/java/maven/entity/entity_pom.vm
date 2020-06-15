@@ -5,6 +5,11 @@
 #set($projectVersion=${app.getVersion()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($entityMysql=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName() == "MYSQL")
+#set($entityJpa=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() ==
+    "JPA")
+#set($entityMongo=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() ==
+    "MONGODB")
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -41,6 +46,15 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
             </dependency>
+        #end
+
+
+        #if($entityJpa)
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-dbcp2</artifactId>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -49,10 +63,24 @@
                 <groupId>com.querydsl</groupId>
                 <artifactId>querydsl-jpa</artifactId>
             </dependency>
+        #end
+
+
+
+        #if($entityMongo)
             <dependency>
-                <groupId>org.bitbucket.gt_tech</groupId>
-                <artifactId>spring-data-querydsl-value-operators</artifactId>
-                <version>4.0.0</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-mongodb</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.mongodb.morphia</groupId>
+                <artifactId>morphia</artifactId>
+                <version>1.3.2</version>
+                <optional>true</optional>
             </dependency>
         #end
 
@@ -60,17 +88,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.bitbucket.gt_tech</groupId>
+            <artifactId>spring-data-querydsl-value-operators</artifactId>
+            <version>4.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
-            <scope>provided</scope>
+            <version>${querydsl.version}</version>
         </dependency>
 
     </dependencies>
     <build>
         <plugins>
-            #if($entityMysql)
+
+            #if(${entityStorePolicy.isAvailable()})
                 <plugin>
                     <groupId>com.mysema.maven</groupId>
                     <artifactId>apt-maven-plugin</artifactId>
@@ -82,7 +115,14 @@
                             </goals>
                             <configuration>
                                 <outputDirectory>target/generated-sources/java</outputDirectory>
-                                <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                                <processors>
+                                    #if($entityJpa)
+                                        <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+                                    #end
+                                    #if($entityMongo)
+                                        <processor>com.querydsl.apt.morphia.MorphiaAnnotationProcessor</processor>
+                                    #end
+                                </processors>
                             </configuration>
                         </execution>
                     </executions>
@@ -95,6 +135,7 @@
                     </dependencies>
                 </plugin>
             #end
+
         </plugins>
     </build>
 </project>

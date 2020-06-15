@@ -1,17 +1,16 @@
 package org.ibs.cds.gode.entity.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.ibs.cds.gode.entity.store.IStoreType;
-import org.ibs.cds.gode.entity.store.StoreEntity;
 import org.ibs.cds.gode.entity.store.StoreType;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.Date;
 
 @MappedSuperclass
-public class MinionEntity extends StoreEntity<Long> implements Serializable {
+public class MinionEntity extends JPAEntity<Long> implements Serializable {
 
 
     public Long getArtifactId() {
@@ -55,22 +54,22 @@ public class MinionEntity extends StoreEntity<Long> implements Serializable {
     }
 
     @Override @JsonIgnore
-    public OffsetDateTime getCreatedOn() {
+    public Date getCreatedOn() {
         return super.getCreatedOn();
     }
 
     @Override @JsonIgnore
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(Date createdOn) {
         super.setCreatedOn(createdOn);
     }
 
     @Override @JsonIgnore
-    public OffsetDateTime getUpdatedOn() {
+    public Date getUpdatedOn() {
         return super.getUpdatedOn();
     }
 
     @Override @JsonIgnore
-    public void setUpdatedOn(OffsetDateTime updatedOn) {
+    public void setUpdatedOn(Date updatedOn) {
         super.setUpdatedOn(updatedOn);
     }
 
@@ -85,7 +84,7 @@ public class MinionEntity extends StoreEntity<Long> implements Serializable {
     }
 
     @Override @JsonIgnore
-    public IStoreType getStoreType() {
+    public StoreType getStoreType() {
         return StoreType.JPA;
     }
 }

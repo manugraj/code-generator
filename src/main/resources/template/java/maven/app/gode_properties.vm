@@ -14,6 +14,15 @@ gode.datastore.jpa.datasource.auto-schema-management=update
 gode.datastore.jpa.enabled=false
 #end
 
+
+#if($storeRequirement.containsKey($StoreType.valueOf("MONGODB")))
+gode.datastore.mongodb.enabled=true
+gode.datastore.mongodb.uri=
+gode.datastore.mongodb.database.name=
+#else
+gode.datastore.mongodb.enabled=false
+#end
+
 #if($DeploymentRequirement.isCacheNeeded($storeRequirement))
 gode.cache.ignite.enabled=true
 gode.cache.ignite.name=${appName}cache
