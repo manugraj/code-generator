@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import $storeEssentials.repo.fqn();
 
 @Repository
-public interface ${entityGivenName}Repo extends $storeEssentials.repo.name<${entityGivenName},$idFieldType> {}
+@$storeEssentials.repoAnnotation.fqn()
+public interface ${entityGivenName}StoreRepo extends $storeEssentials.repo.name<${entityGivenName},$idFieldType> {}
 
 

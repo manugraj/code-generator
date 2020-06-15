@@ -11,17 +11,21 @@
 package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
 
 
-import $storeEssentials.repository.fqn();
-
-
+import org.ibs.cds.gode.entity.cache.repo.CacheableRepository;
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$entityGivenName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ${entityGivenName}StoreRepository extends ${storeEssentials.repository.name}<$entityGivenName,$idFieldType, ${entityGivenName}StoreRepo> {
+public class ${entityGivenName}CacheRepository extends CacheableRepository<${entityGivenName},$idFieldType,${entityGivenName}CacheRepo> {
+
     @Autowired
-    public ${entityGivenName}StoreRepository(${entityGivenName}StoreRepo repo) {
+    public ${entityGivenName}CacheRepository(${entityGivenName}CacheRepo repo) {
         super(repo);
+    }
+
+    @Override
+    public ${entityGivenName} findByAppId(Long appId) {
+        return null;
     }
 }

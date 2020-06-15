@@ -1,0 +1,19 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($storeEssentials = $StoreUtils.essential(${entityStorePolicy.policy.storeName.storeType}))
+
+package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
+
+import org.apache.ignite.springdata20.repository.config.RepositoryConfig;
+import org.ibs.cds.gode.entity.cache.MarkCacheRepo;
+import org.ibs.cds.gode.entity.cache.repo.CacheRepo;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$entityGivenName;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@MarkCacheRepo
+@RepositoryConfig(cacheName = "${entityName}cache")
+public interface ${entityGivenName}CacheRepo extends CacheRepo<${entityGivenName},$idFieldType> {}
+
+

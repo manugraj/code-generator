@@ -1,9 +1,10 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
-#set($storedEntity = ${entityStorePolicy.isAvailable()})
+#set($storedEntity = ${entityStorePolicy.hasDatabase()})
 #set($idFieldName = $ENTITY.getIdField().getObject().getName())
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($isCached = ${entityStorePolicy.isCached()})
 #if($storedEntity)
     #set($storeType = ${entityStorePolicy.policy.storeName.storeType})
     #set($storeEssentials = ${StoreUtils.essential($storeType)})
@@ -29,8 +30,12 @@ import org.ibs.cds.gode.entity.view.EntityView;
 @org.mongodb.morphia.annotations.Entity
 #end
 @Data
-#if($storedEntity)
+#if($storedEntity && $isCached)
+    public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType> implements org.ibs.cds.gode.entity.cache.CacheableEntity<$idFieldType>
+#elseif($storedEntity)
     public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType>
+#elseif($isCached)
+    public class $entityGivenName extends org.ibs.cds.gode.entity.cache.CacheEntity<$idFieldType>
 #else
     public class $entityGivenName extends EntityView<$idFieldType>
 #end

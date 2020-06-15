@@ -29,6 +29,14 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, Stor
         return this.policy != null && !this.policy.isVolatileEntity();
     }
 
+    public boolean hasDatabase(){
+        return isAvailable() && this.policy.getStoreName() != null;
+    }
+
+    public boolean isCached(){
+        return isAvailable() && this.policy.isCached();
+    }
+
     public StorePolicy process(EntitySpec spec, BuildModel buildModel) {
         Assert.notNull(spec);
         Set<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();

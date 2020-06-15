@@ -33,6 +33,7 @@ public class Test {
         state2.setOpsLevel(new OperationLevel(Level.HIGH, Level.MEDIUM, Level.LOW, false, false));
         EntityStateStore test2 = new EntityStateStore();
         test2.setStoreName(StoreName.MONGODB);
+        test2.setCached(true);
         state2.setEntityStateStore(test2);
 
         EntitySpec entitySpec = new EntitySpec();
@@ -59,7 +60,7 @@ public class Test {
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
-        app.setVersion(2L);
+        app.setVersion(5L);
         app.setEntities(List.of(entitySpec,entitySpec2));
         app.setFunctions(List.of(function));
 

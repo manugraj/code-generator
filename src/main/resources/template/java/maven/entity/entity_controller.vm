@@ -26,7 +26,7 @@ import org.ibs.cds.gode.util.APIArgument;
 
 @Endpoint
 @Api(tags = {"${entityGivenName}"})
-public class ${entityGivenName}StateController extends EntityStoreStateChangeEndpoint<${entityGivenName},${entityGivenName},${entityGivenName}Manager,$idFieldType> {
+public class ${entityGivenName}StateController extends EntityStateEndPoint<${entityGivenName},${entityGivenName},${entityGivenName}Manager,$idFieldType> {
 
     private final static String SAVE = "/${entityName}/save";
     private final static String DEACTIVATE = "/${entityName}/deactivate";

@@ -9,6 +9,8 @@
     "JPA")
 #set($entityMongo=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() ==
     "MONGODB")
+#set($entityStored=${ENTITY.getStorePolicy().isAvailable()})
+#set($entityCached=${ENTITY.getStorePolicy().isCached()})
 
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -40,6 +42,13 @@
             <artifactId>gode-common</artifactId>
             <version>${gode.version}</version>
         </dependency>
+        #if($entityCached)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>gode-cache</artifactId>
+                <version>${gode.version}</version>
+            </dependency>
+        #end
 
         #if($entityMysql)
             <dependency>
@@ -47,7 +56,6 @@
                 <artifactId>mysql-connector-java</artifactId>
             </dependency>
         #end
-
 
         #if($entityJpa)
             <dependency>
