@@ -2,6 +2,7 @@
 #set($projectVersion=${APP.getVersion()})
 #set($projectName=${CodeAppUtil.containerAppName($APP).toLowerCase()})
 #set($monitorName=${CodeAppUtil.adminAppName($APP).toLowerCase()})
+#set($storeRequirement=${DeploymentRequirement.getStoreRequirements($APP)})
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -39,5 +40,8 @@
         <graphql.tools.version>5.2.4</graphql.tools.version>
         <dl4j.version>0.9.1</dl4j.version>
         <admin.version>2.2.2</admin.version>
+    #if($DeploymentRequirement.isCacheNeeded($storeRequirement))
+        <h2.version>1.4.197</h2.version>
+    #end
     </properties>
 </project>
