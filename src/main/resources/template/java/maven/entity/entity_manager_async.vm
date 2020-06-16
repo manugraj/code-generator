@@ -1,0 +1,62 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($entityStateStored=${ENTITY.getStorePolicy().isAvailable()})
+#set($entityStored=${ENTITY.getStorePolicy().isAvailable()} && ${ENTITY.getStorePolicy().getPolicy().hasStore()})
+#set($entityCached=$entityStateStored && ${ENTITY.getStorePolicy().getPolicy().isCached()})
+
+package $DEFAULT__ENTITY_MANAGER_DIRECTORY.value;
+
+#if($entityStateStored)
+import org.springframework.beans.factory.annotation.Autowired;
+    #if($entityStored)
+    import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}StoreRepository;
+    #end
+    #if($entityCached)
+    import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}CacheRepository;
+    #end
+#end
+import org.ibs.cds.gode.queue.manager.QueueRepository;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
+import org.springframework.stereotype.Service;
+import java.util.Optional;
+
+@Service
+#if($entityStorePolicy.isAvailable())
+public class ${entityGivenName}Manager extends AsyncEntityManager<${entityGivenName}, ${entityGivenName}, $idFieldType> {
+#else
+public class ${entityGivenName}Manager extends EntityViewManager<${entityGivenName},  $idFieldType> {
+#end
+
+#if($entityStateStored)
+@Autowired
+
+    #if($entityStored && $entityCached)
+    public ${entityGivenName}Manager(${entityGivenName}StoreRepository stateRespository, ${entityGivenName}CacheRepository cacheRespository,QueueRepository queueRepository) {
+        super("${entityName}", stateRespository, cacheRespository,queueRepository);
+    }
+    #elseif($entityStored)
+    public ${entityGivenName}Manager(${entityGivenName}StoreRepository stateRespository, QueueRepository queueRepository) {
+        super("${entityName}", stateRespository, null, queueRepository);
+    }
+    #elseif($entityCached)
+    public ${entityGivenName}Manager(${entityGivenName}CacheRepository cacheRespository, QueueRepository queueRepository) {
+        super("${entityName}", null, cacheRespository, queueRepository);
+    }
+    #end
+
+
+@Override
+public Optional<${entityGivenName}> transformEntity(Optional<${entityGivenName}> entity) {
+return entity;
+}
+
+@Override
+public Optional<${entityGivenName}> transformView(Optional<${entityGivenName}> entity) {
+return entity;
+}
+#end
+
+
+}

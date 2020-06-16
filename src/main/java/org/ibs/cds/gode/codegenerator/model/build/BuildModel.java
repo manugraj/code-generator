@@ -17,6 +17,7 @@ public class BuildModel {
     private Set<EntityStorePolicy> entityStorePref;
     private Specification app;
     private boolean secure;
+    private boolean systemQueue;
 
     public BuildModel() {
         this.entityStorePref = new HashSet<>();

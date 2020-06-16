@@ -34,7 +34,7 @@
     "name": "Account",
     "state": {
       "entityStateStore": {
-        "asyncStoreSync": false,
+        "asyncStoreSync": true,
         "cached": true,
         "storeName": "MONGODB"
       },

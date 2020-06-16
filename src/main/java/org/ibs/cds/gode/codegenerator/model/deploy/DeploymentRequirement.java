@@ -26,4 +26,8 @@ public class DeploymentRequirement {
     public static boolean isCacheNeeded(Map<StoreType, Set<StorePolicy>> container){
        return container.values().stream().flatMap(k->k.stream().filter(StorePolicy::isCached)).count() > 0;
     }
+
+    public static boolean isQueueManagerNeeded(Map<StoreType, Set<StorePolicy>> container){
+        return container.values().stream().flatMap(k->k.stream().filter(StorePolicy::isAsyncStoreSync)).count() > 0;
+    }
 }

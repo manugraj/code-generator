@@ -9,15 +9,22 @@
     },
     "localDeploymentRequired": {
       "jpaDialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
-      "jpaDriver": "com.mysql.cj.jdbc.Driver",
-      "jpaUsername": "dev-user",
-      "jpaPassword": "dev-user",
-      "appPort" : "9999",
-      "adminPort": "8888",
+      "appPort": "9999",
       "jpaUrl": "jdbc:mysql://localhost:3306/wynss_dev_r22",
       "mongoDatabaseName": "test_db",
-      "mongoUri" : "mongodb://dev-user:dev-user@localhost:27017/test_db",
-      "mediaServer" : "docs"
+      "queueSecurity": "true",
+      "mongoUri": "monagodb://dev-user:dev-user@localhost:27017/test_db",
+      "jpaPassword": "dev-user",
+      "mediaServer": "docs",
+      "jpaDriver": "com.mysql.cj.jdbc.Driver",
+      "jpaUsername": "dev-user",
+      "generalQueue": "aym6t6gy-general",
+      "queueGroupId": "aym6t6gy-consumers",
+      "queuePrefix": "aym6t6gy-",
+      "queueSecurityMechanism": "SCRAM-SHA-256",
+      "adminPort": "8888",
+      "queueSecurityMechanismJaas": "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"aym6t6gy\" password=\"l07Kuo6lHlcQmOo-PROE6JkEBe3RQ9Vp\";",
+      "queueServer": "moped-01.srvs.cloudkafka.com:9094,moped-02.srvs.cloudkafka.com:9094,moped-03.srvs.cloudkafka.com:9094"
     },
     "type": "LOCAL"
   }

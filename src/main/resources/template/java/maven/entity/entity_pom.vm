@@ -4,6 +4,7 @@
 #set($projectName=${CodeAppUtil.containerAppName($app).toLowerCase()})
 #set($projectVersion=${app.getVersion()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($isAsync=${ENTITY.getStorePolicy().isAsync()})
 #set($entityMysql=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName() == "MYSQL")
 #set($entityJpa=$entityStorePolicy.isAvailable() && $entityStorePolicy.getPolicy().getStoreName().getStoreType() ==
     "JPA")
@@ -42,6 +43,15 @@
             <artifactId>gode-common</artifactId>
             <version>${gode.version}</version>
         </dependency>
+
+        #if($isAsync)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>gode-queue</artifactId>
+                <version>${gode.version}</version>
+            </dependency>
+        #end
+
         #if($entityCached)
             <dependency>
                 <groupId>$DEFAULT_GROUP_ID.value</groupId>

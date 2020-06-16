@@ -37,6 +37,10 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, Stor
         return isAvailable() && this.policy.isCached();
     }
 
+    public boolean isAsync(){
+        return  isAvailable() && this.policy.isAsyncStoreSync();
+    }
+
     public StorePolicy process(EntitySpec spec, BuildModel buildModel) {
         Assert.notNull(spec);
         Set<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();

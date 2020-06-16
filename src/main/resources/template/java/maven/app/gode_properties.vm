@@ -23,6 +23,28 @@ gode.datastore.mongodb.database.name=
 gode.datastore.mongodb.enabled=false
 #end
 
+#if(${APP.systemQueue} || $DeploymentRequirement.isQueueManagerNeeded($storeRequirement))
+gode.queue.kafka.enabled=true
+gode.queue.general=
+gode.queue.kafka.servers=
+gode.queue.kafka.groupId=
+gode.queue.kafka.acknowledgement=all
+gode.queue.kafka.retries=3
+gode.queue.kafka.batchSizeConfig=16384
+gode.queue.kafka.linger=1
+gode.queue.kafka.bufferMemoryConfig=33554432
+gode.queue.kafka.autoCommit=true
+gode.queue.kafka.autoCommitInterval=1000
+gode.queue.kafka.offsetReset=earliest
+gode.queue.kafka.sesssionTimeout=30000
+gode.queue.kafka.pollInterval=60
+gode.queue.kafka.security.sasl=
+gode.queue.kafka.security.mechanism=
+gode.queue.kafka.security.jaas=
+#else
+gode.queue.kafka.enabled=false
+#end
+
 #if($DeploymentRequirement.isCacheNeeded($storeRequirement))
 gode.cache.ignite.enabled=true
 gode.cache.ignite.name=${appName}cache

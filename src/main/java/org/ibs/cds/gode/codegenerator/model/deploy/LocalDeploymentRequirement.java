@@ -52,12 +52,32 @@ public enum LocalDeploymentRequirement {
     REFRESH_TOKEN_EXPIRY(CodeApp::isSecure, "refreshTokenExpiryTime", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "gode.security.token.refresh.expiry")),
 
-
     APP_PORT(c -> true, "appPort", FieldType.NUMBER,
             of(CodeGenerationComponent.ComponentName.APP, "server.port")),
 
     MEDIA_SERVER_LOC(c -> true, "mediaServer", FieldType.TEXT,
             of(CodeGenerationComponent.ComponentName.APP, "gode.media.store.location")),
+
+    QUEUE_PREFIX(requireQueueServer(), "queuePrefix", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.context.prefix")),
+
+    QUEUE_SERVER(requireQueueServer(), "queueServer", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.kafka.servers")),
+
+    GENERAL_QUEUE(requireQueueServer(), "generalQueue", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.general")),
+
+    QUEUE_GROUP_ID(requireQueueServer(), "queueGroupId", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.kafka.groupId")),
+
+    QUEUE_SECURITY(requireQueueServer(), "queueSecurity", FieldType.BOOLEAN,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.kafka.security.sasl")),
+
+    QUEUE_SECURITY_MECHANISM(requireQueueServer(), "queueSecurityMechanism", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.kafka.security.mechanism")),
+
+    QUEUE_SECURITY_MECHANISM_JAAS(requireQueueServer(), "queueSecurityMechanismJaas", FieldType.TEXT,
+            of(CodeGenerationComponent.ComponentName.APP, "gode.queue.kafka.security.jaas")),
 
     ;
 
@@ -90,6 +110,11 @@ public enum LocalDeploymentRequirement {
     @NotNull
     private static Predicate<CodeApp> requireMongoDB() {
         return c -> DeploymentRequirement.getStoreRequirements(c).containsKey(StoreType.MONGODB);
+    }
+
+    @NotNull
+    private static Predicate<CodeApp> requireQueueServer() {
+        return c -> c.isSystemQueue() || DeploymentRequirement.isQueueManagerNeeded(DeploymentRequirement.getStoreRequirements(c));
     }
 
     @JsonIgnore

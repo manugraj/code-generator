@@ -46,6 +46,7 @@ public class Test {
         state2.setOpsLevel(new OperationLevel(Level.HIGH, Level.MEDIUM, Level.LOW, false, false));
         EntityStateStore test2 = new EntityStateStore();
         test2.setStoreName(StoreName.MONGODB);
+        test2.setAsyncStoreSync(true);
         test2.setCached(true);
         state2.setEntityStateStore(test2);
 

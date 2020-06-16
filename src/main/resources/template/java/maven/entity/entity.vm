@@ -4,6 +4,7 @@
 #set($projectName=${CodeAppUtil.containerAppName($app).toLowerCase()})
 #set($entityStateStored=${ENTITY.getStorePolicy().isAvailable()})
 #set($hasDB=${ENTITY.getStorePolicy().hasDatabase()})
+#set($isAsync=${ENTITY.getStorePolicy().isAsync()})
 #set($isCached=$entityStateStored && ${ENTITY.getStorePolicy().isCached()})
 #set($javaPath = ${CodeAppUtil.javaPath()})
 #set($objects = ${ENTITY.getObjectFields()})
@@ -16,10 +17,17 @@ configuration:
     path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_type.vm
     buildable: false
+#if($isAsync)
+  - name: ${entityGivenName}Manager.java
+    path: ${DEFAULT__ENTITY_MANAGER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_manager_async.vm
+    buildable: false
+#else
   - name: ${entityGivenName}Manager.java
     path: ${DEFAULT__ENTITY_MANAGER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_manager.vm
     buildable: false
+#end
   - name: ${entityGivenName}ProcessController.java
     path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_view_controller.vm
