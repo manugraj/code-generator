@@ -1,0 +1,24 @@
+#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($storedEntity = ${entityStorePolicy.hasDatabase()})
+#if($storedEntity)
+    #set($storeType = ${entityStorePolicy.policy.storeName.storeType})
+    #set($storeEssentials = ${StoreUtils.essential($storeType)})
+#end
+#set($object = $Channel.get("object"))
+package $DEFAULT__ENTITY_TYPE_DIRECTORY.value;
+
+import lombok.Data;
+
+@Data
+#if($storeEssentials && $storeEssentials.isJPA())
+@javax.persistence.Embeddable
+#end
+public class $object.name {
+
+
+    #foreach($objField in $object.fields)
+        #set($fieldName = $objField.getName())
+        #set($fieldType = $objField.getFQN())
+    private $fieldType $fieldName;
+    #end
+}

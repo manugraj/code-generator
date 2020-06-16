@@ -1,5 +1,6 @@
 package org.ibs.cds.gode.codegenerator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.ibs.cds.gode.codegenerator.artefact.Buildable;
 import org.ibs.cds.gode.codegenerator.config.CodeGenerationComponent;
@@ -10,8 +11,7 @@ import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.codegenerator.spec.UsageSpec;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -40,5 +40,15 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
     @Override
     public ComponentName getComponentName() {
         return ComponentName.APP;
+    }
+
+    @JsonIgnore
+    public List<CodeObjectField> getObjectFields(){
+        List<CodeEntity> entities = new ArrayList<>();
+        entities.addAll(this.entities);
+        entities.addAll(dependencies);
+        return entities.stream().flatMap(e->e.getFields().stream())
+                .map(CodeEntityField::getObjectField).filter(Objects::nonNull)
+                .collect(Collectors.toUnmodifiableList());
     }
 }

@@ -19,6 +19,19 @@ public class Test {
         field.setName("name");
         field.setType(FieldType.TEXT);
 
+
+        EntityField of = new EntityField();
+        of.setName("test");
+        of.setType(FieldType.TEXT);
+
+        EntityField obj = new EntityField();
+        obj.setType(FieldType.OBJECT);
+        obj.setName("object");
+        ObjectType type = new ObjectType();
+        type.setName("Sample");
+        type.setFields(Set.of(of));
+        obj.setObjectType(type);
+
         IdField idField = new IdField();
         idField.setName("eid");
         idField.setType(FieldType.TEXT);
@@ -36,11 +49,13 @@ public class Test {
         test2.setCached(true);
         state2.setEntityStateStore(test2);
 
+
+
         EntitySpec entitySpec = new EntitySpec();
         entitySpec.setName("Entity1");
         entitySpec.setDescription("Entity 1 descr");
         entitySpec.setVersion(2L);
-        entitySpec.setFields(Set.of(field));
+        entitySpec.setFields(Set.of(field,obj));
         entitySpec.setIdField(idField);
         entitySpec.setState(state);
 

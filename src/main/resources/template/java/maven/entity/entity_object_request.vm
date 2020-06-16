@@ -1,0 +1,14 @@
+#set($object = $Channel.get("objectRequest"))
+#set($entityGivenName=${ENTITY.getName()})
+#set($gqlPackage=${DEFAULT__ENTITY_GQL_DIRECTORY.value})
+#set($entityPackage=${DEFAULT__ENTITY_TYPE_DIRECTORY.value})
+
+package ${gqlPackage};
+
+import ${entityPackage}.${object.name};
+
+public class ${object.name}Request extends ${object.name} {
+
+
+}
+
