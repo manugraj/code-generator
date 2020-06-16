@@ -1,46 +1,58 @@
 package org.ibs.cds.gode.entity.manager;
 
+import org.ibs.cds.gode.entity.repo.AppRepository;
 import org.ibs.cds.gode.entity.repo.BuildDataRepository;
+import org.ibs.cds.gode.entity.repo.RepoType;
 import org.ibs.cds.gode.entity.type.BuildData;
 import org.ibs.cds.gode.pagination.PageContext;
 import org.ibs.cds.gode.pagination.PagedData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class BuildDataManager extends StoredStateEntityManager<BuildData, BuildData, Long, BuildDataRepository> {
+public class BuildDataManager extends EntityManager<BuildData, BuildData, Long> {
 
     @Autowired
     public BuildDataManager(BuildDataRepository repo) {
-        super(repo);
+        super(repo,null);
     }
 
-    @Override
-    public BuildData transformEntity(BuildData entity) {
-        return entity;
-    }
 
-    @Override
-    public BuildData transformView(BuildData entity) {
-        return entity;
-    }
 
     public BuildData findLatestBuild(String appName, Long appVersion){
+        BuildDataRepository repo = repository.get();
         return repo.findLatestBuild(appName, appVersion);
     }
 
     public PagedData<BuildData> findBuild(String appName, Long appVersion, PageContext context){
+        BuildDataRepository repo = repository.get();
         return repo.findBuild(appName, appVersion, context);
     }
 
     @Override
-    public BuildData doSave(BuildData entity) {
-        BuildData data = this.findLatestBuild(entity.getApp().getName(), entity.getApp().getVersion());
-        if (data != null) {
-            data.setLatest(false);
-            this.repo.save(data);
-        }
-        entity.setLatest(true);
-        return super.doSave(entity);
+    public Optional<BuildData> doSave(Optional<BuildData> entityOps) {
+       return entityOps.map(entity->{
+            BuildData data = this.findLatestBuild(entity.getApp().getName(), entity.getApp().getVersion());
+            if (data != null) {
+                data.setLatest(false);
+                BuildDataRepository repo = repository.get();
+                repo.save(data);
+            }
+            entity.setLatest(true);
+            return super.doSave(Optional.of(entity));
+        }).orElse(Optional.empty());
+
+    }
+
+    @Override
+    public Optional<BuildData> transformEntity(Optional<BuildData> buildData) {
+        return buildData;
+    }
+
+    @Override
+    public Optional<BuildData> transformView(Optional<BuildData> entity) {
+        return entity;
     }
 }
