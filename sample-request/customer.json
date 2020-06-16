@@ -22,6 +22,25 @@
           "INDEX"
         ],
         "type": "NUMBER"
+      },
+      {
+        "description": "Customer Address",
+        "name": "address",
+        "properties": [
+          "INDEX"
+        ],
+        "type": "OBJECT",
+        "objectType": {
+          "description": "Address object",
+          "fields": [
+            {
+              "description": "Complete address",
+              "name": "addressComplete",
+              "type": "TEXT"
+            }
+          ],
+          "name": "Address"
+        }
       }
     ],
     "idField": {

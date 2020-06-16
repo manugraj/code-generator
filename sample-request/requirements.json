@@ -1,0 +1,12 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "app": {
+      "name": "CustomerCare",
+      "version": 2
+    },
+    "type": "LOCAL"
+  }
+}

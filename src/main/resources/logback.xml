@@ -34,11 +34,10 @@
 		</rollingPolicy>
 	</appender>
 
-		<logger name="org.ibs" level="DEBUG" additivity="false">
+		<logger name="org.ibs.cds.gode" level="DEBUG" additivity="false">
 			<appender-ref ref="LogFile" />
-			<appender-ref ref="Console" />
 		</logger>
-		<root level="DEBUG">
+		<root level="ERROR">
 			<appender-ref ref="LogFile" />
 		</root>
 

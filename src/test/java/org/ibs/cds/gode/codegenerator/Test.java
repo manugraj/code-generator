@@ -19,6 +19,19 @@ public class Test {
         field.setName("name");
         field.setType(FieldType.TEXT);
 
+
+        EntityField of = new EntityField();
+        of.setName("test");
+        of.setType(FieldType.TEXT);
+
+        EntityField obj = new EntityField();
+        obj.setType(FieldType.OBJECT);
+        obj.setName("object");
+        ObjectType type = new ObjectType();
+        type.setName("Sample");
+        type.setFields(Set.of(of));
+        obj.setObjectType(type);
+
         IdField idField = new IdField();
         idField.setName("eid");
         idField.setType(FieldType.TEXT);
@@ -33,13 +46,16 @@ public class Test {
         state2.setOpsLevel(new OperationLevel(Level.HIGH, Level.MEDIUM, Level.LOW, false, false));
         EntityStateStore test2 = new EntityStateStore();
         test2.setStoreName(StoreName.MONGODB);
+        test2.setCached(true);
         state2.setEntityStateStore(test2);
+
+
 
         EntitySpec entitySpec = new EntitySpec();
         entitySpec.setName("Entity1");
         entitySpec.setDescription("Entity 1 descr");
         entitySpec.setVersion(2L);
-        entitySpec.setFields(Set.of(field));
+        entitySpec.setFields(Set.of(field,obj));
         entitySpec.setIdField(idField);
         entitySpec.setState(state);
 
@@ -59,7 +75,7 @@ public class Test {
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
-        app.setVersion(2L);
+        app.setVersion(5L);
         app.setEntities(List.of(entitySpec,entitySpec2));
         app.setFunctions(List.of(function));
 

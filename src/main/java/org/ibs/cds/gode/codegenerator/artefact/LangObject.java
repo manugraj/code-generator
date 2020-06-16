@@ -3,14 +3,18 @@ package org.ibs.cds.gode.codegenerator.artefact;
 import org.ibs.cds.gode.codegenerator.spec.ProgLanguage;
 import org.ibs.cds.gode.util.Assert;
 
-public interface LangObject<T extends Artefact>{
+public interface LangObject<T extends Artefact> {
 
-    default String getFQN(){
+    default String getFQN() {
         Assert.notNull(getArtefact());
         return getArtefact().getFQN();
-    };
+    }
 
-   T getArtefact();
-   String getName();
-   ProgLanguage getLanguage();
+
+
+    T getArtefact();
+
+    String getName();
+
+    ProgLanguage getLanguage();
 }

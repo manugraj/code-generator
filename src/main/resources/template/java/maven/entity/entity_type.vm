@@ -1,9 +1,10 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
-#set($storedEntity = ${entityStorePolicy.isAvailable()})
+#set($storedEntity = ${entityStorePolicy.hasDatabase()})
 #set($idFieldName = $ENTITY.getIdField().getObject().getName())
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($isCached = ${entityStorePolicy.isCached()})
 #if($storedEntity)
     #set($storeType = ${entityStorePolicy.policy.storeName.storeType})
     #set($storeEssentials = ${StoreUtils.essential($storeType)})
@@ -20,7 +21,11 @@ import $storeEssentials.idAnnotation.fqn();
 import org.ibs.cds.gode.entity.view.EntityView;
 #end
 
-
+#if($isCached)
+import org.ibs.cds.gode.entity.cache.KeyId;
+import org.ibs.cds.gode.entity.cache.CacheableEntity;
+import org.ibs.cds.gode.entity.cache.CacheEntity;
+#end
 
 #if($storedEntity)
 @$storeEssentials.entityAnnotation.name
@@ -29,17 +34,26 @@ import org.ibs.cds.gode.entity.view.EntityView;
 @org.mongodb.morphia.annotations.Entity
 #end
 @Data
-#if($storedEntity)
-    public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType>
+#if($storedEntity && $isCached)
+    public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType> implements CacheableEntity<$idFieldType> {
+        private @$storeEssentials.idAnnotation.name @KeyId $idFieldType $idFieldName;
+#elseif($storedEntity)
+    public class $entityGivenName extends $storeEssentials.entityType.name<$idFieldType> {
+        private @$storeEssentials.idAnnotation.name $idFieldType $idFieldName;
+#elseif($isCached)
+    public class $entityGivenName extends CacheEntity<$idFieldType> {
+        private @KeyId $idFieldType $idFieldName;
 #else
-    public class $entityGivenName extends EntityView<$idFieldType>
+    public class $entityGivenName extends EntityView<$idFieldType> {
+        private $idFieldType $idFieldName;
 #end
-{
 
-    private @$storeEssentials.idAnnotation.name $idFieldType $idFieldName;
     #foreach($field in $ENTITY.fields)
         #set($fieldName = $field.getObject().getName())
         #set($fieldType = $field.getObject().getFQN())
+     #if($field.objectField && $storeEssentials.isJPA())
+     @javax.persistence.Embedded
+     #end
     private $fieldType $fieldName;
     #end
 

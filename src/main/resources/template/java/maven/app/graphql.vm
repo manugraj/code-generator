@@ -1,3 +1,4 @@
+#set($objects = $APP.getObjectFields())
 type Query{
 #foreach($entity in $APP.entities)
 find${entity.name}(id :ID) :${entity.name}
@@ -33,10 +34,31 @@ type ${entity.name}{
 input ${entity.name}Request {
     ${entity.idField.object.name} : ID
     #foreach ($field in ${entity.fields})
-        $field.object.name :$field.graphQLType
+        #if($field.objectField)
+            $field.object.name :${field.graphQLType}Request
+        #else
+            $field.object.name :$field.graphQLType
+        #end
     #end
 }
 #end
+
+#foreach($object in $objects)
+type ${object.name}{
+    #foreach ($graphType in ${object.graphQLTypes})
+        $graphType.left : $graphType.right
+    #end
+}
+
+input ${object.name}Request{
+    #foreach ($graphType in ${object.graphQLTypes})
+        $graphType.left : $graphType.right
+    #end
+}
+#end
+
+
+
 
 #foreach($dependency in $APP.dependencies)
 type ${dependency.name}{

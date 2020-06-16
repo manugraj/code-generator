@@ -14,7 +14,11 @@ public enum PathPackage {
     DEFAULT__ENTITY_DIRECTORY(DEFAULT_DIRECTORY.getValue().concat(".entity"),true),
     DEFAULT__ENTITY_TYPE_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".type"),true),
     DEFAULT__ENTITY_MANAGER_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".manager"),true),
+
     DEFAULT__ENTITY_REPO_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".repo"),true),
+    DEFAULT__ENTITY_STORE_REPO_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".store.repo"),true),
+    DEFAULT__ENTITY_CACHE_REPO_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".cache.repo"),true),
+
     DEFAULT__ENTITY_CONTROLLER_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".controller"),true),
     DEFAULT__ENTITY_GQL_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".gql"),true),
     DEFAULT__APP_DIRECTORY(DEFAULT_DIRECTORY.getValue().concat(".app"),true),

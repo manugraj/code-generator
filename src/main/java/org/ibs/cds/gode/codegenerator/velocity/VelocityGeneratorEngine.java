@@ -36,6 +36,7 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
         this.context = new VelocityContext();
         context.put("StringUtils", StringUtils.class);
         context.put("GodeConstant", GodeConstant.class);
+        context.put("Channel",VelocityChannel.class);
         this.buildable = new HashSet();
         this.repo = repo;
     }

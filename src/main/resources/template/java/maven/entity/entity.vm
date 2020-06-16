@@ -2,8 +2,11 @@
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityGivenName=${ENTITY.getName()})
 #set($projectName=${CodeAppUtil.containerAppName($app).toLowerCase()})
-#set($entityStorePolicy=${ENTITY.getStorePolicy()})
+#set($entityStateStored=${ENTITY.getStorePolicy().isAvailable()})
+#set($hasDB=${ENTITY.getStorePolicy().hasDatabase()})
+#set($isCached=$entityStateStored && ${ENTITY.getStorePolicy().isCached()})
 #set($javaPath = ${CodeAppUtil.javaPath()})
+#set($objects = ${ENTITY.getObjectFields()})
 configuration:
   - name: pom.xml
     path: ${PathPackage.path($projectName,$entityName)}
@@ -21,15 +24,24 @@ configuration:
     path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_view_controller.vm
     buildable: false
-#if($entityStorePolicy.isAvailable())
-  - name: ${entityGivenName}Repo.java
+#foreach($object in $objects)
+$Channel.put("object", $object)
+  - name: ${object.name}.java
+    path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_object.vm
+    buildable: false
+#end
+#if($hasDB)
+  - name: ${entityGivenName}StoreRepo.java
     path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_repo.vm
     buildable: false
-  - name: ${entityGivenName}Repository.java
+  - name: ${entityGivenName}StoreRepository.java
     path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_repository.vm
     buildable: false
+#end
+#if($entityStateStored)
   - name: ${entityGivenName}GraphManager.java
     path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_graph_manager.vm
@@ -38,9 +50,26 @@ configuration:
     path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_graph_request.vm
     buildable: false
+#foreach($object in $objects)
+$Channel.put("objectRequest", $object)
+  - name: ${object.name}Request.java
+    path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_object_request.vm
+    buildable: false
+#end
   - name: ${entityGivenName}StateController.java
     path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_controller.vm
+    buildable: false
+#end
+#if($isCached)
+  - name: ${entityGivenName}CacheRepo.java
+    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_cache_repo.vm
+    buildable: false
+  - name: ${entityGivenName}CacheRepository.java
+    path: ${DEFAULT__ENTITY_REPO_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_cache_repository.vm
     buildable: false
 #end
 

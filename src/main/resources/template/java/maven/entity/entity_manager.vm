@@ -1,40 +1,61 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+#set($entityStateStored=${ENTITY.getStorePolicy().isAvailable()})
+#set($entityStored=${ENTITY.getStorePolicy().isAvailable()} && ${ENTITY.getStorePolicy().getPolicy().hasStore()})
+#set($entityCached=$entityStateStored && ${ENTITY.getStorePolicy().getPolicy().isCached()})
 
 package $DEFAULT__ENTITY_MANAGER_DIRECTORY.value;
 
-#if($entityStorePolicy.isAvailable())
-import org.ibs.cds.gode.entity.manager.StoredStateEntityManager;
+#if($entityStateStored)
 import org.springframework.beans.factory.annotation.Autowired;
+    #if($entityStored)
+    import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}StoreRepository;
+    #end
+    #if($entityCached)
+    import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}CacheRepository;
+    #end
 #end
-import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}Repository;
+
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 #if($entityStorePolicy.isAvailable())
-public class ${entityGivenName}Manager extends StoredStateEntityManager<${entityGivenName}, ${entityGivenName}, $idFieldType, ${entityGivenName}Repository> {
+public class ${entityGivenName}Manager extends EntityManager<${entityGivenName}, ${entityGivenName}, $idFieldType> {
 #else
-public class ${entityGivenName}Manager extends ViewEntityManager<${entityGivenName},  $idFieldType> {
+public class ${entityGivenName}Manager extends EntityViewManager<${entityGivenName},  $idFieldType> {
 #end
 
-  #if($entityStorePolicy.isAvailable())
-  @Autowired
-  public ${entityGivenName}Manager(${entityGivenName}Repository repo) {
-    super(repo);
-  }
+#if($entityStateStored)
+@Autowired
 
-  @Override
-  public ${entityGivenName} transformEntity(${entityGivenName} entity) {
-    return entity;
-  }
+    #if($entityStored && $entityCached)
+    public ${entityGivenName}Manager(${entityGivenName}StoreRepository stateRespository, ${entityGivenName}CacheRepository cacheRespository) {
+    super(stateRespository, cacheRespository);
+    }
+    #elseif($entityStored)
+    public ${entityGivenName}Manager(${entityGivenName}StoreRepository stateRespository) {
+    super(stateRespository, null);
+    }
+    #elseif($entityCached)
+    public ${entityGivenName}Manager(${entityGivenName}CacheRepository cacheRespository) {
+    super(null, cacheRespository);
+    }
+    #end
 
-  @Override
-  public ${entityGivenName} transformView(${entityGivenName} entity) {
-    return entity;
-  }
-  #end
+
+@Override
+public Optional<${entityGivenName}> transformEntity(Optional<${entityGivenName}> entity) {
+return entity;
+}
+
+@Override
+public Optional<${entityGivenName}> transformView(Optional<${entityGivenName}> entity) {
+return entity;
+}
+#end
 
 
 }
