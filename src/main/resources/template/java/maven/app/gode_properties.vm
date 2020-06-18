@@ -45,6 +45,16 @@ gode.queue.kafka.security.jaas=
 gode.queue.kafka.enabled=false
 #end
 
+
+#if(${APP.secure})
+gode.security.jwt.public-key= classpath:public.txt
+gode.security.enabled=true
+#else
+gode.security.enabled=false
+#end
+
+
+
 #if($DeploymentRequirement.isCacheNeeded($storeRequirement))
 gode.cache.ignite.enabled=true
 gode.cache.ignite.name=${appName}cache

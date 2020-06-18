@@ -84,6 +84,7 @@ public class Test {
         model.setProgLanguage(ProgLanguage.JAVA);
         model.setArtifactPackaging(ArtifactPackaging.MAVEN);
         model.setApp(app);
+        model.setSecure(false);
 
         AppCodeGenerator appCodeGenerator = new AppCodeGenerator( app, model );
         appCodeGenerator.generate();

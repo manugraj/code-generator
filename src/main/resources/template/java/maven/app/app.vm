@@ -33,3 +33,9 @@ configuration:
     path: ${PathPackage.path($projectName,$appName, $resourcePath)}
     template: logback.vm
     buildable: false
+#if(${APP.secure})
+  - name: public.txt
+    path: ${PathPackage.path($projectName,$appName, $resourcePath)}
+    template: public_sample_key.vm
+    buildable: false
+#end
