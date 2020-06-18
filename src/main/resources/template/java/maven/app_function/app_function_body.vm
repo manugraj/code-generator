@@ -1,0 +1,12 @@
+#set($function = $Channel.get($key))
+
+package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
+
+public class ${function.name} extends AppFunctionBody<${function.input.name}, ${app.name}Manager, ${function.output.name}>{
+
+    @Override
+    public ${function.output.name} process(${function.input.name} request,
+                                            ${app.name}Manager manager) {
+        return new ${function.output.name}();
+    }
+}

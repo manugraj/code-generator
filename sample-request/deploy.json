@@ -13,7 +13,7 @@
       "jpaUrl": "jdbc:mysql://localhost:3306/wynss_dev_r22",
       "mongoDatabaseName": "test_db",
       "queueSecurity": "true",
-      "mongoUri": "monagodb://dev-user:dev-user@localhost:27017/test_db",
+      "mongoUri": "mongodb://dev-user:dev-user@localhost:27017/test_db",
       "jpaPassword": "dev-user",
       "mediaServer": "docs",
       "jpaDriver": "com.mysql.cj.jdbc.Driver",

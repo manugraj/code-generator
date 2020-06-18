@@ -1,4 +1,4 @@
-#set($object = $Channel.get("objectRequest"))
+#set($object = $Channel.get($key))
 #set($entityGivenName=${ENTITY.getName()})
 #set($gqlPackage=${DEFAULT__ENTITY_GQL_DIRECTORY.value})
 #set($entityPackage=${DEFAULT__ENTITY_TYPE_DIRECTORY.value})

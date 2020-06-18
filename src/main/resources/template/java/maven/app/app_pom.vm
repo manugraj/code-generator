@@ -1,5 +1,6 @@
 #set($appName=${APP.getName().toLowerCase()})
 #set($appVersion=${APP.getVersion()})
+#set($appFunctionName=${APP.appFunction.name.toLowerCase()})
 #set($projectName=${CodeAppUtil.containerAppName($APP).toLowerCase()})
 #set($projectVersion=${APP.getVersion()})
 <?xml version="1.0" encoding="UTF-8"?>
@@ -59,7 +60,6 @@
         <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
             <artifactId>${entity.getName().toLowerCase()}</artifactId>
-            <version>${entity.getVersion()}</version>
         </dependency>
         #end
 
@@ -67,9 +67,13 @@
             <dependency>
                 <groupId>$DEFAULT_GROUP_ID.value</groupId>
                 <artifactId>${dependency.getName().toLowerCase()}</artifactId>
-                <version>${dependency.getVersion()}</version>
             </dependency>
         #end
+
+        <dependency>
+            <groupId>$DEFAULT_GROUP_ID.value</groupId>
+            <artifactId>$appFunctionName</artifactId>
+        </dependency>
 
     </dependencies>
     <build>

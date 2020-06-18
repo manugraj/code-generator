@@ -1,0 +1,33 @@
+#set($projectName=${CodeAppUtil.containerAppName($app).toLowerCase()})
+#set($projectVersion=${app.getVersion()})
+#set($appFunctionName=${APP_FUNCTION.getName().toLowerCase()})
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>$projectName</artifactId>
+        <groupId>$DEFAULT_GROUP_ID.value</groupId>
+        <version>$projectVersion</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>$appFunctionName</artifactId>
+    <version>$projectVersion</version>
+
+    <dependencies>
+        #foreach($entity in $app.entities)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>${entity.getName().toLowerCase()}</artifactId>
+            </dependency>
+        #end
+
+        #foreach($dependency in $app.dependencies)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>${dependency.getName().toLowerCase()}</artifactId>
+            </dependency>
+        #end
+    </dependencies>
+</project>

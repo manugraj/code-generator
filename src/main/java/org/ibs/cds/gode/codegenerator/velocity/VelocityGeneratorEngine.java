@@ -86,6 +86,7 @@ public class VelocityGeneratorEngine<T extends Specification & CodeGenerationCom
         List<GenerateComponent> configurations = generateComponent.getConfiguration();
         for (GenerateComponent generationSpec: configurations) {
             Reader templateReader = getReader(this.engineConfiguration.getBuildConfiguration().getComponentTemplatePath(component), generationSpec.getTemplate());
+            this.context.put("key",generationSpec.getKey());
             String fileOut = this.engineConfiguration.getCodeGenPath().concat(File.separator).concat(File.separator).concat(getRepo()).concat(File.separator).concat(generationSpec.getPath()).concat(File.separator).concat(generationSpec.getName());
             build("Generate ".concat(component.getComponentName().toString().toLowerCase()),templateReader, fileOut);
             if(generationSpec.isBuildable()){

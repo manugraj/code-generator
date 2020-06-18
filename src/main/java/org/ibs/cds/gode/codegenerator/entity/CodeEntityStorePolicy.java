@@ -11,6 +11,7 @@ import org.ibs.cds.gode.entity.type.EntityStorePolicy;
 import org.ibs.cds.gode.util.Assert;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -43,7 +44,7 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, Stor
 
     public StorePolicy process(EntitySpec spec, BuildModel buildModel) {
         Assert.notNull(spec);
-        Set<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();
+        List<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();
         if (CollectionUtils.isEmpty(entityStorePref)) getStorePolicy(spec.getState());
         return entityStorePref.stream()
                 .filter(s -> s.getEntity().getName().equals(spec.getName()) && s.getEntity().getVersion().equals(spec.getVersion()))

@@ -9,6 +9,10 @@ public class CodeAppUtil {
         return app.getName().concat("-container");
     }
 
+    public static String functionAppName(CodeAppFunction function){
+        return function.getName().concat("-container");
+    }
+
     public static String javaPath(){
         return PathPackage.path("src","main","java");
     }

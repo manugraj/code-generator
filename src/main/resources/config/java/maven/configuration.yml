@@ -5,3 +5,5 @@ configuration:
     vmLocation: entity.vm
   - type: ADMIN
     vmLocation: admin_app.vm
+  - type: APP_FUNCTION
+    vmLocation: app_function.vm

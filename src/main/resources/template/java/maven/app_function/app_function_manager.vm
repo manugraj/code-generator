@@ -1,0 +1,27 @@
+package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
+
+#foreach($entity in $app.entities)
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entity.getName()}Manager;
+#end
+#foreach($dependency in $app.dependencies)
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${dependency.getName()}Manager;
+#end
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@Data
+public class ${app.name}Manager{
+
+    #foreach($entity in $app.entities)
+    @Autowired
+    private ${entity.getName()}Manager ${entity.getName().toLowerCase()}Manager;
+    #end
+
+    #foreach($dependency in $app.dependencies)
+    @Autowired
+    private ${dependency.getName()}Manager ${dependency.getName().toLowerCase()}Manager;
+    #end
+
+}

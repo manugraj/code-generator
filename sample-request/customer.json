@@ -41,6 +41,35 @@
           ],
           "name": "Address"
         }
+      },
+      {
+        "description": "Customer Phone",
+        "name": "phoneNumber",
+        "properties": [
+          "INDEX"
+        ],
+        "type": "OBJECT",
+        "objectType": {
+          "description": "Customer Phone",
+          "fields": [
+            {
+              "description": "Home Ph Number",
+              "name": "home",
+              "type": "TEXT"
+            },
+            {
+              "description": "Office Ph Number",
+              "name": "office",
+              "type": "TEXT"
+            },
+            {
+              "description": "Club Ph Number",
+              "name": "club",
+              "type": "TEXT"
+            }
+          ],
+          "name": "PhoneNumber"
+        }
       }
     ],
     "idField": {

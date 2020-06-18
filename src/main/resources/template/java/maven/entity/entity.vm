@@ -33,11 +33,12 @@ configuration:
     template: entity_view_controller.vm
     buildable: false
 #foreach($object in $objects)
-$Channel.put("object", $object)
+$Channel.put("${object.name}Key", $object)
   - name: ${object.name}.java
     path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_object.vm
     buildable: false
+    key: ${object.name}Key
 #end
 #if($hasDB)
   - name: ${entityGivenName}StoreRepo.java
@@ -59,11 +60,12 @@ $Channel.put("object", $object)
     template: entity_graph_request.vm
     buildable: false
 #foreach($object in $objects)
-$Channel.put("objectRequest", $object)
+$Channel.put("${object.name}RequestKey", $object)
   - name: ${object.name}Request.java
     path: ${DEFAULT__ENTITY_GQL_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_object_request.vm
     buildable: false
+    key: ${object.name}RequestKey
 #end
   - name: ${entityGivenName}StateController.java
     path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}

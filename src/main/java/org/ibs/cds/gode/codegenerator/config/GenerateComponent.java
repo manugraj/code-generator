@@ -8,4 +8,5 @@ public class GenerateComponent {
     private String path;
     private String template;
     private boolean buildable;
+    private String key;
 }
