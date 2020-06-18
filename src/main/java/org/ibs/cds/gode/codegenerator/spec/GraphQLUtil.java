@@ -13,6 +13,7 @@ public class GraphQLUtil {
            case DECIMAL: case HIGH_PRECISION_DECIMAL: return "Float";
            case BOOLEAN: return "Boolean";
            case RELATIONSHIP: return field.getRelationship().getName();
+           case DATE: return "Date";
            case OBJECT: return field.getObjectType().getName();
        }
        throw CodeGenerationFailure.DATATYPE_NOT_IDENTIFIED.provide("No specific type identified for GraphQL");

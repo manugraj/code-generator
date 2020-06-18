@@ -37,7 +37,7 @@
 		<logger name="org.ibs.cds.gode" level="DEBUG" additivity="false">
 			<appender-ref ref="LogFile" />
 		</logger>
-		<root level="ERROR">
+		<root level="DEBUG">
 			<appender-ref ref="LogFile" />
 		</root>
 

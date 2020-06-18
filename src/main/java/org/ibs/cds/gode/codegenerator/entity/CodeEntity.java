@@ -1,37 +1,30 @@
 package org.ibs.cds.gode.codegenerator.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.ibs.cds.gode.codegenerator.artefact.Buildable;
 import org.ibs.cds.gode.codegenerator.config.CodeGenerationComponent;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.entity.type.EntitySpec;
-import org.ibs.cds.gode.entity.type.FieldType;
-import org.ibs.cds.gode.entity.type.ObjectType;
-import org.ibs.cds.gode.entity.type.Specification;
+import org.ibs.cds.gode.entity.type.RawEntitySpec;
+import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-public class CodeEntity extends Specification implements Buildable, CodeGenerationComponent {
+public class CodeEntity extends CodeEntityView implements Buildable, CodeGenerationComponent {
 
-    private CodeEntityField idField;
-    private List<CodeEntityField> fields;
-    private EntitySpec model;
+    private RawEntitySpec model;
     private CodeEntityStorePolicy storePolicy;
-    private BuildModel buildModel;
+    private CodeEntityView view;
 
-    public CodeEntity(EntitySpec entity, BuildModel buildModel) {
-        this.buildModel = buildModel;
-        fields = entity.getFields().stream().map(field -> new CodeEntityField(field, buildModel)).collect(Collectors.toList());
-        idField = new CodeEntityField(entity.getIdField(), buildModel);
-        storePolicy = new CodeEntityStorePolicy(entity, this.buildModel);
-        this.setName(entity.getName());
-        this.setDescription(entity.getDescription());
-        this.setVersion(entity.getVersion());
+    public CodeEntity(StatefulEntitySpec userProvided, BuildModel buildModel, Map<String, RawEntitySpec> storedEntities) {
+        super(userProvided, buildModel);
+        storePolicy = new CodeEntityStorePolicy(userProvided, this.getBuildModel());
+        this.model =  storedEntities.getOrDefault(userProvided.getName(), userProvided);
+        this.setFields(this.model.getFields().stream().map(field -> new CodeEntityField(field, buildModel)).collect(Collectors.toList()));
+        this.setIdField(new CodeEntityField(this.model.getIdField(), buildModel));
+        this.view = new CodeEntityView(userProvided, buildModel);
     }
 
     @Override
@@ -39,10 +32,5 @@ public class CodeEntity extends Specification implements Buildable, CodeGenerati
         return ComponentName.ENTITY;
     }
 
-    @JsonIgnore
-    public List<CodeObjectField> getObjectFields(){
-        return fields == null ? Collections.emptyList() : fields.stream()
-                .filter(k->k.getField().getType() == FieldType.OBJECT)
-                .map(k->k.getObjectField()).collect(Collectors.toList());
-    }
+
 }

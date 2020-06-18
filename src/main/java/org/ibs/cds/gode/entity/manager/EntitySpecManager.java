@@ -1,8 +1,7 @@
 package org.ibs.cds.gode.entity.manager;
 
 import org.ibs.cds.gode.entity.repo.EntitySpecRepository;
-import org.ibs.cds.gode.entity.repo.RepoType;
-import org.ibs.cds.gode.entity.type.EntitySpec;
+import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -12,26 +11,26 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class EntitySpecManager extends EntityManager<EntitySpec,EntitySpec, Long> {
+public class EntitySpecManager extends EntityManager<StatefulEntitySpec, StatefulEntitySpec, Long> {
 
 
     public EntitySpecManager(EntitySpecRepository repo) {
         super(repo, null);
     }
 
-    public <T> List<T> findTransform(Function<EntitySpec,T> transformer){
+    public <T> List<T> findTransform(Function<StatefulEntitySpec,T> transformer){
         EntitySpecRepository entitySpecRepository = this.repository.get();
-        List<EntitySpec> all = entitySpecRepository.findAll();
+        List<StatefulEntitySpec> all = entitySpecRepository.findAll();
         return all == null ? Collections.emptyList() : all.stream().map(transformer).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<EntitySpec> transformEntity(Optional<EntitySpec> entitySpec) {
+    public Optional<StatefulEntitySpec> transformEntity(Optional<StatefulEntitySpec> entitySpec) {
         return entitySpec;
     }
 
     @Override
-    public Optional<EntitySpec> transformView(Optional<EntitySpec> entity) {
+    public Optional<StatefulEntitySpec> transformView(Optional<StatefulEntitySpec> entity) {
         return entity;
     }
 }

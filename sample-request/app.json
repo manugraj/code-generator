@@ -11,6 +11,9 @@
       },
        {
           "artifactId" : 2
+      },
+      {
+        "artifactId" : 4
       }
     ],
     "functions": [
@@ -47,6 +50,41 @@
         ],
         "methodName": "parentCustomer",
         "output": [
+          {
+            "argumentName": "account",
+            "entity" :
+            {
+              "artifactId": 2
+            }
+          },
+          {
+            "argumentName": "customer",
+            "entity" :
+            {
+              "artifactId": 1
+            }
+          }
+        ]
+      },
+      {
+        "input": [
+          {
+            "argumentName": "account",
+            "entity" :
+            {
+              "artifactId": 2
+            }
+          }
+        ],
+        "methodName": "getTicket",
+        "output": [
+          {
+            "argumentName": "ticket",
+            "entity" :
+            {
+              "artifactId": 4
+            }
+          },
           {
             "argumentName": "account",
             "entity" :

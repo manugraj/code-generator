@@ -4,7 +4,7 @@ import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
-import org.ibs.cds.gode.entity.type.EntitySpec;
+import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 import org.ibs.cds.gode.entity.type.EntityState;
 import org.ibs.cds.gode.entity.type.EntityStateStore;
 import org.ibs.cds.gode.entity.type.EntityStorePolicy;
@@ -12,17 +12,16 @@ import org.ibs.cds.gode.util.Assert;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 @Data
-public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, StorePolicy> {
+public class CodeEntityStorePolicy implements ResolvedFromModel<StatefulEntitySpec, StorePolicy> {
     private BuildModel buildModel;
-    private EntitySpec model;
+    private StatefulEntitySpec model;
     private StorePolicy policy;
 
-    public CodeEntityStorePolicy(EntitySpec entitySpec, BuildModel buildModel) {
-        this.policy = process(entitySpec, buildModel);
-        this.model = entitySpec;
+    public CodeEntityStorePolicy(StatefulEntitySpec statefulEntitySpec, BuildModel buildModel) {
+        this.policy = process(statefulEntitySpec, buildModel);
+        this.model = statefulEntitySpec;
         this.buildModel = buildModel;
     }
 
@@ -42,7 +41,7 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<EntitySpec, Stor
         return  isAvailable() && this.policy.isAsyncStoreSync();
     }
 
-    public StorePolicy process(EntitySpec spec, BuildModel buildModel) {
+    public StorePolicy process(StatefulEntitySpec spec, BuildModel buildModel) {
         Assert.notNull(spec);
         List<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();
         if (CollectionUtils.isEmpty(entityStorePref)) getStorePolicy(spec.getState());

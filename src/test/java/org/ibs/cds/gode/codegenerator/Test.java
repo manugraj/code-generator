@@ -9,7 +9,6 @@ import org.ibs.cds.gode.codegenerator.spec.StoreName;
 import org.ibs.cds.gode.entity.type.*;
 
 import java.util.List;
-import java.util.Set;
 
 public class Test {
 
@@ -64,43 +63,43 @@ public class Test {
 
 
 
-        EntitySpec entitySpec = new EntitySpec();
-        entitySpec.setName("Entity1");
-        entitySpec.setDescription("Entity 1 descr");
-        entitySpec.setVersion(2L);
-        entitySpec.setFields(List.of(field,obj, obj2));
-        entitySpec.setIdField(idField);
-        entitySpec.setState(state);
+        StatefulEntitySpec statefulEntitySpec = new StatefulEntitySpec();
+        statefulEntitySpec.setName("Entity1");
+        statefulEntitySpec.setDescription("Entity 1 descr");
+        statefulEntitySpec.setVersion(2L);
+        statefulEntitySpec.setFields(List.of(field,obj, obj2));
+        statefulEntitySpec.setIdField(idField);
+        statefulEntitySpec.setState(state);
 
-        EntitySpec entitySpec2 = new EntitySpec();
-        entitySpec2.setName("Entity2");
-        entitySpec2.setDescription("Entity 2 descr");
-        entitySpec2.setVersion(3L);
-        entitySpec2.setFields(List.of(field));
-        entitySpec2.setIdField(idField);
-        entitySpec2.setState(state2);
+        StatefulEntitySpec statefulEntitySpec2 = new StatefulEntitySpec();
+        statefulEntitySpec2.setName("Entity2");
+        statefulEntitySpec2.setDescription("Entity 2 descr");
+        statefulEntitySpec2.setVersion(3L);
+        statefulEntitySpec2.setFields(List.of(field));
+        statefulEntitySpec2.setIdField(idField);
+        statefulEntitySpec2.setState(state2);
 
         AppFunction function = new AppFunction();
         function.setMethodName("method1");
-        function.setInput(List.of(new AppFuncArgument(entitySpec,"arg1")));
+        function.setInput(List.of(new AppFuncArgument(statefulEntitySpec,"arg1")));
         function.setOutput(List.of(
-                new AppFuncArgument(entitySpec,"arg1"),
-                new AppFuncArgument(entitySpec2,"arg2")
+                new AppFuncArgument(statefulEntitySpec,"arg1"),
+                new AppFuncArgument(statefulEntitySpec2,"arg2")
                 ));
 
         AppFunction function2 = new AppFunction();
         function2.setMethodName("method2");
-        function2.setInput(List.of(new AppFuncArgument(entitySpec,"arg1")));
+        function2.setInput(List.of(new AppFuncArgument(statefulEntitySpec,"arg1")));
         function2.setOutput(List.of(
-                new AppFuncArgument(entitySpec,"arg1"),
-                new AppFuncArgument(entitySpec2,"arg2")
+                new AppFuncArgument(statefulEntitySpec,"arg1"),
+                new AppFuncArgument(statefulEntitySpec2,"arg2")
         ));
 
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
         app.setVersion(5L);
-        app.setEntities(List.of(entitySpec,entitySpec2));
+        app.setEntities(List.of(statefulEntitySpec, statefulEntitySpec2));
         app.setFunctions(List.of(function, function2));
 
         BuildModel model = new BuildModel();
@@ -108,6 +107,7 @@ public class Test {
         model.setArtifactPackaging(ArtifactPackaging.MAVEN);
         model.setApp(app);
         model.setSecure(false);
+
 
         AppCodeGenerator appCodeGenerator = new AppCodeGenerator( app, model );
         appCodeGenerator.generate();
