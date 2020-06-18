@@ -2,6 +2,7 @@ package org.ibs.cds.gode.codegenerator.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.ibs.cds.gode.codegenerator.api.usage.CodeGeneratorApi;
 import org.ibs.cds.gode.entity.generic.DataMap;
 import org.ibs.cds.gode.entity.manager.BuildDataManager;
 import org.ibs.cds.gode.entity.operation.Processor;
@@ -13,7 +14,7 @@ import org.ibs.cds.gode.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@CodeGeneratorApi
 @RequestMapping("/generator/history")
 @Api(tags = {"Gode(e) build history"})
 public class BuildLog {

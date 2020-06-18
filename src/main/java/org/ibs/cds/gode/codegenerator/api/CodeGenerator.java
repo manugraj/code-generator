@@ -2,6 +2,7 @@ package org.ibs.cds.gode.codegenerator.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.ibs.cds.gode.codegenerator.api.usage.CodeGeneratorApi;
 import org.ibs.cds.gode.codegenerator.entity.AppCodeGenerator;
 import org.ibs.cds.gode.codegenerator.entity.CodeApp;
 import org.ibs.cds.gode.codegenerator.entity.StorePolicy;
@@ -28,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@RestController
+@CodeGeneratorApi
 @RequestMapping("/generator")
 @Api(tags={"Gode(e) build endpoints"})
 public class CodeGenerator {

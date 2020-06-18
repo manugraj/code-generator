@@ -3,6 +3,7 @@ package org.ibs.cds.gode.codegenerator.api;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.ibs.cds.gode.codegenerator.api.usage.CodeGeneratorApi;
 import org.ibs.cds.gode.entity.manager.AppManager;
 import org.ibs.cds.gode.entity.manager.EntitySpecManager;
 import org.ibs.cds.gode.entity.operation.Executor;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@CodeGeneratorApi
 @RequestMapping("/artifact")
 @Api(tags={"Gode(e) Artifact endpoint"})
 public class ArtifactEndpoint {
