@@ -1,3 +1,5 @@
+scalar Date
+
 #set($objects = $APP.getObjectFields())
 type Query{
 #foreach($entity in $APP.entities)

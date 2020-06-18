@@ -53,7 +53,7 @@ public class CodeEntityField implements ResolvedFromModel<EntityField, LangObjec
     @NotNull
     private JavaObject getJavaObject(EntityField field, String name, FieldType type) {
         switch (type){
-            case DATE: return new JavaObject(name, "OffsetDateTime", "java.time");
+            case DATE: return new JavaObject(name, "Date", "java.util");
             case BOOLEAN: return new JavaObject(name, "Boolean", StringUtils.EMPTY);
             case TEXT: case LONG_TEXT: return new JavaObject(name, "String", StringUtils.EMPTY);
             case NUMBER: return new JavaObject(name, "Long", StringUtils.EMPTY);

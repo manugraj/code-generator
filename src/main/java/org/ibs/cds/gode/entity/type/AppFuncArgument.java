@@ -13,6 +13,6 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 public class AppFuncArgument extends ManagedEntity{
     @OneToOne
-    private EntitySpec entity;
+    private StatefulEntitySpec entity;
     private String argumentName;
 }

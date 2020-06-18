@@ -1,0 +1,49 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "artifactId": 4,
+    "description": "Ticket entity",
+    "fields": [
+      {
+        "description": "Ticket Type",
+        "name": "ticketType",
+        "properties": [
+          "INDEX"
+        ],
+        "type": "TEXT"
+      },
+      {
+        "description": "Ticket Date",
+        "name": "ticketDate",
+        "properties": [
+          "INDEX"
+        ],
+        "type": "DATE"
+      }
+    ],
+    "idField": {
+      "description": "Ticket Id",
+      "name": "ticketId",
+      "properties": [
+        "INDEX"
+      ],
+      "type": "TEXT"
+    },
+    "name": "Ticket",
+    "state": {
+      "opsLevel": {
+        "asyncRead": true,
+        "read": "HIGH",
+        "relativeRead": "LOW",
+        "transactional": true,
+        "write": "MEDIUM"
+      },
+      "volatileEntity": false
+    },
+    "version": 1
+
+
+  }
+}

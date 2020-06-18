@@ -6,13 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.ibs.cds.gode.codegenerator.spec.Level;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class OperationLevel implements Serializable {
+    @Column(name = "readLevel")
     private Level read;
+    @Column(name = "writeLevel" )
     private Level write;
     private Level relativeRead;
     private Boolean transactional;

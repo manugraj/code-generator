@@ -1,7 +1,7 @@
 package org.ibs.cds.gode.codegenerator.api;
 
 import org.ibs.cds.gode.entity.type.App;
-import org.ibs.cds.gode.entity.type.EntitySpec;
+import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 
 public class BriefUtil {
 
@@ -13,7 +13,7 @@ public class BriefUtil {
         return brief;
     }
 
-    public static EntityBrief toBrief(EntitySpec entity){
+    public static EntityBrief toBrief(StatefulEntitySpec entity){
         EntityBrief brief = new EntityBrief();
         brief.setEntityName(entity.getName());
         brief.setArtifactId(entity.getArtifactId());

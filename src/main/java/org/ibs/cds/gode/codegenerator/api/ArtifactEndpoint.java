@@ -9,7 +9,7 @@ import org.ibs.cds.gode.entity.manager.EntitySpecManager;
 import org.ibs.cds.gode.entity.operation.Executor;
 import org.ibs.cds.gode.entity.operation.Logic;
 import org.ibs.cds.gode.entity.operation.Processor;
-import org.ibs.cds.gode.entity.type.EntitySpec;
+import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 import org.ibs.cds.gode.exception.KnownException;
 import org.ibs.cds.gode.pagination.PageContext;
 import org.ibs.cds.gode.pagination.PagedData;
@@ -35,13 +35,13 @@ public class ArtifactEndpoint {
 
     @PostMapping(path="/entity")
     @ApiOperation(value = "Operation to create Entity")
-    public Response<EntitySpec> createEntity(@RequestBody Request<EntitySpec> entityRequest){
+    public Response<StatefulEntitySpec> createEntity(@RequestBody Request<StatefulEntitySpec> entityRequest){
         return Executor.run(Logic.save(), entityRequest, entitySpecManager,KnownException.SAVE_FAILED, "/entity");
     }
 
     @GetMapping(path="/entity")
     @ApiOperation(value = "Operation to get Entity")
-    public Response<EntitySpec> queryEntity(Long artifactId){
+    public Response<StatefulEntitySpec> queryEntity(Long artifactId){
         return Executor.run(Logic.findById(), artifactId, entitySpecManager,KnownException.QUERY_FAILED, "/entity");
     }
 
@@ -56,7 +56,7 @@ public class ArtifactEndpoint {
 
     @GetMapping(path="/entity/view")
     @ApiOperation(value = "Operation to view Entity")
-    public Response<PagedData<EntitySpec>> queryEntity(@QuerydslPredicate(root = EntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
+    public Response<PagedData<StatefulEntitySpec>> queryEntity(@QuerydslPredicate(root = StatefulEntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
         return predicate == null ?
                 Executor.run(Logic.findAll(), PageContext.fromAPI(apiargs), entitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
                 : Executor.run(Logic.findAllByPredicate(), PageContext.fromAPI(apiargs),predicate, entitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
