@@ -1,0 +1,20 @@
+package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
+
+import lombok.Data;
+#foreach($entity in $APP.entities)
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entity.getName()};
+#end
+
+#foreach($entity in $APP.dependencies)
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entity.getName()};
+#end
+
+#set($function = $Channel.get("appFunction"))
+#set($className = $Channel.get("methodName_cap"))
+@Data
+public class ${className}Request{
+
+#foreach($inputEntity in $function.input)
+   private $inputEntity.entity.name  $inputEntity.argumentName;
+#end
+}

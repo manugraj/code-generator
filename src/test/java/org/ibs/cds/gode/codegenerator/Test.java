@@ -70,8 +70,11 @@ public class Test {
 
         AppFunction function = new AppFunction();
         function.setMethodName("method1");
-        function.setInput(List.of(entitySpec));
-        function.setOutput(List.of(entitySpec));
+        function.setInput(List.of(new AppFuncArgument(entitySpec,"arg1")));
+        function.setOutput(List.of(
+                new AppFuncArgument(entitySpec,"arg1"),
+                new AppFuncArgument(entitySpec2,"arg2")
+                ));
 
         App app = new App();
         app.setName("App1");

@@ -16,15 +16,23 @@
     "functions": [
       {
         "input": [
+          {
+            "argumentName": "input",
+            "entity" :
             {
-                "artifactId": 1
+              "artifactId": 1
             }
+          }
         ],
         "methodName": "processSpecialCustomer",
         "output": [
+          {
+            "argumentName": "output",
+            "entity" :
             {
-                "artifactId": 1
+              "artifactId": 1
             }
+          }
         ]
       }
     ],

@@ -21,6 +21,21 @@ configuration:
     path: ${DEFAULT__APP_FUNCTION_DIRECTORY.pathOf($projectName,$appName,$javaPath)}
     template: app_function.vm
     buildable: false
+#foreach($appFunction in $APP.appFunctions)
+  #set($methodName_cap = ${StringUtils.capitalize($appFunction.methodName)})
+  $Channel.put("appFunction", $appFunction)
+  $Channel.put("methodName_cap", $methodName_cap)
+  - name: ${methodName_cap}Request.java
+    path: ${DEFAULT__APP_FUNCTION_DIRECTORY.pathOf($projectName,$appName,$javaPath)}
+    template: app_function_request.vm
+    buildable: false
+  $Channel.put("appFunction", $appFunction)
+  $Channel.put("methodName_cap", $methodName_cap)
+  - name: ${methodName_cap}Response.java
+    path: ${DEFAULT__APP_FUNCTION_DIRECTORY.pathOf($projectName,$appName,$javaPath)}
+    template: app_function_response.vm
+    buildable: false
+#end
   - name: $APP.componentName.controlFile
     path: ${PathPackage.path($projectName,$appName, $resourcePath)}
     template: gode_properties.vm
