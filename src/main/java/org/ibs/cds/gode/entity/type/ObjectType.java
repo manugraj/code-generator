@@ -5,15 +5,15 @@ import lombok.Data;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
 public class ObjectType extends ManagedIdentifiedObject {
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Field> fields;
+    private List<Field> fields;
     public ObjectType() {
-        this.fields = new HashSet<>();
+        this.fields = new ArrayList<>();
     }
 }

@@ -4,7 +4,7 @@
     #set($storeType = ${entityStorePolicy.policy.storeName.storeType})
     #set($storeEssentials = ${StoreUtils.essential($storeType)})
 #end
-#set($object = $Channel.get("object"))
+#set($object = $Channel.get($key))
 package $DEFAULT__ENTITY_TYPE_DIRECTORY.value;
 
 import lombok.Data;

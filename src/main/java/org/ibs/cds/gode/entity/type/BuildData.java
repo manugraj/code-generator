@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -18,7 +19,7 @@ public class BuildData extends ManagedEntity {
     private ProgLanguage progLanguage;
     private ArtifactPackaging artifactPackaging;
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<EntityStorePolicy> entityStorePref;
+    private List<EntityStorePolicy> entityStorePref;
     @JsonIgnore
     private boolean latest;
     @OneToOne

@@ -8,6 +8,7 @@ public interface CodeGenerationComponent {
     enum ComponentName{
         APP("gode.properties"),
         ENTITY,
+        APP_FUNCTION,
         ADMIN("application.properties");
 
         private @Getter final String controlFile;

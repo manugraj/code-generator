@@ -17,35 +17,31 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-#foreach($entity in $APP.entities)
-import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entity.getName()}Manager;
-import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entity.getName()};
-#end
-#foreach($dependency in $APP.dependencies)
-import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${dependency.getName()}Manager;
-import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${dependency.getName()};
-#end
-
 @RestController
 @AppEndpoint
 @Api(tags = "${appGivenName} Functions")
 public class ${appGivenName}Function extends AppProcessEndpoint {
 
-    #foreach($entity in $APP.entities)
-    @Autowired
-    private ${entity.getName()}Manager ${entity.getName().toLowerCase()}Manager;
+
+    private ${appGivenName}Manager manager;
+    #foreach($function in $APP.appFunction.functions)
+    private ${function.name} ${function.methodName};
     #end
 
-    #foreach($dependency in $APP.dependencies)
     @Autowired
-    private ${dependency.getName()}Manager ${dependency.getName().toLowerCase()}Manager;
-    #end
+    public ${appGivenName}Function(${appGivenName}Manager manager){
+        this.manager = manager;
+        #foreach($function in $APP.appFunction.functions)
+        this.${function.methodName} = new ${function.name}();
+        #end
+    }
 
-    #foreach($appFunction in $APP.appFunctions)
-       @PostMapping(path = "/$appName/${appFunction.methodName}")
-       @ApiOperation("Function - ${appFunction.methodName} operation")
-       public Response<${StringUtils.capitalize($appFunction.methodName)}Response> $appFunction.methodName (@RequestBody Request<${StringUtils.capitalize($appFunction.methodName)}Request> request){
-        return Processor.successResponse(null, request,"/$appName/${appFunction.methodName}");
+
+    #foreach($function in $APP.appFunction.functions)
+       @PostMapping(path = "/$appName/${function.methodName}")
+       @ApiOperation("Function - ${function.methodName} operation")
+       public Response<${function.output.name}> $function.methodName (@RequestBody Request<${function.input.name}> request){
+        return Processor.successResponse(${function.methodName}.process(request.getData(), manager), request,"/$appName/${function.methodName}");
        }
     #end
 

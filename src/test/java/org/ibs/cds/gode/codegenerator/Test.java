@@ -24,13 +24,25 @@ public class Test {
         of.setName("test");
         of.setType(FieldType.TEXT);
 
+        EntityField of2 = new EntityField();
+        of2.setName("test");
+        of2.setType(FieldType.TEXT);
+
         EntityField obj = new EntityField();
         obj.setType(FieldType.OBJECT);
-        obj.setName("object");
+        obj.setName("object1");
         ObjectType type = new ObjectType();
-        type.setName("Sample");
-        type.setFields(Set.of(of));
+        type.setName("ASample");
+        type.setFields(List.of(of));
         obj.setObjectType(type);
+
+        EntityField obj2 = new EntityField();
+        obj2.setType(FieldType.OBJECT);
+        obj2.setName("object2");
+        ObjectType type2 = new ObjectType();
+        type2.setName("BSample");
+        type2.setFields(List.of(of2));
+        obj2.setObjectType(type);
 
         IdField idField = new IdField();
         idField.setName("eid");
@@ -56,7 +68,7 @@ public class Test {
         entitySpec.setName("Entity1");
         entitySpec.setDescription("Entity 1 descr");
         entitySpec.setVersion(2L);
-        entitySpec.setFields(Set.of(field,obj));
+        entitySpec.setFields(List.of(field,obj, obj2));
         entitySpec.setIdField(idField);
         entitySpec.setState(state);
 
@@ -64,7 +76,7 @@ public class Test {
         entitySpec2.setName("Entity2");
         entitySpec2.setDescription("Entity 2 descr");
         entitySpec2.setVersion(3L);
-        entitySpec2.setFields(Set.of(field));
+        entitySpec2.setFields(List.of(field));
         entitySpec2.setIdField(idField);
         entitySpec2.setState(state2);
 
@@ -76,12 +88,20 @@ public class Test {
                 new AppFuncArgument(entitySpec2,"arg2")
                 ));
 
+        AppFunction function2 = new AppFunction();
+        function2.setMethodName("method2");
+        function2.setInput(List.of(new AppFuncArgument(entitySpec,"arg1")));
+        function2.setOutput(List.of(
+                new AppFuncArgument(entitySpec,"arg1"),
+                new AppFuncArgument(entitySpec2,"arg2")
+        ));
+
         App app = new App();
         app.setName("App1");
         app.setDescription("App1 description");
         app.setVersion(5L);
         app.setEntities(List.of(entitySpec,entitySpec2));
-        app.setFunctions(List.of(function));
+        app.setFunctions(List.of(function, function2));
 
         BuildModel model = new BuildModel();
         model.setProgLanguage(ProgLanguage.JAVA);

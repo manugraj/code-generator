@@ -34,6 +34,34 @@
             }
           }
         ]
+      },
+      {
+        "input": [
+          {
+            "argumentName": "account",
+            "entity" :
+            {
+              "artifactId": 2
+            }
+          }
+        ],
+        "methodName": "parentCustomer",
+        "output": [
+          {
+            "argumentName": "account",
+            "entity" :
+            {
+              "artifactId": 2
+            }
+          },
+          {
+            "argumentName": "customer",
+            "entity" :
+            {
+              "artifactId": 1
+            }
+          }
+        ]
       }
     ],
     "name": "CustomerCare",

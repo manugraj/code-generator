@@ -1,0 +1,18 @@
+#set($function = $Channel.get($key))
+
+package ${DEFAULT__APP_FUNCTION_DIRECTORY.value};
+
+import lombok.Data;
+#foreach($object in $function.output.body)
+import ${object.typePackage}.${object.type};
+#end
+import java.util.Map;
+
+@Data
+public class ${function.output.name}{
+
+#foreach($object in $function.output.body)
+private $object.type  $object.argumentName;
+#end
+private Map<String,Object>  properties;
+}

@@ -13,6 +13,7 @@ import org.ibs.cds.gode.entity.type.App;
 import org.ibs.cds.gode.status.BinaryStatus;
 import org.ibs.cds.gode.utils.StoreUtils;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 @Data
@@ -29,7 +30,8 @@ public class AppCodeGenerator {
 
         EngineConfiguration configuration = new EngineConfiguration(buildModel);
         String repo = app.getVersion().toString();
-        VelocityGeneratorEngine codeEntityVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+        VelocityGeneratorEngine<CodeEntity> codeEntityVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+        VelocityGeneratorEngine<CodeAppFunctionNode> codeAppFunctionVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
         VelocityGeneratorEngine<CodeApp> codeAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
         VelocityGeneratorEngine<CodeAdminApp> codeAdminAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
 
@@ -37,42 +39,52 @@ public class AppCodeGenerator {
             codeEntityVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
             codeAppVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
             codeAdminAppVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
+            codeAppFunctionVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
         });
 
-        codeEntityVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
-        codeEntityVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
-        codeAppVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
-        codeAppVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
-        codeAdminAppVelocityGeneratorEngine.addToContext("PathPackage", PathPackage.class);
-        codeAdminAppVelocityGeneratorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
+        commonProperties(codeEntityVelocityGeneratorEngine,
+                codeAppFunctionVelocityGeneratorEngine,
+                codeAppVelocityGeneratorEngine,
+                codeAdminAppVelocityGeneratorEngine);
 
         codeEntityVelocityGeneratorEngine.addToContext("app", app);
         codeEntityVelocityGeneratorEngine.addToContext("StoreUtils", StoreUtils.class);
 
-        codeAppVelocityGeneratorEngine.addToContext("StoreType", StoreType.class);
-        codeAppVelocityGeneratorEngine.addToContext("DeploymentRequirement", DeploymentRequirement.class);
+        codeAppFunctionVelocityGeneratorEngine.addToContext("app", app);
+
         //Generation
         BinaryStatus entityGenerationStatus = BinaryStatus.valueOf(app.getEntities().stream()
                 .map(k -> codeEntityVelocityGeneratorEngine.run(k))
                 .allMatch(k -> k == BinaryStatus.SUCCESS));
 
+        BinaryStatus appFunctionGenerationStatus = codeAppFunctionVelocityGeneratorEngine.run(app.getAppFunction());
+
+
         BinaryStatus codeAppStatus = codeAppVelocityGeneratorEngine.run(app);
 
         BinaryStatus codeAdminStatus = codeAdminAppVelocityGeneratorEngine.run(codeAdminApp);
 
-        log.info("Code Generation status: Phase 1: {} | Phase 2: {} | Phase 3: {}", entityGenerationStatus, codeAppStatus, codeAdminStatus);
+        log.info("Code Generation status: Phase 1: {} | Phase 2: {} | Phase 3: {} | Phase 4: {}",
+                entityGenerationStatus, appFunctionGenerationStatus, codeAppStatus, codeAdminStatus);
 
         BinaryStatus codeAppBuildStatus = BinaryStatus.valueOf(codeAppVelocityGeneratorEngine.getBuildable().stream()
                 .map(buildable -> ArtefactBinding.resolve(buildModel.getArtifactPackaging()).run(buildable))
                 .allMatch(k -> k));
-        BinaryStatus codeAdminBuildStatus =  BinaryStatus.valueOf(codeAdminAppVelocityGeneratorEngine.getBuildable().stream()
-                .map(buildable -> ArtefactBinding.resolve(buildModel.getArtifactPackaging()).run(buildable))
-                .allMatch(k -> k));
-        log.info("Code Build status: Phase 1: {} | Phase 2: {}", codeAppBuildStatus, codeAdminBuildStatus);
+        log.info("Code Build status: {} ", codeAppBuildStatus);
         return entityGenerationStatus.isSuccess() &&
                 codeAppStatus.isSuccess() &&
                 codeAdminStatus.isSuccess() &&
-                codeAppBuildStatus.isSuccess() &&
-                codeAdminBuildStatus.isSuccess();
+                codeAppBuildStatus.isSuccess();
+    }
+
+    public void commonProperties(VelocityGeneratorEngine... generatorEngines) {
+        Arrays.stream(generatorEngines).forEach(generatorEngine->{
+            generatorEngine.addToContext("PathPackage", PathPackage.class);
+            generatorEngine.addToContext("CodeAppUtil", CodeAppUtil.class);
+            generatorEngine.addToContext("StoreType", StoreType.class);
+            generatorEngine.addToContext("DeploymentRequirement", DeploymentRequirement.class);
+        });
+
+
     }
 }
