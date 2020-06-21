@@ -22,4 +22,12 @@ public class BuildDataRepository extends JPAEntityRepository<BuildData, Long, Bu
     public PagedData<BuildData> findBuild(String appName, Long appVersion, PageContext context){
         return PageUtils.getData(pc->repo.findByAppNameAndAppVersion(appName, appVersion,pc),context);
     }
+
+    public BuildData findLatestBuild(Long appId){
+        return repo.findByAppArtifactIdAndLatestTrue(appId);
+    }
+
+    public PagedData<BuildData> findBuild(Long appId, PageContext context){
+        return PageUtils.getData(pc->repo.findByAppArtifactId(appId,pc),context);
+    }
 }

@@ -4,8 +4,7 @@
   },
   "data": {
     "app": {
-      "name": "CustomerCare",
-      "version": 2
+      "artifactId" : 2
     },
     "localDeploymentRequired": {
       "jpaDialect": "org.hibernate.dialect.MySQL5InnoDBDialect",

@@ -6,9 +6,11 @@ import io.swagger.annotations.ApiOperation;
 import org.ibs.cds.gode.codegenerator.api.usage.CodeGeneratorApi;
 import org.ibs.cds.gode.entity.manager.AppManager;
 import org.ibs.cds.gode.entity.manager.EntitySpecManager;
+import org.ibs.cds.gode.entity.manager.RelationshipEntitySpecManager;
 import org.ibs.cds.gode.entity.operation.Executor;
 import org.ibs.cds.gode.entity.operation.Logic;
 import org.ibs.cds.gode.entity.operation.Processor;
+import org.ibs.cds.gode.entity.type.RelationshipEntitySpec;
 import org.ibs.cds.gode.entity.type.StatefulEntitySpec;
 import org.ibs.cds.gode.exception.KnownException;
 import org.ibs.cds.gode.pagination.PageContext;
@@ -31,6 +33,9 @@ public class ArtifactEndpoint {
     private EntitySpecManager entitySpecManager;
 
     @Autowired
+    private RelationshipEntitySpecManager relationshipEntitySpecManager;
+
+    @Autowired
     private AppManager appManager;
 
     @PostMapping(path="/entity")
@@ -45,20 +50,44 @@ public class ArtifactEndpoint {
         return Executor.run(Logic.findById(), artifactId, entitySpecManager,KnownException.QUERY_FAILED, "/entity");
     }
 
-    @GetMapping(path="/brief")
-    @ApiOperation(value = "Operation to get brief package")
-    public Response<List<Brief>> brief(BriefType type){
-        switch (type){
-            case APP: return Processor.successResponse(appManager.findTransform(BriefUtil::toBrief), type.name(), "/brief");
-            case ENTITY: default: return Processor.successResponse(entitySpecManager.findTransform(BriefUtil::toBrief), type.name(), "/brief");
-        }
-    }
-
     @GetMapping(path="/entity/view")
     @ApiOperation(value = "Operation to view Entity")
     public Response<PagedData<StatefulEntitySpec>> queryEntity(@QuerydslPredicate(root = StatefulEntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
         return predicate == null ?
                 Executor.run(Logic.findAll(), PageContext.fromAPI(apiargs), entitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
                 : Executor.run(Logic.findAllByPredicate(), PageContext.fromAPI(apiargs),predicate, entitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
+    }
+
+
+
+    @GetMapping(path="/brief")
+    @ApiOperation(value = "Operation to get brief package")
+    public Response<List<Brief>> brief(BriefType type){
+        String urlOrHandle = "/brief";
+        switch (type){
+            case APP: return Processor.successResponse(appManager.findTransform(BriefUtil::toBrief), type.name(), urlOrHandle);
+            case RELATIONSHIP: return Processor.successResponse(relationshipEntitySpecManager.findTransform(BriefUtil::toBrief), type.name(), urlOrHandle);
+            case ENTITY: default: return Processor.successResponse(entitySpecManager.findTransform(BriefUtil::toBrief), type.name(), urlOrHandle);
+        }
+    }
+
+    @PostMapping(path="/relationship")
+    @ApiOperation(value = "Operation to create relationship")
+    public Response<RelationshipEntitySpec> createRelationshipEntity(@RequestBody Request<RelationshipEntitySpec> entityRequest){
+        return Executor.run(Logic.save(), entityRequest, relationshipEntitySpecManager,KnownException.SAVE_FAILED, "/relationship");
+    }
+
+    @GetMapping(path="/relationship")
+    @ApiOperation(value = "Operation to get Relationship")
+    public Response<RelationshipEntitySpec> queryRelationshipEntity(Long artifactId){
+        return Executor.run(Logic.findById(), artifactId, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/relationship");
+    }
+
+    @GetMapping(path="/relationship/view")
+    @ApiOperation(value = "Operation to view Relationships")
+    public Response<PagedData<RelationshipEntitySpec>> queryRelationshipEntity(@QuerydslPredicate(root = RelationshipEntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
+        return predicate == null ?
+                Executor.run(Logic.findAll(), PageContext.fromAPI(apiargs), relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
+                : Executor.run(Logic.findAllByPredicate(), PageContext.fromAPI(apiargs),predicate, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
     }
 }

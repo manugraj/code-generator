@@ -16,6 +16,7 @@ public class MinionEntity extends JPAEntity<Long> implements Serializable {
     public Long getArtifactId() {
         return artifactId;
     }
+    private boolean active = true;
 
     public void setArtifactId(Long artifactId) {
         this.artifactId = artifactId;
@@ -44,13 +45,13 @@ public class MinionEntity extends JPAEntity<Long> implements Serializable {
     }
 
     @Override @JsonIgnore
-    public Boolean isActive() {
-        return super.isActive();
+    public boolean isActive() {
+        return active;
     }
 
     @Override @JsonIgnore
-    public void setActive(Boolean active) {
-        super.setActive(active);
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override @JsonIgnore

@@ -9,6 +9,7 @@ public interface CodeGenerationComponent {
         APP("gode.properties"),
         ENTITY,
         APP_FUNCTION,
+        RELATIONSHIP,
         ADMIN("application.properties");
 
         private @Getter final String controlFile;

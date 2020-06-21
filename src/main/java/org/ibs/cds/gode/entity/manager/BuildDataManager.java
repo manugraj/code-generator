@@ -1,8 +1,6 @@
 package org.ibs.cds.gode.entity.manager;
 
-import org.ibs.cds.gode.entity.repo.AppRepository;
 import org.ibs.cds.gode.entity.repo.BuildDataRepository;
-import org.ibs.cds.gode.entity.repo.RepoType;
 import org.ibs.cds.gode.entity.type.BuildData;
 import org.ibs.cds.gode.pagination.PageContext;
 import org.ibs.cds.gode.pagination.PagedData;
@@ -26,9 +24,19 @@ public class BuildDataManager extends EntityManager<BuildData, BuildData, Long> 
         return repo.findLatestBuild(appName, appVersion);
     }
 
+    public BuildData findLatestBuild(Long appId){
+        BuildDataRepository repo = repository.get();
+        return repo.findLatestBuild(appId);
+    }
+
     public PagedData<BuildData> findBuild(String appName, Long appVersion, PageContext context){
         BuildDataRepository repo = repository.get();
         return repo.findBuild(appName, appVersion, context);
+    }
+
+    public PagedData<BuildData> findBuild(Long appId, PageContext context){
+        BuildDataRepository repo = repository.get();
+        return repo.findBuild(appId, context);
     }
 
     @Override

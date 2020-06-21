@@ -51,7 +51,7 @@ public class CodeGenerator {
     public boolean build(@RequestBody Request<BuildModel> buildModelRequest){
         BuildModel data = buildModelRequest.getData();
         Specification app = data.getApp();
-        App foundApp = appManager.find(app.getName(), app.getVersion());
+        App foundApp = app.getArtifactId() == null ? appManager.find(app.getName(), app.getVersion()) : appManager.find(app.getArtifactId());
         if(foundApp == null) throw KnownException.OBJECT_NOT_FOUND.provide("No app available for given name and version");
         return build(data, foundApp);
     }
@@ -99,9 +99,10 @@ public class CodeGenerator {
 
     @NotNull
     public CodeApp getCodeApp(Specification model) {
-        App foundApp = appManager.find(model.getName(), model.getVersion());
+        Long artifactId = model.getArtifactId();
+        App foundApp = artifactId == null ? appManager.find(model.getName(), model.getVersion()) : appManager.find(artifactId);
         if(foundApp == null) throw KnownException.OBJECT_NOT_FOUND.provide("No app available for given name and version");
-        BuildData lastBuild = buildDataManager.findLatestBuild(foundApp.getName(), foundApp.getVersion());
+        BuildData lastBuild = artifactId == null ? buildDataManager.findLatestBuild(foundApp.getName(), foundApp.getVersion()) : buildDataManager.findLatestBuild(artifactId);
         if(lastBuild == null) throw KnownException.OBJECT_NOT_FOUND.provide("No build information available for given name and version");
         return new CodeApp(foundApp , lastBuild.toBuildModel());
     }

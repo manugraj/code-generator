@@ -12,5 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface BuildDataRepo extends JPAEntityRepo<BuildData, Long> {
 
     BuildData findByAppNameAndAppVersionAndLatestTrue(String appName,Long appVersion);
+    BuildData findByAppArtifactIdAndLatestTrue(Long artifactId);
     Page<BuildData> findByAppNameAndAppVersion(String appName,Long appVersion, Pageable pageable);
+    Page<BuildData> findByAppArtifactId(Long artifactId, Pageable pageable);
+
 }
