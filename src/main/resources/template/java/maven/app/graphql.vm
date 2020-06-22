@@ -3,25 +3,42 @@ scalar Date
 #set($objects = $APP.getObjectFields())
 type Query{
 #foreach($entity in $APP.entities)
-find${entity.name}(id :ID) :${entity.name}
+    #if($entity.storePolicy.isAvailable())
+    find${entity.name}(id :ID) :${entity.name}
+    #end
 #end
 #foreach($dependency in $APP.dependencies)
-find${dependency.name}(id :ID) :${dependency.name}
+    #if($dependency.storePolicy.isAvailable())
+    find${dependency.name}(id :ID) :${dependency.name}
+    #end
+#end
+#foreach($relationship in $APP.relationships)
+    find${relationship.name}(id :ID) :${relationship.name}
 #end
 }
 
 type Mutation{
 #foreach($entity in $APP.entities)
-save${entity.name}(entity: ${entity.name}Request): ${entity.name}
-delete${entity.name}(id: ID) : Boolean
-deactivate${entity.name}(id: ID) : Boolean
-validate${entity.name}(entity: ${entity.name}Request) : Boolean
+    #if($entity.storePolicy.isAvailable())
+    save${entity.name}(entity: ${entity.name}Request): ${entity.name}
+    delete${entity.name}(id: ID) : Boolean
+    deactivate${entity.name}(id: ID) : Boolean
+    validate${entity.name}(entity: ${entity.name}Request) : Boolean
+    #end
 #end
 #foreach($dependency in $APP.dependencies)
-save${dependency.name}(entity: ${dependency.name}Request): ${dependency.name}
-delete${dependency.name}(id: ID) : Boolean
-deactivate${dependency.name}(id: ID) : Boolean
-validate${dependency.name}(entity: ${dependency.name}Request) : Boolean
+    #if($dependency.storePolicy.isAvailable())
+    save${dependency.name}(entity: ${dependency.name}Request): ${dependency.name}
+    delete${dependency.name}(id: ID) : Boolean
+    deactivate${dependency.name}(id: ID) : Boolean
+    validate${dependency.name}(entity: ${dependency.name}Request) : Boolean
+    #end
+#end
+#foreach($relationship in $APP.relationships)
+save${relationship.name}(entity: ${relationship.name}Request): ${relationship.name}
+delete${relationship.name}(id: ID) : Boolean
+deactivate${relationship.name}(id: ID) : Boolean
+validate${relationship.name}(entity: ${relationship.name}Request) : Boolean
 #end
 }
 
@@ -29,7 +46,7 @@ validate${dependency.name}(entity: ${dependency.name}Request) : Boolean
 type ${entity.name}{
     ${entity.idField.object.name} : ID
     #foreach ($field in ${entity.fields})
-    $field.object.name :$field.graphQLType
+        $field.object.name :$field.graphQLType
     #end
 }
 
@@ -60,8 +77,6 @@ input ${object.name}Request{
 #end
 
 
-
-
 #foreach($dependency in $APP.dependencies)
 type ${dependency.name}{
     ${dependency.idField.object.name} : ID
@@ -73,6 +88,22 @@ type ${dependency.name}{
 input ${dependency.name}Request {
     ${dependency.idField.object.name} : ID
     #foreach ($dfield in ${dependency.fields})
+        $dfield.object.name :$dfield.graphQLType
+    #end
+}
+#end
+
+#foreach($relationship in $APP.relationships)
+type ${relationship.name}{
+relationshipId : ID
+    #foreach ($dfield in ${relationship.fields})
+        $dfield.object.name :$dfield.graphQLType
+    #end
+}
+
+input ${relationship.name}Request {
+relationshipId : ID
+    #foreach ($dfield in ${relationship.fields})
         $dfield.object.name :$dfield.graphQLType
     #end
 }

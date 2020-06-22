@@ -62,6 +62,7 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
         entities.addAll(this.entities);
         entities.addAll(dependencies);
         return entities.stream().flatMap(e -> e.getFields().stream())
+                .distinct()
                 .map(CodeEntityField::getObjectField).filter(Objects::nonNull)
                 .collect(Collectors.toUnmodifiableList());
     }

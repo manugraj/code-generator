@@ -28,11 +28,14 @@
     <version>$entityVersion</version>
 
     <dependencies>
+        #if(${entityStorePolicy.isAvailable()})
         <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
             <artifactId>gode-store</artifactId>
             <version>${gode.version}</version>
         </dependency>
+        #end
+
         <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
             <artifactId>gode-api</artifactId>

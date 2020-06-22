@@ -6,6 +6,9 @@ import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entity.getName()}Manager;
 #foreach($dependency in $app.dependencies)
 import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${dependency.getName()}Manager;
 #end
+#foreach($relationship in $app.relationships)
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${relationship.getName()}Manager;
+#end
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +25,11 @@ public class ${app.name}Manager{
     #foreach($dependency in $app.dependencies)
     @Autowired
     private ${dependency.getName()}Manager ${dependency.getName().toLowerCase()}Manager;
+    #end
+
+    #foreach($relationship in $app.relationships)
+    @Autowired
+    private ${relationship.getName()}Manager ${relationship.getName().toLowerCase()}Manager;
     #end
 
 }

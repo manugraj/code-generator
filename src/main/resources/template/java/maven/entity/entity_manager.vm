@@ -12,13 +12,13 @@ package $DEFAULT__ENTITY_MANAGER_DIRECTORY.value;
 import org.springframework.beans.factory.annotation.Autowired;
     #if($entityStored)
     import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}StoreRepository;
+    import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
     #end
     #if($entityCached)
     import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${entityGivenName}CacheRepository;
     #end
 #end
 
-import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
 import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${entityViewGivenName};
 import org.springframework.stereotype.Service;
 import java.util.Optional;

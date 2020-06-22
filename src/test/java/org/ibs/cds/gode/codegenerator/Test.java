@@ -21,11 +21,15 @@ public class Test {
 
 
         EntityField of = new EntityField();
-        of.setName("test");
+        of.setName("test1");
         of.setType(FieldType.TEXT);
 
+        EntityField of3 = new EntityField();
+        of3.setName("test3");
+        of3.setType(FieldType.TEXT);
+
         EntityField of2 = new EntityField();
-        of2.setName("test");
+        of2.setName("test2");
         of2.setType(FieldType.TEXT);
 
         EntityField obj = new EntityField();
@@ -42,7 +46,7 @@ public class Test {
         ObjectType type2 = new ObjectType();
         type2.setName("BSample");
         type2.setFields(List.of(of2));
-        obj2.setObjectType(type);
+        obj2.setObjectType(type2);
 
         IdField idField = new IdField();
         idField.setName("eid");
@@ -62,6 +66,8 @@ public class Test {
         test2.setCached(true);
         state2.setEntityStateStore(test2);
 
+        EntityState state3 = new EntityState();
+        state3.setVolatileEntity(true);
 
 
         StatefulEntitySpec statefulEntitySpec = new StatefulEntitySpec();
@@ -79,6 +85,14 @@ public class Test {
         statefulEntitySpec2.setFields(List.of(field));
         statefulEntitySpec2.setIdField(idField);
         statefulEntitySpec2.setState(state2);
+
+        StatefulEntitySpec statefulEntitySpec3 = new StatefulEntitySpec();
+        statefulEntitySpec3.setName("Entity3");
+        statefulEntitySpec3.setDescription("Entity 3 descr");
+        statefulEntitySpec3.setVersion(4L);
+        statefulEntitySpec3.setFields(List.of(field));
+        statefulEntitySpec3.setIdField(idField);
+        statefulEntitySpec3.setState(state3);
 
         RelationshipEntitySpec relationshipEntitySpec = new RelationshipEntitySpec();
         relationshipEntitySpec.setName("ParentCustomerRelationship");
@@ -114,7 +128,7 @@ public class Test {
         app.setName("App1");
         app.setDescription("App1 description");
         app.setVersion(5L);
-        app.setEntities(List.of(statefulEntitySpec, statefulEntitySpec2));
+        app.setEntities(List.of(statefulEntitySpec, statefulEntitySpec2, statefulEntitySpec3));
         app.setFunctions(List.of(function, function2));
         app.setRelationships(List.of(relationshipEntitySpec));
 
