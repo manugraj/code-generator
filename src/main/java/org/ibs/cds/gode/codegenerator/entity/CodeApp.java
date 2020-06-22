@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Data
 public class CodeApp extends Specification implements Buildable, CodeGenerationComponent {
     private Set<CodeEntity> entities;
+    private Set<CodeEntityRelationship> relationships;
     private CodeAppFunctionNode appFunction;
     private UsageSpec usage;
     private App model;

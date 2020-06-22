@@ -24,6 +24,9 @@ public class BuildData extends ManagedEntity {
     @OneToOne
     private App app;
     private boolean secure;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<RelationshipStorePolicy> relationshipStorePolicy;
+
 
     public static BuildData fromModel(BuildModel model, App app){
         BuildData data = new BuildData();
@@ -33,6 +36,7 @@ public class BuildData extends ManagedEntity {
         data.setApp(app);
         data.setEntityStorePref(model.getEntityStorePref());
         data.setSecure(model.isSecure());
+        data.setRelationshipStorePolicy(model.getRelationshipStorePolicy());
         return data;
     }
 

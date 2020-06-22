@@ -4,6 +4,7 @@ import lombok.Data;
 import org.ibs.cds.gode.codegenerator.bind.ArtifactPackaging;
 import org.ibs.cds.gode.codegenerator.spec.ProgLanguage;
 import org.ibs.cds.gode.entity.type.EntityStorePolicy;
+import org.ibs.cds.gode.entity.type.RelationshipStorePolicy;
 import org.ibs.cds.gode.entity.type.Specification;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class BuildModel {
     private Specification app;
     private boolean secure;
     private boolean systemQueue;
+    private List<RelationshipStorePolicy> relationshipStorePolicy;
 
     public BuildModel() {
         this.entityStorePref = new ArrayList<>();

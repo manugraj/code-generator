@@ -20,6 +20,9 @@ public class App extends Specification {
     @ManyToMany
     @JoinTable(name = "AppDependencies")
     private List<StatefulEntitySpec> dependencies;
+    @ManyToMany
+    @JoinTable(name = "AppRelationships")
+    private List<RelationshipEntitySpec> relationships;
 
     public App() {
        this.entities = new ArrayList<>();

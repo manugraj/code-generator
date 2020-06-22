@@ -10,7 +10,6 @@ import org.ibs.cds.gode.codegenerator.spec.GraphQLUtil;
 import org.ibs.cds.gode.entity.type.Field;
 import org.ibs.cds.gode.entity.type.ManagedIdentifiedObject;
 import org.ibs.cds.gode.entity.type.ObjectType;
-import org.ibs.cds.gode.system.GodeAppEnvt;
 import org.ibs.cds.gode.util.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,16 +39,6 @@ public class CodeObjectField  extends ManagedIdentifiedObject implements Resolve
         return this.objectType != null ?
                 this.objectType.getFields().stream().map(k-> Pair.of(k.getName(), GraphQLUtil.getPrimitiveGrapQLType(k.getType()))).collect(Collectors.toUnmodifiableList())
                 : Collections.emptyList();
-    }
-
-    @Override
-    public ObjectType getModel() {
-        return objectType;
-    }
-
-    @Override
-    public BuildModel getBuildModel() {
-        return buildModel;
     }
 
     @Override

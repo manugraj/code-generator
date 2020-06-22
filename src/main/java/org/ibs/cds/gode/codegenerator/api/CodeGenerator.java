@@ -75,7 +75,7 @@ public class CodeGenerator {
 
     @PostMapping(path="/deploy/requirement")
     @ApiOperation(value = "Operation to deployment properties for deploying App")
-    public Map<String, FieldType> deployRequirements(@RequestBody Request<DeploymentModel> deploymentModelRequest){
+    public Map<String, String> deployRequirements(@RequestBody Request<DeploymentModel> deploymentModelRequest){
         DeploymentModel model = deploymentModelRequest.getData();
         CodeApp app = getCodeApp(deploymentModelRequest.getData().getApp());
         switch (model.getType()){
