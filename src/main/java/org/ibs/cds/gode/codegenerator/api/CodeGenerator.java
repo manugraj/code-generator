@@ -14,6 +14,7 @@ import org.ibs.cds.gode.entity.manager.AppManager;
 import org.ibs.cds.gode.entity.manager.BuildDataManager;
 import org.ibs.cds.gode.entity.operation.Executor;
 import org.ibs.cds.gode.entity.operation.Logic;
+import org.ibs.cds.gode.entity.operation.Processor;
 import org.ibs.cds.gode.entity.store.StoreType;
 import org.ibs.cds.gode.entity.type.App;
 import org.ibs.cds.gode.entity.type.BuildData;
@@ -67,10 +68,10 @@ public class CodeGenerator {
 
     @PostMapping(path="/deploy")
     @ApiOperation(value = "Operation to deploy App")
-    public boolean deploy(@RequestBody Request<DeploymentModel> deploymentModelRequest){
+    public Response<DeploymentComplete> deploy(@RequestBody Request<DeploymentModel> deploymentModelRequest){
         DeploymentModel model = deploymentModelRequest.getData();
         CodeApp app = getCodeApp(deploymentModelRequest.getData().getApp());
-        return Deployer.doDeployment(model, app);
+        return Processor.successResponse(Deployer.doDeployment(model, app), deploymentModelRequest, "/deploy");
     }
 
     @PostMapping(path="/deploy/requirement")

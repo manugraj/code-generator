@@ -8,6 +8,7 @@ import org.ibs.cds.gode.codegenerator.entity.CodeAppUtil;
 import org.ibs.cds.gode.codegenerator.entity.PathPackage;
 import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
 import org.ibs.cds.gode.codegenerator.model.util.PropertyUtil;
+import org.ibs.cds.gode.status.BinaryStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class Deployer {
-
-    public static boolean doDeployment(DeploymentModel model, CodeApp app) {
+    private static  final String LOCAL_APP = "http://localhost:%s/swagger-ui.html";
+    private static  final String LOCAL_ADMIN_APP = "http://localhost:%s/%s";
+    public static DeploymentComplete doDeployment(DeploymentModel model, CodeApp app) {
         try {
+
             Map<String, String> localDeployment = model.getLocalDeploymentRequired();
             if (MapUtils.isNotEmpty(model.getLocalDeploymentRequired())) {
                 if (updateRequirement(app, localDeployment)) {
@@ -35,9 +38,11 @@ public class Deployer {
                                 log.info("Deployment started with args:{}",pom);
                                 return CodeDeployer.deploy(app.getBuildModel(), pom);
                             });
-                    return true;
+                    return new LocalDeploymentComplete(String.format(LOCAL_APP, localDeployment.get(LocalDeploymentRequirement.APP_PORT.getPropertyName())),
+                            String.format(LOCAL_ADMIN_APP, localDeployment.get(LocalDeploymentRequirement.ADMIN_PORT.getPropertyName()), CodeAppUtil.adminAppName(app).toLowerCase()),
+                            BinaryStatus.SUCCESS);
                 }
-                return false;
+                return new LocalDeploymentComplete(null,null,BinaryStatus.FAILURE);
             }
             throw CodeGenerationFailure.SYSTEM_ERROR.provide("Only local deployment is supported now");
         } catch (Exception e) {
