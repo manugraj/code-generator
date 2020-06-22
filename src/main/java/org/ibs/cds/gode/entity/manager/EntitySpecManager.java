@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class EntitySpecManager extends EntityManager<StatefulEntitySpec, StatefulEntitySpec, Long> {
+public class EntitySpecManager extends PureEntityManager< StatefulEntitySpec, Long> {
 
 
     public EntitySpecManager(EntitySpecRepository repo) {
@@ -22,15 +21,5 @@ public class EntitySpecManager extends EntityManager<StatefulEntitySpec, Statefu
         EntitySpecRepository entitySpecRepository = this.repository.get();
         List<StatefulEntitySpec> all = entitySpecRepository.findAll();
         return all == null ? Collections.emptyList() : all.stream().map(transformer).collect(Collectors.toList());
-    }
-
-    @Override
-    public Optional<StatefulEntitySpec> transformEntity(Optional<StatefulEntitySpec> entitySpec) {
-        return entitySpec;
-    }
-
-    @Override
-    public Optional<StatefulEntitySpec> transformView(Optional<StatefulEntitySpec> entity) {
-        return entity;
     }
 }

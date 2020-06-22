@@ -6,6 +6,7 @@ import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
 import org.ibs.cds.gode.codegenerator.spec.Level;
 import org.ibs.cds.gode.codegenerator.spec.ProgLanguage;
 import org.ibs.cds.gode.codegenerator.spec.StoreName;
+import org.ibs.cds.gode.entity.relationship.RelationshipType;
 import org.ibs.cds.gode.entity.type.*;
 
 import java.util.List;
@@ -79,6 +80,20 @@ public class Test {
         statefulEntitySpec2.setIdField(idField);
         statefulEntitySpec2.setState(state2);
 
+        RelationshipEntitySpec relationshipEntitySpec = new RelationshipEntitySpec();
+        relationshipEntitySpec.setName("ParentCustomerRelationship");
+        relationshipEntitySpec.setType(RelationshipType.ONE_TO_MANY);
+        RelationshipNode startNode = new RelationshipNode();
+        startNode.setEntity(statefulEntitySpec);
+        startNode.setRole("parent");
+        RelationshipNode endNode = new RelationshipNode();
+        endNode.setEntity(statefulEntitySpec2);
+        endNode.setRole("child");
+        relationshipEntitySpec.setStartNode(startNode);
+        relationshipEntitySpec.setEndNode(endNode);
+        relationshipEntitySpec.setFields(List.of(of));
+        relationshipEntitySpec.setVersion(8L);
+
         AppFunction function = new AppFunction();
         function.setMethodName("method1");
         function.setInput(List.of(new AppFuncArgument(statefulEntitySpec,"arg1")));
@@ -101,12 +116,19 @@ public class Test {
         app.setVersion(5L);
         app.setEntities(List.of(statefulEntitySpec, statefulEntitySpec2));
         app.setFunctions(List.of(function, function2));
+        app.setRelationships(List.of(relationshipEntitySpec));
+
+        RelationshipStorePolicy policy = new RelationshipStorePolicy();
+        policy.setStoreName(StoreName.MYSQL);
+        policy.setRelationship(relationshipEntitySpec);
+        policy.setAdditionalFields(List.of());
 
         BuildModel model = new BuildModel();
         model.setProgLanguage(ProgLanguage.JAVA);
         model.setArtifactPackaging(ArtifactPackaging.MAVEN);
         model.setApp(app);
         model.setSecure(false);
+        model.setRelationshipStorePolicy(List.of(policy));
 
 
         AppCodeGenerator appCodeGenerator = new AppCodeGenerator( app, model );

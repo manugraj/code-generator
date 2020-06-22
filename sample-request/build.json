@@ -41,6 +41,14 @@
         }
       }
     ],
+    "relationshipStorePolicy": [
+      {
+        "relationship": {
+          "artifactId" : 5
+        },
+        "storeName": "MYSQL"
+      }
+    ],
     "progLanguage": "JAVA"
   }
 }

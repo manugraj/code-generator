@@ -1,71 +1,28 @@
 #set($entityGivenName=${ENTITY.getName()})
+#set($entityViewGivenName=${ENTITY.getViewName()})
 #set($entityName=${ENTITY.getName().toLowerCase()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
 #set($entityPackage=${DEFAULT__ENTITY_TYPE_DIRECTORY.value})
+#set($viewPackage=${DEFAULT__ENTITY_VIEW_DIRECTORY.value})
 
 package ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.value};
 
 import com.querydsl.core.types.Predicate;
 import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entityGivenName}Manager;
 import ${entityPackage}.${entityGivenName};
+import ${viewPackage}.${entityViewGivenName};
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.ibs.cds.gode.entity.validation.ValidationStatus;
-import org.ibs.cds.gode.pagination.PageContext;
-import org.ibs.cds.gode.pagination.PagedData;
-import org.ibs.cds.gode.web.Request;
-import org.ibs.cds.gode.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.ibs.cds.gode.util.APIArgument;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Endpoint
 @Api(tags = {"${entityGivenName}"})
-public class ${entityGivenName}StateController extends EntityStateEndPoint<${entityGivenName},${entityGivenName},${entityGivenName}Manager,$idFieldType> {
-
-    private final static String SAVE = "/${entityName}/save";
-    private final static String DEACTIVATE = "/${entityName}/deactivate";
-    private final static String FIND = "/${entityName}/find";
-    private final static String FIND_ALL = "/${entityName}/findAll";
-    private final static String FIND_ALL_PREDICATE = "/${entityName}/findAll/where";
+@RequestMapping(value= "/gode/entity/${entityName}")
+public class ${entityGivenName}StateController extends EntityStateEndPoint<${entityViewGivenName},${entityGivenName},${entityGivenName}Manager,$idFieldType> {
 
     @Autowired
     public ${entityGivenName}StateController(${entityGivenName}Manager manager) {
-        super(manager);
-    }
-
-    @PostMapping(path = SAVE)
-    @ApiOperation("Save operation")
-    public Response<${entityGivenName}> save(@RequestBody Request<${entityGivenName}> request) {
-        return super.save(request,SAVE );
-    }
-
-    @PostMapping(path = DEACTIVATE)
-    @ApiOperation("Deactivate operation")
-    public Response<Boolean> deactivate(@RequestBody Request<$idFieldType> request) {
-        return super.deactivate(request, DEACTIVATE);
-    }
-
-    @GetMapping(path = FIND)
-    @ApiOperation("Find by id operation")
-    public Response<${entityGivenName}> find($idFieldType id) {
-        return super.find(id, FIND);
-    }
-
-    @GetMapping(path = FIND_ALL_PREDICATE)
-    @ApiOperation("Dynamic Find operation")
-    public Response<PagedData<${entityGivenName}>> findAll(@QuerydslPredicate(root = ${entityGivenName}.class) Predicate predicate, @ModelAttribute APIArgument arg) {
-        return predicate ==  null ? this.findAll(arg) :super.findAllByPredicate(predicate, arg,FIND_ALL_PREDICATE);
-    }
-
-    @GetMapping(path = FIND_ALL)
-    @ApiOperation("Find operation")
-    public Response<PagedData<${entityGivenName}>> findAll(@ModelAttribute APIArgument arg) {
-        return super.findAll(arg,FIND_ALL);
+    super(manager);
     }
 }

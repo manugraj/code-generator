@@ -1,0 +1,30 @@
+#set($relationship=${RELATIONSHIP.getName()})
+#set($relationship_lc=${RELATIONSHIP.getName().toLowerCase()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+
+package $DEFAULT__ENTITY_TYPE_DIRECTORY.value;
+
+import lombok.Data;
+import ${storeEssentials.entityAnnotation.fqn()};
+import $storeEssentials.entityType.fqn();
+import $storeEssentials.idAnnotation.fqn();
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${RELATIONSHIP.startNode.entityViewName};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${RELATIONSHIP.endNode.entityViewName};
+
+@$storeEssentials.entityAnnotation.name
+#if(${storeEssentials.isMongo()})
+@org.mongodb.morphia.annotations.Entity
+#end
+@Data
+public class $relationship extends ${relationshipEssentials.entityType.name}<${RELATIONSHIP.startNode.entityViewName},${RELATIONSHIP.endNode.entityViewName},${RELATIONSHIP.startNode.idField.object.getFQN()},${RELATIONSHIP.endNode.idField.object.getFQN()}> {
+
+#foreach($field in $RELATIONSHIP.fields)
+    #set($fieldName = $field.getObject().getName())
+    #set($fieldType = $field.getObject().getFQN())
+private $fieldType $fieldName;
+#end
+
+}

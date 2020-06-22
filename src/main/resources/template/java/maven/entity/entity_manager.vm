@@ -1,4 +1,5 @@
 #set($entityGivenName=${ENTITY.getName()})
+#set($entityViewGivenName=${ENTITY.getViewName()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
 #set($entityStateStored=${ENTITY.getStorePolicy().isAvailable()})
@@ -18,14 +19,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 #end
 
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${entityViewGivenName};
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
 #if($entityStorePolicy.isAvailable())
-public class ${entityGivenName}Manager extends EntityManager<${entityGivenName}, ${entityGivenName}, $idFieldType> {
+public class ${entityGivenName}Manager extends EntityManager<${entityViewGivenName}, ${entityGivenName}, $idFieldType> {
 #else
-public class ${entityGivenName}Manager extends EntityViewManager<${entityGivenName},  $idFieldType> {
+public class ${entityGivenName}Manager extends EntityViewManager<${entityViewGivenName} ,  $idFieldType> {
 #end
 
 #if($entityStateStored)
@@ -47,13 +49,26 @@ public class ${entityGivenName}Manager extends EntityViewManager<${entityGivenNa
 
 
 @Override
-public Optional<${entityGivenName}> transformEntity(Optional<${entityGivenName}> entity) {
-return entity;
+public ${entityViewGivenName} transformFields(${entityGivenName} entity) {
+
+        ${entityViewGivenName} view = new ${entityViewGivenName}();
+        view.setId(entity.getId());
+        #foreach($field in $ENTITY.viewFields)
+        #set($fieldName = ${StringUtils.capitalize(${field.getObject().getName()})})
+            view.set$fieldName(entity.get$fieldName());
+        #end
+        return view;
+
 }
 
 @Override
-public Optional<${entityGivenName}> transformView(Optional<${entityGivenName}> entity) {
-return entity;
+public ${entityGivenName} transformFields(${entityViewGivenName} view) {
+    ${entityGivenName} entity = new ${entityGivenName}();
+    #foreach($field in $ENTITY.viewFields)
+        #set($fieldName = ${StringUtils.capitalize(${field.getObject().getName()})})
+        entity.set$fieldName(view.get$fieldName());
+    #end
+    return entity;
 }
 #end
 

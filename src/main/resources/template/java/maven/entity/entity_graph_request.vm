@@ -1,12 +1,12 @@
 #set($entityGivenName=${ENTITY.getName()})
 #set($gqlPackage=${DEFAULT__ENTITY_GQL_DIRECTORY.value})
-#set($entityPackage=${DEFAULT__ENTITY_TYPE_DIRECTORY.value})
+#set($entityViewPackage=${DEFAULT__ENTITY_VIEW_DIRECTORY.value})
 
 package ${gqlPackage};
 
-import ${entityPackage}.$entityGivenName;
+import ${entityViewPackage}.${entityGivenName}View;
 
-public class ${entityGivenName}Request extends ${entityGivenName} {
+public class ${entityGivenName}Request extends ${entityGivenName}View {
 
 
 }

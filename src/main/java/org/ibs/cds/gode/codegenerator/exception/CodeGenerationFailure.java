@@ -37,7 +37,7 @@ public enum CodeGenerationFailure {
             return new CodeGenerationException(new Error(getCode(), message, details), message);
         }
     },
-    DEPLOYMENT_FAILURE(-3,"Deployment error"){
+    DEPLOYMENT_FAILURE(-4,"Deployment error"){
         private String message = getMessage();
         public DeploymentException provide(Throwable e, Serializable details) {
             return new DeploymentException(new Error(getCode(), message, details), message, e);

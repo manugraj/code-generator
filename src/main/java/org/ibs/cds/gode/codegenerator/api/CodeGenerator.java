@@ -43,7 +43,7 @@ public class CodeGenerator {
     @PostMapping(path="/design")
     @ApiOperation(value = "Operation to design App")
     public Response<App> design(@RequestBody Request<App> appRequest){
-        return Executor.run(Logic.save(), appRequest, appManager,KnownException.SAVE_FAILED, "/design");
+        return Executor.run(Logic.savePure(), appRequest, appManager,KnownException.SAVE_FAILED, "/design");
     }
 
     @PostMapping(path="/build")

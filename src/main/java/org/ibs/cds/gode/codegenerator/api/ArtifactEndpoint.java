@@ -41,21 +41,21 @@ public class ArtifactEndpoint {
     @PostMapping(path="/entity")
     @ApiOperation(value = "Operation to create Entity")
     public Response<StatefulEntitySpec> createEntity(@RequestBody Request<StatefulEntitySpec> entityRequest){
-        return Executor.run(Logic.save(), entityRequest, entitySpecManager,KnownException.SAVE_FAILED, "/entity");
+        return Executor.run(Logic.savePure(), entityRequest, entitySpecManager,KnownException.SAVE_FAILED, "/entity");
     }
 
     @GetMapping(path="/entity")
     @ApiOperation(value = "Operation to get Entity")
     public Response<StatefulEntitySpec> queryEntity(Long artifactId){
-        return Executor.run(Logic.findById(), artifactId, entitySpecManager,KnownException.QUERY_FAILED, "/entity");
+        return Executor.run(Logic.findByIdPure(), artifactId, entitySpecManager,KnownException.QUERY_FAILED, "/entity");
     }
 
     @GetMapping(path="/entity/view")
     @ApiOperation(value = "Operation to view Entity")
     public Response<PagedData<StatefulEntitySpec>> queryEntity(@QuerydslPredicate(root = StatefulEntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
         return predicate == null ?
-                Executor.run(Logic.findAll(), PageContext.fromAPI(apiargs), entitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
-                : Executor.run(Logic.findAllByPredicate(), PageContext.fromAPI(apiargs),predicate, entitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
+                Executor.run(Logic.findAllPure(), PageContext.fromAPI(apiargs), entitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
+                : Executor.run(Logic.findAllByPredicatePure(), PageContext.fromAPI(apiargs),predicate, entitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
     }
 
 
@@ -74,20 +74,20 @@ public class ArtifactEndpoint {
     @PostMapping(path="/relationship")
     @ApiOperation(value = "Operation to create relationship")
     public Response<RelationshipEntitySpec> createRelationshipEntity(@RequestBody Request<RelationshipEntitySpec> entityRequest){
-        return Executor.run(Logic.save(), entityRequest, relationshipEntitySpecManager,KnownException.SAVE_FAILED, "/relationship");
+        return Executor.run(Logic.savePure(), entityRequest, relationshipEntitySpecManager,KnownException.SAVE_FAILED, "/relationship");
     }
 
     @GetMapping(path="/relationship")
     @ApiOperation(value = "Operation to get Relationship")
     public Response<RelationshipEntitySpec> queryRelationshipEntity(Long artifactId){
-        return Executor.run(Logic.findById(), artifactId, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/relationship");
+        return Executor.run(Logic.findByIdPure(), artifactId, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/relationship");
     }
 
     @GetMapping(path="/relationship/view")
     @ApiOperation(value = "Operation to view Relationships")
     public Response<PagedData<RelationshipEntitySpec>> queryRelationshipEntity(@QuerydslPredicate(root = RelationshipEntitySpec.class) Predicate predicate, @ModelAttribute APIArgument apiargs){
         return predicate == null ?
-                Executor.run(Logic.findAll(), PageContext.fromAPI(apiargs), relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
-                : Executor.run(Logic.findAllByPredicate(), PageContext.fromAPI(apiargs),predicate, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
+                Executor.run(Logic.findAllPure(), PageContext.fromAPI(apiargs), relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view")
+                : Executor.run(Logic.findAllByPredicatePure(), PageContext.fromAPI(apiargs),predicate, relationshipEntitySpecManager,KnownException.QUERY_FAILED, "/entity/view");
     }
 }

@@ -11,6 +11,7 @@ import org.ibs.cds.gode.codegenerator.velocity.VelocityGeneratorEngine;
 import org.ibs.cds.gode.entity.store.StoreType;
 import org.ibs.cds.gode.entity.type.App;
 import org.ibs.cds.gode.status.BinaryStatus;
+import org.ibs.cds.gode.utils.RelationshipUtils;
 import org.ibs.cds.gode.utils.StoreUtils;
 
 import java.util.Arrays;
@@ -32,6 +33,8 @@ public class AppCodeGenerator {
         String repo = app.getVersion().toString();
         VelocityGeneratorEngine<CodeEntity> codeEntityVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
         VelocityGeneratorEngine<CodeAppFunctionNode> codeAppFunctionVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+        VelocityGeneratorEngine<CodeEntityRelationship> relationshipVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
+
         VelocityGeneratorEngine<CodeApp> codeAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
         VelocityGeneratorEngine<CodeAdminApp> codeAdminAppVelocityGeneratorEngine = new VelocityGeneratorEngine(configuration, repo);
 
@@ -40,21 +43,31 @@ public class AppCodeGenerator {
             codeAppVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
             codeAdminAppVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
             codeAppFunctionVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
+            relationshipVelocityGeneratorEngine.addToContext(pathPackage.name(), pathPackage);
         });
 
         commonProperties(codeEntityVelocityGeneratorEngine,
                 codeAppFunctionVelocityGeneratorEngine,
                 codeAppVelocityGeneratorEngine,
-                codeAdminAppVelocityGeneratorEngine);
+                codeAdminAppVelocityGeneratorEngine,
+                relationshipVelocityGeneratorEngine);
 
         codeEntityVelocityGeneratorEngine.addToContext("app", app);
         codeEntityVelocityGeneratorEngine.addToContext("StoreUtils", StoreUtils.class);
+
+        relationshipVelocityGeneratorEngine.addToContext("app", app);
+        relationshipVelocityGeneratorEngine.addToContext("StoreUtils", StoreUtils.class);
+        relationshipVelocityGeneratorEngine.addToContext("RelationshipUtils", RelationshipUtils.class);
 
         codeAppFunctionVelocityGeneratorEngine.addToContext("app", app);
 
         //Generation
         BinaryStatus entityGenerationStatus = BinaryStatus.valueOf(app.getEntities().stream()
                 .map(k -> codeEntityVelocityGeneratorEngine.run(k))
+                .allMatch(k -> k == BinaryStatus.SUCCESS));
+
+        BinaryStatus relationshipGenerationStatus = BinaryStatus.valueOf(app.getRelationships().stream()
+                .map(relationshipVelocityGeneratorEngine::run)
                 .allMatch(k -> k == BinaryStatus.SUCCESS));
 
         BinaryStatus appFunctionGenerationStatus = codeAppFunctionVelocityGeneratorEngine.run(app.getAppFunction());
@@ -64,15 +77,17 @@ public class AppCodeGenerator {
 
         BinaryStatus codeAdminStatus = codeAdminAppVelocityGeneratorEngine.run(codeAdminApp);
 
-        log.info("Code Generation status: Phase 1: {} | Phase 2: {} | Phase 3: {} | Phase 4: {}",
-                entityGenerationStatus, appFunctionGenerationStatus, codeAppStatus, codeAdminStatus);
+        log.info("Code Generation status- Entity: {} | App Function: {} | Relationships: {} | Application: {} | Admin App: {}",
+                entityGenerationStatus, appFunctionGenerationStatus, relationshipGenerationStatus, codeAppStatus, codeAdminStatus);
 
         BinaryStatus codeAppBuildStatus = BinaryStatus.valueOf(codeAppVelocityGeneratorEngine.getBuildable().stream()
                 .map(buildable -> ArtefactBinding.resolve(buildModel.getArtifactPackaging()).run(buildable))
                 .allMatch(k -> k));
+
         log.info("Code Build status: {} ", codeAppBuildStatus);
         return entityGenerationStatus.isSuccess() &&
                 codeAppStatus.isSuccess() &&
+                relationshipGenerationStatus.isSuccess() &&
                 codeAdminStatus.isSuccess() &&
                 codeAppBuildStatus.isSuccess();
     }

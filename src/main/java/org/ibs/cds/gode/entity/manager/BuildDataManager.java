@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BuildDataManager extends EntityManager<BuildData, BuildData, Long> {
+public class BuildDataManager extends PureEntityManager< BuildData, Long> {
 
     @Autowired
     public BuildDataManager(BuildDataRepository repo) {
@@ -52,15 +52,5 @@ public class BuildDataManager extends EntityManager<BuildData, BuildData, Long> 
             return super.doSave(Optional.of(entity));
         }).orElse(Optional.empty());
 
-    }
-
-    @Override
-    public Optional<BuildData> transformEntity(Optional<BuildData> buildData) {
-        return buildData;
-    }
-
-    @Override
-    public Optional<BuildData> transformView(Optional<BuildData> entity) {
-        return entity;
     }
 }

@@ -69,7 +69,12 @@
                 <artifactId>${dependency.getName().toLowerCase()}</artifactId>
             </dependency>
         #end
-
+        #foreach($relationship in $APP.relationships)
+            <dependency>
+                <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                <artifactId>${relationship.getName().toLowerCase()}</artifactId>
+            </dependency>
+        #end
         <dependency>
             <groupId>$DEFAULT_GROUP_ID.value</groupId>
             <artifactId>$appFunctionName</artifactId>

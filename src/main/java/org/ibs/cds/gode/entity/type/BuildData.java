@@ -47,6 +47,8 @@ public class BuildData extends ManagedEntity {
         model.setApp(this.app);
         model.setArtifactPackaging(this.artifactPackaging);
         model.setProgLanguage(this.progLanguage);
+        model.setSecure(this.secure);
+        model.setRelationshipStorePolicy(this.relationshipStorePolicy);
         return model;
     }
 

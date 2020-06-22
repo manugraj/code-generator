@@ -1,0 +1,12 @@
+#set($gqlPackage=${DEFAULT__ENTITY_GQL_DIRECTORY.value})
+#set($relationship=${RELATIONSHIP.getName()})
+#set($relationshipView=${RELATIONSHIP.getViewName()})
+
+package ${gqlPackage};
+
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${relationshipView};
+
+public class ${relationship}Request extends ${relationshipView} {
+
+
+}

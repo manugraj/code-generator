@@ -33,11 +33,11 @@ public class CodeAppFunction {
 
     private void processInputOutput() {
         List<CodeAppFunctionArgumentBody> inputList = CollectionUtils.isEmpty(this.function.getInput()) ? List.of() : this.function.getInput().stream().map(k -> new CodeAppFunctionArgumentBody(k.getArgumentName(),
-                k.getEntity().getName(),
-                PathPackage.DEFAULT__ENTITY_TYPE_DIRECTORY.getValue())).collect(Collectors.toList());
+                k.getEntity().getName().concat("View"),
+                PathPackage.DEFAULT__ENTITY_VIEW_DIRECTORY.getValue())).collect(Collectors.toList());
         List<CodeAppFunctionArgumentBody> outputList = CollectionUtils.isEmpty(this.function.getOutput()) ? List.of() : this.function.getOutput().stream().map(k -> new CodeAppFunctionArgumentBody(k.getArgumentName(),
-                k.getEntity().getName(),
-                PathPackage.DEFAULT__ENTITY_TYPE_DIRECTORY.getValue())).collect(Collectors.toList());
+                k.getEntity().getName().concat("View"),
+                PathPackage.DEFAULT__ENTITY_VIEW_DIRECTORY.getValue())).collect(Collectors.toList());
         this.input = new CodeAppFunctionArgument(this.name.concat("Request"), inputList);
         this.output = new CodeAppFunctionArgument(this.getName().concat("Response"), outputList);
     }

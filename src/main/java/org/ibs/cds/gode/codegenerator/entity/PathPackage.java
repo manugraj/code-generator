@@ -13,6 +13,7 @@ public enum PathPackage {
     DEFAULT_DIRECTORY("org.ibs.cds.gode",true),
     DEFAULT__ENTITY_DIRECTORY(DEFAULT_DIRECTORY.getValue().concat(".entity"),true),
     DEFAULT__ENTITY_TYPE_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".type"),true),
+    DEFAULT__ENTITY_VIEW_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".view"),true),
     DEFAULT__ENTITY_MANAGER_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".manager"),true),
 
     DEFAULT__ENTITY_REPO_DIRECTORY(DEFAULT__ENTITY_DIRECTORY.getValue().concat(".repo"),true),

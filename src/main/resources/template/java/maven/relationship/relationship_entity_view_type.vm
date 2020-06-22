@@ -1,0 +1,38 @@
+#set($relationshipView=${RELATIONSHIP.viewName})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+package $DEFAULT__ENTITY_VIEW_DIRECTORY.value;
+
+import lombok.Data;
+
+@Data
+public class $relationshipView extends RelationshipView<${startNode.entityViewName},${endNode.entityViewName}> {
+
+private ${startNode.entityViewName} ${startNode.role};
+private ${endNode.entityViewName} ${endNode.role};
+#foreach($field in $RELATIONSHIP.viewFields)
+    #set($fieldName = $field.getObject().getName())
+    #set($fieldType = $field.getObject().getFQN())
+private $fieldType $fieldName;
+#end
+
+ @Override
+    public ${startNode.entityViewName} getAside() {
+        return ${startNode.role};
+    }
+
+    @Override
+    public void setAside(${startNode.entityViewName} ${startNode.role}) {
+        this.${startNode.role} = ${startNode.role};
+    }
+
+    @Override
+    public ${endNode.entityViewName} getBside() {
+        return this.${endNode.role};
+    }
+
+    @Override
+    public void setBside(${endNode.entityViewName} ${endNode.role}) {
+        this.${endNode.role} = ${endNode.role};
+    }
+}

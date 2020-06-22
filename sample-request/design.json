@@ -102,6 +102,11 @@
         ]
       }
     ],
+    "relationships": [
+      {
+        "artifactId" : 5
+      }
+    ],
     "name": "CustomerCare",
     "usage": {
       "availability": "HIGH",

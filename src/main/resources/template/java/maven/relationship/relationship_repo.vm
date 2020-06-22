@@ -1,0 +1,20 @@
+#set($relationship_lc=${RELATIONSHIP.getName().toLowerCase()})
+#set($relationship=${RELATIONSHIP.getName()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+
+package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
+
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$relationship;
+import org.springframework.stereotype.Repository;
+import $storeEssentials.repo.fqn();
+
+@Repository
+@$storeEssentials.repoAnnotation.fqn()
+public interface ${relationship}StoreRepo extends $relationshipEssentials.repo.fqn()<${relationship},$startNode.idField.object.getFQN(), $endNode.idField.object.getFQN()> {}
+
+

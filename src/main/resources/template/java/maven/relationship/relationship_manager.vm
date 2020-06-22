@@ -1,0 +1,58 @@
+#set($relationship_lc=${RELATIONSHIP.getName().toLowerCase()})
+#set($relationship=${RELATIONSHIP.getName()})
+#set($relationshipView=${RELATIONSHIP.getViewName()})
+#set($relationshipView_lc=${RELATIONSHIP.getViewName().toLowerCase()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+
+package $DEFAULT__ENTITY_MANAGER_DIRECTORY.value;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${relationship};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${relationshipView};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${startNode.entityViewName};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${endNode.entityViewName};
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${startNode.entityName}Manager;
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${endNode.entityName}Manager;
+import ${DEFAULT__ENTITY_REPO_DIRECTORY.value}.${relationship}StoreRepository;
+
+import org.springframework.stereotype.Service;
+import java.util.Optional;
+
+@Service
+public class ${relationship}Manager extends ${relationshipEssentials.manager.name}<${relationshipView}, ${relationship}, $startNode.entityViewName, $endNode.entityViewName, $startNode.idField.object.getFQN(), $endNode.idField.object.getFQN()> {
+
+
+@Autowired
+public ${relationship}Manager(${relationship}StoreRepository stateRespository, ${startNode.entityName}Manager asideManager, ${endNode.entityName}Manager bsideManager) {
+super(stateRespository, asideManager, bsideManager);
+}
+
+
+@Override
+public ${relationshipView} transformFields(${relationship} relationship) {
+${relationshipView} view = new ${relationshipView}();
+#foreach($field in $RELATIONSHIP.fields)
+    #set($fieldName = ${StringUtils.capitalize(${field.getObject().getName()})})
+view.set${fieldName}(relationship.get${fieldName}());
+#end
+return view;
+}
+
+@Override
+public ${relationship} transformFields(${relationshipView} view) {
+${relationship} relationship = new ${relationship}();
+#foreach($field in $RELATIONSHIP.fields)
+    #set($fieldName = ${StringUtils.capitalize(${field.getObject().getName()})})
+relationship.set${fieldName}(view.get${fieldName}());
+#end
+return relationship;
+}
+
+}

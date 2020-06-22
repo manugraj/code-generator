@@ -1,0 +1,54 @@
+#set($relationship=${RELATIONSHIP.getName()})
+#set($relationshipView=${RELATIONSHIP.getViewName()})
+#set($relationshipView_lc=${RELATIONSHIP.getViewName().toLowerCase()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+
+package $DEFAULT__ENTITY_GQL_DIRECTORY.value;
+
+
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${relationship}Manager;
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${relationship};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${relationshipView};
+import org.ibs.cds.gode.entity.manager.GraphQueryManager;
+import org.ibs.cds.gode.entity.validation.ValidationStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ${relationship}GraphManager extends GraphQueryManager<${relationship}Manager,${relationshipView},${relationship},Long> {
+
+  @Autowired
+  public ${relationship}GraphManager(${relationship}Manager manager) {
+    super(manager);
+  }
+
+  public Class<${relationship}> getEntityClass(){
+    return ${relationship}.class;
+  }
+
+  public ${relationshipView} save${relationship}(${relationship}Request entity){
+    return super.save(entity);
+  }
+
+  public ValidationStatus validate${relationship}(${relationship}Request entity){
+    return super.validateView(entity);
+  }
+
+  public ${relationshipView} find${relationship}(Long id){
+    return super.find(id);
+  }
+
+  public Boolean deactivate${relationship}(Long id){
+    return super.deactivate(id);
+  }
+
+  public Boolean delete${relationship}(Long id){
+    return super.deactivate(id);
+  }
+
+}

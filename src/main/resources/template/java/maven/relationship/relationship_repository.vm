@@ -1,0 +1,27 @@
+#set($relationship_lc=${RELATIONSHIP.getName().toLowerCase()})
+#set($relationship=${RELATIONSHIP.getName()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+
+
+package $DEFAULT__ENTITY_REPO_DIRECTORY.value;
+
+
+import $storeEssentials.repository.fqn();
+
+
+import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.$relationship;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ${relationship}StoreRepository extends ${relationshipEssentials.repository.fqn()}<$relationship,$startNode.idField.object.getFQN(), $endNode.idField.object.getFQN(), ${relationship}StoreRepo> {
+    @Autowired
+    public ${relationship}StoreRepository(${relationship}StoreRepo repo) {
+        super(repo);
+    }
+}

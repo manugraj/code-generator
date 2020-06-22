@@ -1,0 +1,36 @@
+{
+  "context": {
+    "handle": "string"
+  },
+  "data": {
+    "artifactId": 5,
+    "description": "ParentCustomer",
+    "endNode": {
+      "entity": {
+        "artifactId" : 2
+      },
+      "role": "childAccount"
+    },
+    "fields": [
+      {
+        "description": "string",
+        "name": "createdDate",
+        "type": "DATE"
+      },
+      {
+        "description": "Primary marking",
+        "name": "rankingValue",
+        "type": "NUMBER"
+      }
+    ],
+    "name": "ParentCustomer",
+    "startNode": {
+      "entity": {
+        "artifactId" : 1
+      },
+      "role": "parent"
+    },
+    "type": "ONE_TO_MANY",
+    "version": 2
+  }
+}

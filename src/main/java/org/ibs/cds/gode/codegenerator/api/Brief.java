@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public interface Brief {
 
     @JsonProperty(value="label")
-    public String label();
+    String label();
 }

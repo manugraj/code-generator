@@ -1,0 +1,29 @@
+#set($entityGivenName=${ENTITY.getName()})
+#set($entityName=${ENTITY.getName().toLowerCase()})
+#set($idFieldName = $ENTITY.getIdField().getObject().getName())
+#set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
+
+package $DEFAULT__ENTITY_VIEW_DIRECTORY.value;
+
+import lombok.Data;
+import org.ibs.cds.gode.entity.view.EntityView;
+
+
+@Data
+    public class ${entityGivenName}View extends TypicalEntityView<$idFieldType> {
+        private $idFieldType $idFieldName;
+
+    #foreach($field in $ENTITY.viewFields)
+        #set($fieldName = $field.getObject().getName())
+        #set($fieldType = $field.getObject().getFQN())
+    private $fieldType $fieldName;
+    #end
+
+    public $idFieldType getId(){
+        return $idFieldName;
+    }
+
+    public void setId($idFieldType $idFieldName){
+        this.$idFieldName = $idFieldName;
+    }
+}

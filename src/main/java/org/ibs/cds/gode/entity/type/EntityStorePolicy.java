@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +17,6 @@ public class EntityStorePolicy extends ManagedEntity{
     private StatefulEntitySpec entity;
     @OneToOne(cascade = CascadeType.ALL)
     private EntityState state;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private RawEntitySpec storedEntity;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<EntityField> additionalFields;
 }

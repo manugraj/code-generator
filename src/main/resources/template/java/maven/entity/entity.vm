@@ -17,6 +17,10 @@ configuration:
     path: ${DEFAULT__ENTITY_TYPE_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
     template: entity_type.vm
     buildable: false
+  - name: ${entityGivenName}View.java
+    path: ${DEFAULT__ENTITY_VIEW_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+    template: entity_view.vm
+    buildable: false
 #if($isAsync)
   - name: ${entityGivenName}Manager.java
     path: ${DEFAULT__ENTITY_MANAGER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
@@ -28,10 +32,10 @@ configuration:
     template: entity_manager.vm
     buildable: false
 #end
-  - name: ${entityGivenName}ProcessController.java
-    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
-    template: entity_view_controller.vm
-    buildable: false
+##  - name: ${entityGivenName}ProcessController.java
+##    path: ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.pathOf($projectName,$entityName,$javaPath)}
+##    template: entity_view_controller.vm
+##    buildable: false
 #foreach($object in $objects)
 $Channel.put("${object.name}Key", $object)
   - name: ${object.name}.java

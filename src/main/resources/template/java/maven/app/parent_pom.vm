@@ -21,6 +21,9 @@
         #foreach($entity in $APP.entities)
             <module>${entity.getName().toLowerCase()}</module>
         #end
+        #foreach($relationship in $APP.relationships)
+            <module>${relationship.getName().toLowerCase()}</module>
+        #end
     </modules>
     <parent>
         <groupId>org.ibs.cds.gode</groupId>
@@ -69,6 +72,14 @@
                 <artifactId>$appFunctionName</artifactId>
                 <version>$projectVersion</version>
             </dependency>
+
+            #foreach($relationship in $APP.relationships)
+                <dependency>
+                    <groupId>$DEFAULT_GROUP_ID.value</groupId>
+                    <artifactId>${relationship.getName().toLowerCase()}</artifactId>
+                    <version>${relationship.getVersion()}</version>
+                </dependency>
+            #end
         </dependencies>
     </dependencyManagement>
 

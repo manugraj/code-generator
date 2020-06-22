@@ -1,4 +1,5 @@
 #set($entityGivenName=${ENTITY.getName()})
+#set($entityViewGivenName=${ENTITY.getViewName()})
 #set($entityStorePolicy=${ENTITY.getStorePolicy()})
 #set($idFieldType = $ENTITY.getIdField().getObject().getFQN())
 
@@ -7,13 +8,14 @@ package $DEFAULT__ENTITY_GQL_DIRECTORY.value;
 
 import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${entityGivenName}Manager;
 import ${DEFAULT__ENTITY_TYPE_DIRECTORY.value}.${entityGivenName};
+import ${DEFAULT__ENTITY_VIEW_DIRECTORY.value}.${entityViewGivenName};
 import org.ibs.cds.gode.entity.manager.GraphQueryManager;
 import org.ibs.cds.gode.entity.validation.ValidationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ${entityGivenName}GraphManager extends GraphQueryManager<${entityGivenName}Manager,${entityGivenName},${entityGivenName}, $idFieldType> {
+public class ${entityGivenName}GraphManager extends GraphQueryManager<${entityGivenName}Manager,${entityViewGivenName},${entityGivenName}, $idFieldType> {
 
   @Autowired
   public ${entityGivenName}GraphManager(${entityGivenName}Manager manager) {
@@ -24,7 +26,7 @@ public class ${entityGivenName}GraphManager extends GraphQueryManager<${entityGi
     return ${entityGivenName}.class;
   }
 
-  public ${entityGivenName} save${entityGivenName}(${entityGivenName}Request entity){
+  public ${entityViewGivenName} save${entityGivenName}(${entityGivenName}Request entity){
     return super.save(entity);
   }
 
@@ -32,7 +34,7 @@ public class ${entityGivenName}GraphManager extends GraphQueryManager<${entityGi
     return super.validateView(entity);
   }
 
-  public ${entityGivenName} find${entityGivenName}($idFieldType id){
+  public ${entityViewGivenName} find${entityGivenName}($idFieldType id){
     return super.find(id);
   }
 

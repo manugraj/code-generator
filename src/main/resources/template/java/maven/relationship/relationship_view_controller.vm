@@ -1,0 +1,30 @@
+#set($relationship_lc=${RELATIONSHIP.getName().toLowerCase()})
+#set($relationship=${RELATIONSHIP.getName()})
+#set($relationshipView=${RELATIONSHIP.getViewName()})
+#set($relationshipView_lc=${RELATIONSHIP.getViewName().toLowerCase()})
+#set($storeType = ${RELATIONSHIP.storeName.storeType})
+#set($storeEssentials = ${StoreUtils.essential($storeType)})
+#set($relationshipType = ${RELATIONSHIP.type})
+#set($relationshipEssentials = ${RelationshipUtils.essential($storeType, $relationshipType)})
+#set($startNode = ${RELATIONSHIP.startNode})
+#set($endNode = ${RELATIONSHIP.endNode})
+#set($viewPackage=${DEFAULT__ENTITY_VIEW_DIRECTORY.value})
+
+package ${DEFAULT__ENTITY_CONTROLLER_DIRECTORY.value};
+
+import ${DEFAULT__ENTITY_MANAGER_DIRECTORY.value}.${relationship}Manager;
+import ${viewPackage}.${relationshipView};
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Relationship
+@Api(tags = {"${relationship}"})
+@RequestMapping(value= "/gode/relationship/${relationship_lc}")
+public class ${relationship}ProcessController extends EntityProcessEndpoint<${relationshipView},${relationship}Manager, Long> {
+
+    @Autowired
+    public ${relationship}ProcessController(${relationship}Manager manager) {
+        super(manager);
+    }
+}

@@ -6,15 +6,17 @@ import org.ibs.cds.gode.codegenerator.spec.StoreName;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
 public class RelationshipStorePolicy extends ManagedEntity {
     @OneToOne
-    private RelationshipEntitySpec viewSchema;
+    private RelationshipEntitySpec relationship;
     private StoreName storeName;
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private RelationshipEntitySpec stateSchema;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private List<EntityField> additionalFields;
 }
