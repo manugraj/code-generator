@@ -28,3 +28,13 @@ raw/
 .process/
 releases/
 apps/
+ide.started
+ide.stopped
+lib/
+node_modules/
+package-lock.json
+webpack.config.js
+yarn.lock
+gen-webpack.config.js
+src-gen/
+plugins/

@@ -3,10 +3,12 @@ package org.ibs.cds.gode.codegenerator.api;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.ibs.cds.gode.codegenerator.api.usage.CodeGeneratorApi;
-import org.ibs.cds.gode.codegenerator.entity.AppCodeGenerator;
 import org.ibs.cds.gode.codegenerator.entity.CodeApp;
 import org.ibs.cds.gode.codegenerator.entity.StorePolicy;
+import org.ibs.cds.gode.codegenerator.exception.CodeGenerationFailure;
+import org.ibs.cds.gode.codegenerator.model.build.BuildComplete;
 import org.ibs.cds.gode.codegenerator.model.build.BuildModel;
+import org.ibs.cds.gode.codegenerator.model.build.Builder;
 import org.ibs.cds.gode.codegenerator.model.deploy.*;
 import org.ibs.cds.gode.codegenerator.spec.StoreName;
 import org.ibs.cds.gode.entity.generic.DataMap;
@@ -18,7 +20,6 @@ import org.ibs.cds.gode.entity.operation.Processor;
 import org.ibs.cds.gode.entity.store.StoreType;
 import org.ibs.cds.gode.entity.type.App;
 import org.ibs.cds.gode.entity.type.BuildData;
-import org.ibs.cds.gode.entity.type.FieldType;
 import org.ibs.cds.gode.entity.type.Specification;
 import org.ibs.cds.gode.exception.KnownException;
 import org.ibs.cds.gode.web.Request;
@@ -35,11 +36,15 @@ import java.util.stream.Collectors;
 @Api(tags={"Gode(e) build endpoints"})
 public class CodeGenerator {
 
-    @Autowired
     private AppManager appManager;
 
-    @Autowired
     private BuildDataManager buildDataManager;
+
+    @Autowired
+    public CodeGenerator(AppManager appManager, BuildDataManager buildDataManager) {
+        this.appManager = appManager;
+        this.buildDataManager = buildDataManager;
+    }
 
     @PostMapping(path="/design")
     @ApiOperation(value = "Operation to design App")
@@ -49,21 +54,16 @@ public class CodeGenerator {
 
     @PostMapping(path="/build")
     @ApiOperation(value = "Operation to build App")
-    public boolean build(@RequestBody Request<BuildModel> buildModelRequest){
+    public Response<BuildComplete> build(@RequestBody Request<BuildModel> buildModelRequest){
         BuildModel data = buildModelRequest.getData();
         Specification app = data.getApp();
         App foundApp = app.getArtifactId() == null ? appManager.find(app.getName(), app.getVersion()) : appManager.find(app.getArtifactId());
         if(foundApp == null) throw KnownException.OBJECT_NOT_FOUND.provide("No app available for given name and version");
-        return build(data, foundApp);
+        return Processor.successResponse(build(data, foundApp), buildModelRequest, "/build");
     }
 
-    public boolean build(BuildModel data, App foundApp) {
-        AppCodeGenerator appCodeGenerator = new AppCodeGenerator(foundApp, data);
-        boolean generate = appCodeGenerator.generate();
-        if(generate){
-            buildDataManager.save(BuildData.fromModel(data, foundApp));
-        }
-        return generate;
+    public BuildComplete build(BuildModel data, App foundApp) {
+        return Builder.build(buildDataManager, data, foundApp);
     }
 
     @PostMapping(path="/deploy")
