@@ -46,10 +46,14 @@ public class CodeEntityStorePolicy implements ResolvedFromModel<StatefulEntitySp
         List<EntityStorePolicy> entityStorePref = buildModel.getEntityStorePref();
         if (CollectionUtils.isEmpty(entityStorePref)) getStorePolicy(spec.getState());
         return entityStorePref.stream()
-                .filter(s -> s.getEntity().getName().equals(spec.getName()) && s.getEntity().getVersion().equals(spec.getVersion()))
+                .filter(s -> entityInContext(spec, s))
                 .findAny()
                 .map(s -> getStorePolicy(s.getState()))
-                .orElse(getStorePolicy(spec.getState()));
+                .orElseGet(()->getStorePolicy(spec.getState()));
+    }
+
+    public boolean entityInContext(StatefulEntitySpec spec, EntityStorePolicy s) {
+        return s.getEntity().getName().equals(spec.getName()) && s.getEntity().getVersion().equals(spec.getVersion())|| s.getEntity().getArtifactId().compareTo(spec.getArtifactId()) == 0;
     }
 
     @Nullable

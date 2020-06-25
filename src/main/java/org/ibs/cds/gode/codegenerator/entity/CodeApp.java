@@ -42,9 +42,13 @@ public class CodeApp extends Specification implements Buildable, CodeGenerationC
         if(CollectionUtils.isEmpty(buildModel.getRelationshipStorePolicy()) && CollectionUtils.isNotEmpty(relationships)){
             throw CodeGenerationFailure.SYSTEM_ERROR.provide("Relationship store policy undefined");
         }
-        Map<Long, RelationshipStorePolicy> map =buildModel.getRelationshipStorePolicy().stream().collect(Collectors.toMap(s->s.getRelationship().getArtifactId(), s->s));
-        this.relationships = CollectionUtils.isEmpty(relationships) ? Collections.emptySet() :
-                relationships.stream().map(k-> new CodeEntityRelationship(k,map.get(k.getArtifactId()), buildModel)).collect(Collectors.toSet());
+        if(buildModel.getRelationshipStorePolicy() != null){
+            Map<Long, RelationshipStorePolicy> map =buildModel.getRelationshipStorePolicy().stream().collect(Collectors.toMap(s->s.getRelationship().getArtifactId(), s->s));
+            this.relationships = CollectionUtils.isEmpty(relationships) ? Collections.emptySet() :
+                    relationships.stream().map(k-> new CodeEntityRelationship(k,map.get(k.getArtifactId()), buildModel)).collect(Collectors.toSet());
+        }else{
+            this.relationships = Collections.emptySet();
+        }
     }
 
     public Map<Long,EntityStorePolicy> resolveEntityStorePolicy(BuildModel buildModel){

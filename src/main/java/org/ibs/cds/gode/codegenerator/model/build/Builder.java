@@ -13,6 +13,7 @@ import org.ibs.cds.gode.entity.type.BuildData;
 import org.ibs.cds.gode.status.BinaryStatus;
 import org.ibs.cds.gode.util.NetworkUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,7 +27,7 @@ public class Builder {
         return null;
     }
 
-    public static JavaMavenBuildComplete javaMaven(BuildDataManager buildDataManager, BuildModel data, App foundApp, String port) {
+    private static JavaMavenBuildComplete javaMaven(BuildDataManager buildDataManager, BuildModel data, App foundApp, String port) {
         try {
         AppCodeGenerator appCodeGenerator = new AppCodeGenerator(foundApp, data);
         boolean generate = appCodeGenerator.generate();
@@ -43,19 +44,20 @@ public class Builder {
 
     }
 
-    public static void runIde(String path, String port){
+    private static void runIde(String path, String port){
         CompletableFuture.runAsync(()->{
             try {
-                System.out.println(SystemRunner.run("/Users/a-9023/Documents/personal/code/code-generator/ide.sh",path, port));
+                File file = new File("ide.sh");
+                System.out.println(SystemRunner.run(file.getAbsolutePath(),path, port));
             } catch (IOException | InterruptedException e) {
                 throw CodeGenerationFailure.SYSTEM_ERROR.provide(e);
             }
         });
     }
 
-    public static void verifyNodeVersion() throws IOException, InterruptedException {
+    private static void verifyNodeVersion() throws IOException, InterruptedException {
         String version = SystemRunner.run("node","-v");
-        if(!version.startsWith("v11")){
+        if(!(version.startsWith("v11") || version.startsWith("11"))){
             throw CodeGenerationFailure.SYSTEM_ERROR.provide("Node version should be 11, but currently it is ".concat(version));
         }
     }
