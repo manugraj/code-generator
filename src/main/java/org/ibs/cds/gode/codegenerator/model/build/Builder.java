@@ -38,7 +38,7 @@ public class Builder {
             runIde(path, port);
             return new JavaMavenBuildComplete(BinaryStatus.SUCCESS, "http://localhost:".concat(port));
         }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
            throw CodeGenerationFailure.SYSTEM_ERROR.provide(e,"Build failed");
         }
         return new JavaMavenBuildComplete(BinaryStatus.FAILURE, null);
