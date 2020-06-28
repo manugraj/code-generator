@@ -33,14 +33,15 @@ public class Builder {
         boolean generate = appCodeGenerator.generate();
         if(generate){
             buildDataManager.save(BuildData.fromModel(data, foundApp));
-        }
             verifyNodeVersion();
             String path = PathPackage.path(EngineConfiguration.getCodeGenPath(),foundApp.getVersion().toString(), foundApp.getName().concat("-container").toLowerCase(),foundApp.getName().concat("-functions").toLowerCase());
             runIde(path, port);
             return new JavaMavenBuildComplete(BinaryStatus.SUCCESS, "http://localhost:".concat(port));
-        } catch (IOException | InterruptedException e) {
-            return new JavaMavenBuildComplete(BinaryStatus.FAILURE, null);
         }
+        } catch (IOException | InterruptedException e) {
+           throw CodeGenerationFailure.SYSTEM_ERROR.provide(e,"Build failed");
+        }
+        return new JavaMavenBuildComplete(BinaryStatus.FAILURE, null);
 
     }
 
